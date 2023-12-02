@@ -1,19 +1,19 @@
 
-class Category {
-  static Construction = "construction";
-  static Items = "items";
-  static Equipments = "Equipments";
-  static Nature = "nature";
-  static None = "none";
+const Category = {
+  Construction: "construction",
+  Items: "items",
+  Equipments: "Equipments",
+  Nature: "nature",
+  None: "none"
 }
 
-class Group {
-  static Planks = "itemGroup.planks.name";
-  static Slabs = "itemGroup.slabs.name";
-  static Stairs = "itemGroup.stairs.name";
-  static Fences = "itemGroup.fences.name";
-  static FenceGates = "itemGroup.fence_gates.name";
-  static Walls = "itemGroup.walls.name";
+const Group = {
+  Planks: "itemGroup.planks.name",
+  Slabs: "itemGroup.slabs.name",
+  Stairs: "itemGroup.stairs.name",
+  Fences: "itemGroup.fences.name",
+  FenceGates: "itemGroup.fence_gates.name",
+  Walls: "itemGroup.walls.name"
 }
 
 exports.Category = Category;
