@@ -161,6 +161,7 @@ class Block {
           if(this.RenderMethod == ("opaque"||"blend"||"alpha_test"||"double_sided")) {
             __MaterialInstances["render_method"] = this.RenderMethod;
           }
+          else return new BlockError(`[${this.name}] [component: RenderMethod]: `)
         }
       }
       if(this.FaceDimming) {
