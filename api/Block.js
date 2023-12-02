@@ -74,9 +74,7 @@ class Block {
       if (typeof this.DisplayName === "string") {
         this.__components["minecraft:display_name"] = this.DisplayName;
       } else
-        return new BlockError(
-          `[${this.name}] [component: DisplayName]: expected string instead found ${this.DisplayName}`
-        );
+        return new BlockError(`[${this.name}] [component: DisplayName]: expected string instead found ${this.DisplayName}`);
     }
     /**
      * @handleDestroytime
