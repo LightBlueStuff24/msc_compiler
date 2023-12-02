@@ -153,8 +153,21 @@ class Block {
       let __MaterialInstances = {}
       if (this.Texture) {
         if (typeof this.Texture === "string") {
-          
+          __MaterialInstances["texture"] = this.Texture;
         }
+      }
+      if(this.RenderMethod) {
+        if(typeof this.RenderMethod === "string") {
+          if(this.RenderMethod != ("opaque"||"blend"||"alpha_test"||"double_sided")) {
+            
+          }
+        }
+      }
+      if(this.FaceDimming) {
+        
+      }
+      if(this.AmbientOcclusion) {
+        
       }
     }
 
