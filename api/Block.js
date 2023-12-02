@@ -16,9 +16,6 @@ class Block {
     },
   };
   static __components = this.__Data["minecraft:block"]["components"];
-  static getClasName() {
-    return this.name
-  }
   /**
    * @BlockData
    */
