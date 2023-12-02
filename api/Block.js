@@ -54,19 +54,17 @@ class Block {
           this.__Data["minecraft:block"]["description"]["menu_category"]["category"]=this.Category;
         } 
         else return new BlockError(`[${this.name}] [component: Category]: expected @class {Category} instead found ${this.Category}`);
-      } else
-        return new BlockError(
-          `[${this.name}] [component: Category]: expected string instead found ${this.Category}`
-        );
+      }
+      else return new BlockError(`[${this.name}] [component: Category]: expected string instead found ${this.Category}`);
     }
     /**
      * @handleGroup
      */
     if (this.Group) {
-      if (typeof this.Group === "string") {
+      if (typeof this.Group==="string") {
         this.__Data["minecraft:block"]["description"]["menu_category"]["group"] = this.Group;
       }
-      else return new BlockError(``);
+      else return new BlockError(`[${this.name}] [component: Group]: expected string but instead found ${typeof this.Group}`);
     }
 
     /**
