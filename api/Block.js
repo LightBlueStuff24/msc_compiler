@@ -22,7 +22,7 @@ class Block {
   /**
    * @BlockData
    */
-  static identifier;
+  static Identifier;
   static Category;
   static Group;
   static DisplayName;
