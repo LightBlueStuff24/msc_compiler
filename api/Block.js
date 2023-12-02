@@ -50,8 +50,8 @@ class Block {
      */
     if (this.Category) {
       if (typeof this.Category == "string") {
-        if(this.Category===("construction"||"equipments"||"items"||"nature"||"none")){
-          this.__Data["minecraft:block"]["description"]["menu_category"]["category"]=this.Category;
+        if(this.Category===("construction"||"equipments"||"items"||"nature"||"none")) {
+          this.__Data["minecraft:block"]["description"]["menu_category"]["category"] = this.Category;
         } 
         else return new BlockError(`[${this.name}] [component: Category]: expected @class {Category} instead found ${this.Category}`);
       }
@@ -81,13 +81,13 @@ class Block {
      */
     if (this.DestroyTime) {
       if (typeof this.DestroyTime === "boolean") {
-        this.__components["minecraft:destructible_by_mining"]=this.DestroyTime;
-      }
+        this.__components["minecraft:destructible_by_mining"] = this.DestroyTime;
+      } else return new BlockError(`[${this.name}] [component: DestroyTime]: expected either boolean or integer instead found ${typeof this.DestroyTime}`)
       if (typeof this.DestroyTime === "number") {
         this.__components["minecraft:destructible_by_mining"] = {
           "seconds_to_destroy": this.DestroyTime,
-        };
-      }
+        }
+      } else return new BlockError(`[${this.name}] [component: DestroyTime]: expected either boolean or integer instead found ${typeof this.DestroyTime}`)
     }
     /**
      * @handleExplosionResistance
@@ -145,9 +145,9 @@ class Block {
           if(this.RenderMethod == ("opaque"||"blend"||"alpha_test"||"double_sided")) {
             __MaterialInstances["render_method"] = this.RenderMethod;
           }
-          else return new BlockError(`[${this.name}] [component: RenderMethod]: `)
+          else return new BlockError(`[${this.name}] [component: RenderMethod]: expected @RenderMethod but found ${this.RenderMethod}`)
         }
-        else return new 
+        else return new BlockError(`[${this.name}] [component: RenderMethod]: expected string instead found ${typeof this.RenderMethod}`)
       }
       if(this.FaceDimming) {
         
