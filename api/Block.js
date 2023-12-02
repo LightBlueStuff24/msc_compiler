@@ -4,13 +4,11 @@ const c = require("../config.json");
 const config = c["block"];
 
 class Block {
-  static CurrentClassName = new this().constructor.name;
-  
   static __Data = {
     "format_version": config["version"],
     "minecraft:block": {
       "description": {
-        "identifier": `${c["prefix"]}:${this.CurrentClassName.toLowerCase()}`,
+        "identifier": "",
         "menu_category": {}
       },
       "components": {},
@@ -46,6 +44,7 @@ class Block {
    * @CreatesBlockObject
    */
   static init() {
+    this.__Data["minecraft:block"]["description"]["identifier"] = `${c["prefix"]}:${this.name.toLowerCase()}`
     /**
      * @handleCategory
      */
