@@ -1,13 +1,13 @@
 {
-    "prefix": "test",
-    "block" : {
-        "version": "1.20.40",
-        "light_emmision": 0,
-        "display_name": "New Block",
-        "light_absorption": 0,
-        "geometry": "geometry.default",
-        "destroy_time": 3,
-        "friction": 0.4,
-        "explosion_resistance": 10
-    }
+  "prefix": "test",
+  "block": {
+    "version": "1.20.40",
+    "light_emmision": 0,
+    "display_name": "New Block",
+    "light_absorption": 0,
+    "geometry": "geometry.default",
+    "destroy_time": 3,
+    "friction": 0.4,
+    "explosion_resistance": 10
+  }
 }
