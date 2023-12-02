@@ -9,7 +9,7 @@ class Block {
     "format_version": config["version"],
     "minecraft:block": {
       "description": {
-        "identifier": `${c["prefix"]}:${this.identifier.toLowerCase()}`,
+        "identifier": `${c["prefix"]}:${this.Identifier.toLowerCase()}`,
         "menu_category": {}
       },
       "components": {},
