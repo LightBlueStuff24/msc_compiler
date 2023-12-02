@@ -21,7 +21,7 @@ class Block {
   /**
    * @BlockData
    */
-  
+  static Identifier = undefined;
   static Category;
   static Group;
   static DisplayName;
