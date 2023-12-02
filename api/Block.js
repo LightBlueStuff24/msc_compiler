@@ -19,7 +19,7 @@ class Block {
   /**
    * @BlockData
    */
-  static Identifier;
+  
   static Category;
   static Group;
   static DisplayName;
