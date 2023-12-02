@@ -78,7 +78,7 @@ class Block {
       if (typeof this.Group === "string") {
         this.__Data["minecraft:block"]["description"]["menu_category"]["group"] = this.Group;
       }
-      else return new BlockError(``);
+      else return new BlockError(`[]`);
     }
 
     /**
