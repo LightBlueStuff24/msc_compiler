@@ -80,13 +80,12 @@ class Block {
      * @handleDestroytime
      */
     if (this.DestroyTime) {
-      if (typeof this.DestroyTime === "boolean") {
-        this.__components["minecraft:destructible_by_mining"] =
-          this.DestroyTime;
+      if (typeof this.DestroyTime==="boolean") {
+        this.__components["minecraft:destructible_by_mining"]=this.DestroyTime;
       }
-      if (typeof this.DestroyTime === "number") {
+      if (typeof this.DestroyTime==="number") {
         this.__components["minecraft:destructible_by_mining"] = {
-          seconds_to_destroy: this.DestroyTime,
+          "seconds_to_destroy": this.DestroyTime,
         };
       }
     }
@@ -94,9 +93,8 @@ class Block {
      * @handleExplosionResistance
      */
     if (this.ExplosionResistance) {
-      if (typeof this.ExplosionResistance === "boolean") {
-        this.__components["minecraft:destructible_by_explosion"] =
-          this.ExplosionResistance;
+      if (typeof this.ExplosionResistance==="boolean") {
+        this.__components["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
       }
       if (typeof this.ExplosionResistance === "number") {
         this.__components["minecraft:destructible_by_explosion"] = {
