@@ -158,8 +158,8 @@ class Block {
       }
       if(this.RenderMethod) {
         if(typeof this.RenderMethod === "string") {
-          if(this.RenderMethod != ("opaque"||"blend"||"alpha_test"||"double_sided")) {
-            
+          if(this.RenderMethod == ("opaque"||"blend"||"alpha_test"||"double_sided")) {
+            __MaterialInstances["render_method"] = this.RenderMethod;
           }
         }
       }
