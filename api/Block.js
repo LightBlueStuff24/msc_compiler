@@ -58,11 +58,7 @@ class Block {
     /**
      * @handleGroup
      */
-    if(this.Group){
-      if (typeof this.Group==="string") {
-        this.__Data["minecraft:block"]["description"]["menu_category"]["group"]=this.Group;
-      }else return new BlockError(`[${this.name}] [component: Group]: expected string but instead found ${typeof this.Group}`);
-    }
+    if(this.Group){if(typeof this.Group==="string"){this.__Data["minecraft:block"]["description"]["menu_category"]["group"]=this.Group;}else return new BlockError(`[${this.name}] [component: Group]: expected string but instead found ${typeof this.Group}`);}
     /**
      * @handleDisplayName
      */
