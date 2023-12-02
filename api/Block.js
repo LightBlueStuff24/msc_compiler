@@ -52,10 +52,8 @@ class Block {
       if (typeof this.Category == "string") {
         if(this.Category===("construction"||"equipments"||"items"||"nature"||"none")){
           this.__Data["minecraft:block"]["description"]["menu_category"]["category"]=this.Category;
-        } else
-          return new BlockError(
-            `[${this.name}] [component: Category]: expected @class {Category} instead found ${this.Category}`
-          );
+        } 
+        else return new BlockError(`[${this.name}] [component: Category]: expected @class {Category} instead found ${this.Category}`);
       } else
         return new BlockError(
           `[${this.name}] [component: Category]: expected string instead found ${this.Category}`
