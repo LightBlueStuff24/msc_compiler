@@ -1,4 +1,4 @@
-const {isFloat} = require("../Utils.js")
+const { isFloat } = require("../Utils.js")
 const c = require("../config.json");
 
 const config = c["block"];
@@ -16,7 +16,7 @@ class Block {
     },
   };
   static __components = this.__Data["minecraft:block"]["components"];
-  static getClasName () {
+  static getClasName() {
     return this.name
   }
   /**
@@ -55,10 +55,10 @@ class Block {
         if (
           this.Category ===
           ("construction" ||
-          "equipments" ||
-          "items" ||
-          "nature" ||
-          "none")
+            "equipments" ||
+            "items" ||
+            "nature" ||
+            "none")
         ) {
           this.__Data["minecraft:block"]["description"]["menu_category"]["category"] =
             this.Category;
@@ -74,8 +74,8 @@ class Block {
     /**
      * @handleGroup
      */
-    if(this.Group) {
-      if(typeof this.Group === "string") {
+    if (this.Group) {
+      if (typeof this.Group === "string") {
         this.__Data["minecraft:block"]["description"]["menu_category"]["group"] = this.Group;
       }
       else return new BlockError(``);
@@ -133,16 +133,16 @@ class Block {
     /**
      * @handleFlammable
      */
-    if(this.CatchChanceModifier || this.DestroyChanceModifier) {
+    if (this.CatchChanceModifier || this.DestroyChanceModifier) {
       let __Flammable = this.__Data["minecraft:block"]["components"]["minecraft:flammable"] = {}
-      if(this.CatchChanceModifier) {
-        if(typeof this.CatchChanceModifier === "number") {
+      if (this.CatchChanceModifier) {
+        if (typeof this.CatchChanceModifier === "number") {
           __Flammable["catch_chance_modifier"] = this.CatchChanceModifier;
         }
         else return new BlockError(`[${this.CurrentClassName}] [component: CatchChanceModifier]: expected number instead found ${typeof this.CatchChanceModifier}`)
       }
-      if(this.DestroyChanceModifier) {
-        if(typeof this.DestroyChanceModifier === "number") {
+      if (this.DestroyChanceModifier) {
+        if (typeof this.DestroyChanceModifier === "number") {
           __Flammable["destory_chance_modifier"] = thid.DestroyChanceModifier;
         }
         else return new BlockError(`[${this.CurrentClassName}] [component: DestroyChanceModifier`)
@@ -151,17 +151,17 @@ class Block {
     /**
      * @handleMaterialInstance
      */
-    if(this.Texture || this.RenderMethod || this.FaceDimming || this.AmbientOcclusion) {
+    if (this.Texture || this.RenderMethod || this.FaceDimming || this.AmbientOcclusion) {
       let __Materialll
-      if(this.Texture) {
-        if(typeof this.Texture === "string") {
+      if (this.Texture) {
+        if (typeof this.Texture === "string") {
 
         }
       }
     }
-    
+
     return JSON.stringify(this.__Data);
   }
 }
 
-exports.Block=Block;
+exports.Block = Block;
