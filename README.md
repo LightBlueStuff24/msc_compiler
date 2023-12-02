@@ -1,7 +1,7 @@
 # mcb_compiler
 A Minecraft Bedrock Addon writer using classes
 
-Example:
+Example of Creating Block:
 ```javascript
 class Log extends Block {
   static DisplayName = "Your Block Name";
