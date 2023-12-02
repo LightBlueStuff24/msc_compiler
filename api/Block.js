@@ -163,6 +163,7 @@ class Block {
           }
           else return new BlockError(`[${this.name}] [component: RenderMethod]: `)
         }
+        else return new 
       }
       if(this.FaceDimming) {
         
