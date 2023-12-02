@@ -6,4 +6,6 @@ class Log extends Block {
   static DestoryTime = 5;
   static Texture = "Your texture name"
 }
+
+BlockRegistry.
 ```
