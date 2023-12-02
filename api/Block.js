@@ -22,28 +22,28 @@ class Block {
   /**
    * @BlockData
    */
-  static identifier = undefined;
-  static Category = undefined;
-  static Group = undefined;
-  static DisplayName = undefined;
-  static DestroyTime = undefined;
-  static ExplosionResistance = undefined;
-  static Friction = undefined;
-  static CatchChanceModifier = undefined;
-  static DestroyChanceModifier = undefined;
-  static Texture = undefined;
-  static RenderMethod = undefined;
-  static FaceDimming = undefined;
-  static AmbientOcclusion = undefined;
+  static identifier;
+  static Category;
+  static Group;
+  static DisplayName;
+  static DestroyTime;
+  static ExplosionResistance;
+  static Friction;
+  static CatchChanceModifier;
+  static DestroyChanceModifier;
+  static Texture;
+  static RenderMethod;
+  static FaceDimming;
+  static AmbientOcclusion;
   static LightEmmision = undefined;
-  static LightAbsorption = undefined;
-  static Geometry = undefined;
+  static LightAbsorption;
+  static Geometry;
   /**
    * @BlockEvents
    */
-  static OnStepOn = undefined;
-  static OnStepOff = undefined;
-  static OnInteract = undefined;
+  static OnStepOn;
+  static OnStepOff;
+  static OnInteract;
   /**
    * @CreatesBlockObject
    */
