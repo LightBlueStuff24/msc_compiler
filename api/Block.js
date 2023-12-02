@@ -62,11 +62,11 @@ class Block {
             this.Category;
         } else
           return new BlockError(
-            `[${this.CurrentClassName}] [component: Category]: expected @class {Category} instead found ${this.Category}`
+            `[${this.name}] [component: Category]: expected @class {Category} instead found ${this.Category}`
           );
       } else
         return new BlockError(
-          `[${this.CurrentClassName}] [component: Category]: expected string instead found ${this.Category}`
+          `[${this.name}] [component: Category]: expected string instead found ${this.Category}`
         );
     }
     /**
@@ -87,7 +87,7 @@ class Block {
         this.__components["minecraft:display_name"] = this.DisplayName;
       } else
         return new BlockError(
-          `[${this.CurrentClassName}] [component: DisplayName]: expected string instead found ${this.DisplayName}`
+          `[${this.name}] [component: DisplayName]: expected string instead found ${this.DisplayName}`
         );
     }
     /**
@@ -137,23 +137,23 @@ class Block {
         if (typeof this.CatchChanceModifier === "number") {
           __Flammable["catch_chance_modifier"] = this.CatchChanceModifier;
         }
-        else return new BlockError(`[${this.CurrentClassName}] [component: CatchChanceModifier]: expected number instead found ${typeof this.CatchChanceModifier}`)
+        else return new BlockError(`[${this.name}] [component: CatchChanceModifier]: expected number instead found ${typeof this.CatchChanceModifier}`)
       }
       if (this.DestroyChanceModifier) {
         if (typeof this.DestroyChanceModifier === "number") {
           __Flammable["destory_chance_modifier"] = thid.DestroyChanceModifier;
         }
-        else return new BlockError(`[${this.CurrentClassName}] [component: DestroyChanceModifier`)
+        else return new BlockError(`[${this.name}] [component: DestroyChanceModifier`)
       }
     }
     /**
      * @handleMaterialInstance
      */
     if (this.Texture || this.RenderMethod || this.FaceDimming || this.AmbientOcclusion) {
-      let __Materialll
+      let __MaterialInstances = {}
       if (this.Texture) {
         if (typeof this.Texture === "string") {
-
+          
         }
       }
     }
