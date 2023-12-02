@@ -98,7 +98,7 @@ class Block {
       }
       if (typeof this.ExplosionResistance === "number") {
         this.__components["minecraft:destructible_by_explosion"] = {
-          seconds_to_destroy: this.ExplosionResistance,
+          "explosion_resistance: this.ExplosionResistance,
         };
       }
     }
