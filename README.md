@@ -4,6 +4,6 @@ A Minecraft Bedrock Addon writer using classes
 class Log extends Block {
   static DisplayName = "Your Block Name";
   static DestoryTime = 5;
-  static Texture = "Your"
+  static Texture = "Your texture name"
 }
 ```
