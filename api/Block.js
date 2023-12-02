@@ -34,7 +34,7 @@ class Block {
   static RenderMethod;
   static FaceDimming;
   static AmbientOcclusion;
-  static LightEmmision = undefined;
+  static LightEmmision;
   static LightAbsorption;
   static Geometry;
   /**
