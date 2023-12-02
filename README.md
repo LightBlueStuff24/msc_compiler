@@ -7,5 +7,5 @@ class Log extends Block {
   static Texture = "Your texture name"
 }
 
-BlockRegistry.
+BlockRegistry.register(Log)
 ```
