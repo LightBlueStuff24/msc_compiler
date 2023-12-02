@@ -5,6 +5,8 @@ const config = c["block"];
 
 class Block {
   static CurrentClassName = new this().constructor.name;
+  
+  static Identifier;
   static __Data = {
     "format_version": config["version"],
     "minecraft:block": {
