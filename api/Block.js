@@ -1,38 +1,18 @@
 const { isFloat } = require("../Utils.js")
 const c = require("../config.json");
-
 const config = c["block"];
-
 class Block {
-  static __Data={
-    "format_version": config["version"],
-    "minecraft:block": {
-      "description": {
-        "identifier": "",
-        "menu_category": {}
-      },
-      "components": {},
-    },
-  };
+  static __Data={"format_version": config["version"],"minecraft:block":{"description":{"identifier":"","menu_category":{}},"components":{}}};
   static __components=this.__Data["minecraft:block"]["components"];
   /**
    * @BlockData
    */
-  
-  static Category;
-  static Group;
-  static DisplayName;
-  static DestroyTime;
-  static ExplosionResistance;
-  static Friction;
-  static CatchChanceModifier;
-  static DestroyChanceModifier;
-  static Texture;
-  static RenderMethod;
-  static FaceDimming;
-  static AmbientOcclusion;
-  static LightEmmision;
-  static LightAbsorption;
+  static Category;static Group;
+  static DisplayName;static DestroyTime;
+  static ExplosionResistance;static Friction;
+  static CatchChanceModifier;static DestroyChanceModifier;
+  static Texture;static RenderMethod;static FaceDimming;static AmbientOcclusion;
+  static LightEmmision;static LightAbsorption;
   static Geometry;
   /**
    * @BlockEvents
@@ -44,17 +24,14 @@ class Block {
    * @CreatesBlockObject
    */
   static init(){
+    /**
+     * @handleIdentifier
+     */
     this.__Data["minecraft:block"]["description"]["identifier"]=`${c["prefix"]}:${this.name.toLowerCase()}`
     /**
      * @handleCategory
      */
-    if(this.Category){
-      if(typeof this.Category==="string"){
-        if(this.Category===("construction"||"equipments"||"items"||"nature"||"none")){
-          this.__Data["minecraft:block"]["description"]["menu_category"]["category"]=this.Category;
-        }else return new BlockError(`[${this.name}] [component: Category]: expected @class {Category} instead found ${this.Category}`);
-      }else return new BlockError(`[${this.name}] [component: Category]: expected string instead found ${this.Category}`);
-    }
+    if(this.Category){if(typeof this.Category==="string"){if(this.Category===("construction"||"equipments"||"items"||"nature"||"none")){this.__Data["minecraft:block"]["description"]["menu_category"]["category"]=this.Category;}else return new BlockError(`[${this.name}] [component: Category]: expected @class {Category} instead found ${this.Category}`);}else return new BlockError(`[${this.name}] [component: Category]: expected string instead found ${this.Category}`);}
     /**
      * @handleGroup
      */
