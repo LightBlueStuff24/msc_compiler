@@ -22,17 +22,23 @@ class Block {
   static Category;
   static Group;
   static DisplayName;
+  
   static DestroyTime;
   static ExplosionResistance;
+  
   static Friction;
+  
   static CatchChanceModifier;
   static DestroyChanceModifier;
+  
   static Texture;
   static RenderMethod;
   static FaceDimming;
   static AmbientOcclusion;
+  
   static LightEmmision;
   static LightDampening;
+  
   static Geometry;
   /**
    * @BlockEvents
