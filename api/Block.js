@@ -106,7 +106,7 @@ class Block {
      * @handleFriction
      */
     if (typeof this.Friction) {
-      if (typeof this.Friction === "number") {
+      if (typeof this.Friction==="number") {
         if (isFloat(this.Friction)) {
           this.__components["minecraft:friction"] = this.Friction;
         }
