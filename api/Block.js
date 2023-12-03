@@ -534,6 +534,34 @@ class Block {
     /**
      * @handleOnPlaced
      */
+    if(this.OnPlaced) {
+      if(typeof this.OnPlaced == "object") {
+        let __OnPlaced = {}
+        if(this.OnPlaced["Condition"]) {
+          if(typeof this.OnPlaced["Condition"] == "string") {
+            __OnPlaced["condition"] = this.OnPlaced["Condition"];
+          }
+          else return new Error(`[${this.name}] [component: OnPlaced] [child: Condition]: expected type {string} instead found {${typeof this.OnPlaced["Condition"]}}`)
+        }
+        if(this.OnPlaced["Event"]) {
+          if(typeof this.OnPlaced["Event"] == "string") {
+            __OnPlaced["event"] = this.OnPlaced["Target"];
+          }
+          else return new Error(`[${this.name}] [component: OnPlaced] [child: Event]: expected type {string} instead found {${typeof this.OnPlaced["Event"]}}`)
+        }
+        if(this.OnPlaced["Target"]) {
+          if(typeof this.OnPlaced["Target"] == "string") {
+            if(this.OnPlaced["Target"] == ("self" || "other")) {
+              __OnPlaced["target"] = this.OnPlaced["Target"];
+            }
+            else return new Error(`[${this.name}] [component: OnPlaced] [child: Target]: expected type {Targets} instead found {${this.OnPlaced["Target"]}}`)
+          }
+          else return new Error(`[${this.name}] [component: OnPlaced] [child: Target]: expected type {string} instead found {${typeof this.OnPlaced["Target"]}}`)
+        }
+        this.__components["minecraft:on_placed"] = __OnPlaced;
+      }
+      else return new Error(`[${this.name}] [component: OnPlaced]: expected {object} instead found {${typeof this.OnPlaced}}`)
+    }
     /**
      * @handleOnInteract
      */
