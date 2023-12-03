@@ -227,7 +227,7 @@ class Block {
     if(this.PlacementFilter) {
       if(typeof this.PlacementFilter == "object") {
         let __PlacementFilter = {"conditions": []}
-        for(const condition in this.PlacementFilter) {
+        for(const [condition, values] of Object.entries(this.PlacementFilter)) {
           let __condition = {}
           if(condition["AllowedFaces"]) {
             __condition["allowed_faces"]=[]
@@ -295,6 +295,7 @@ class Block {
             else return new Error(`[${this.name}] [component: Transformation] [child: Scale]: expected type {number} instead found {${typeof value}}`)
           })
         }
+        this.__components["minecraft:transformation"] = __Transformation;
       }
       else return new Error(`[${this.name}] [component: Transformation]: expected type {object} instead found {${typeof this.Transformation}}`)
     }
@@ -303,14 +304,17 @@ class Block {
      */
     if(this.Loot) {
       if(typeof this.Loot == "string") {
-        
+        this.__components["minecraft:loot"] = this.Loot;
       }
+      else return new Error(`[${this.name}] [component: Loot]: expected type {string} instead found {${typeof this.Loot}}`)
     }
     /**
      * @handleMapColor
      */
     if(this.MapColor) {
-      if(typeof this.MapColor == "string") {}
+      if(typeof this.MapColor == "string") {
+        
+      }
     }
     /**
      * @handleCollisionBox
