@@ -269,7 +269,34 @@ class Block {
      * @handleTransformation
      */
     if(this.Transformation) {
-      if(typeof this.Transformation == "object") {}
+      if(typeof this.Transformation == "object") {
+        let __Transformation = {}
+        if(this.Transformation["Translation"]) {
+          this.Transformation["Translation"].forEach(value=>{
+            if(typeof value == "number") {
+              __Transformation["translation"].push(value)
+            }
+            else return new Error(`[${this.name}] [component: Transformation] [child: Translation]: expected type {number} instead found {${typeof value}}`)
+          })
+        }
+        if(this.Transformation["Rotation"]) {
+          this.Transformation["Rotation"].forEach(value=>{
+            if(typeof value == "number") {
+              __Transformation["rotation"].push(value)
+            }
+            else return new Error(`[${this.name}] [component: Transformation] [child: Rotation]: expected type {number} instead found {${typeof value}}`)
+          })
+        }
+        if(this.Transformation["Scale"]) {
+          this.Transformation["Scale"].forEach(value=>{
+            if(typeof value == "number") {
+              __Transformation["scale"].push(value)
+            }
+            else return new Error(`[${this.name}] [component: Transformation] [child: Scale]: expected type {number} instead found {${typeof value}}`)
+          })
+        }
+      }
+      else return new Error(`[${this.name}] [component: Transformation]: expected type {object} instead found {${typeof this.Transformation}}`)
     }
     /**
      * @handleLoot
