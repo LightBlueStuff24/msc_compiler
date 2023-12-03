@@ -1,3 +1,3 @@
-exports.isFloat=function(n){return`${n}`.includes(".")}
-exports.isInt=function(n){return`${n}`.includes(".")?false:(Number(n)?true:false)};
-exports.isAlpha=function(c){return c.toUpperCase()!=c.toLowerCase()}
+function isFloat(n){return`${n}`.includes(".")}
+function isInt(n){return`${n}`.includes(".")?false:(Number(n)?true:false)};
+function isAlpha(c){return c.toUpperCase()!=c.toLowerCase()}
