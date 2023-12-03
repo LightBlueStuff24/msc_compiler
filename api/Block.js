@@ -51,7 +51,7 @@ class Block {
   static OnFallOn;
   static OnPlayerPlacing;
   static OnPlaced;
-  static OnPlayerDestroy;
+  static OnPlayerDestroyed;
   static QueuedTicking;
   static RandomTicking;
   /**
@@ -501,34 +501,35 @@ class Block {
       else return new Error(`[${this.name}] [component: OnPlayerPlacing]: expected {object} instead found {${typeof this.OnPlayerPlacing}}`)
     }
     /**
-     * @handleOnPlayerDestroyed
+     * @handleOnPlayerDestroyeded
      */
-      if(typeof this.OnPlayerPlacing == "object") {
-        let __OnPlayerPlacing = {}
-        if(this.OnPlayerPlacing["Condition"]) {
-          if(typeof this.OnPlayerPlacing["Condition"] == "string") {
-            __OnPlayerPlacing["condition"] = this.OnPlayerPlacing["Condition"];
+    if(this.OnPlayerDestroyed) {
+      if(typeof this.OnPlayerDestroyed == "object") {
+        let __OnPlayerDestroyed = {}
+        if(this.OnPlayerDestroyed["Condition"]) {
+          if(typeof this.OnPlayerDestroyed["Condition"] == "string") {
+            __OnPlayerDestroyed["condition"] = this.OnPlayerDestroyed["Condition"];
           }
-          else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Condition]: expected type {string} instead found {${typeof this.OnPlayerPlacing["Condition"]}}`)
+          else return new Error(`[${this.name}] [component: OnPlayerDestroyed] [child: Condition]: expected type {string} instead found {${typeof this.OnPlayerDestroyed["Condition"]}}`)
         }
-        if(this.OnPlayerPlacing["Event"]) {
-          if(typeof this.OnPlayerPlacing["Event"] == "string") {
-            __OnPlayerPlacing["event"] = this.OnPlayerPlacing["Target"];
+        if(this.OnPlayerDestroyed["Event"]) {
+          if(typeof this.OnPlayerDestroyed["Event"] == "string") {
+            __OnPlayerDestroyed["event"] = this.OnPlayerDestroyed["Target"];
           }
-          else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Event]: expected type {string} instead found {${typeof this.OnPlayerPlacing["Event"]}}`)
+          else return new Error(`[${this.name}] [component: OnPlayerDestroyed] [child: Event]: expected type {string} instead found {${typeof this.OnPlayerDestroyed["Event"]}}`)
         }
-        if(this.OnPlayerPlacing["Target"]) {
-          if(typeof this.OnPlayerPlacing["Target"] == "string") {
-            if(this.OnPlayerPlacing["Target"] == ("self" || "other")) {
-              __OnPlayerPlacing["target"] = this.OnPlayerPlacing["Target"];
+        if(this.OnPlayerDestroyed["Target"]) {
+          if(typeof this.OnPlayerDestroyed["Target"] == "string") {
+            if(this.OnPlayerDestroyed["Target"] == ("self" || "other")) {
+              __OnPlayerDestroyed["target"] = this.OnPlayerDestroyed["Target"];
             }
-            else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Target]: expected type {Targets} instead found {${this.OnPlayerPlacing["Target"]}}`)
+            else return new Error(`[${this.name}] [component: OnPlayerDestroyed] [child: Target]: expected type {Targets} instead found {${this.OnPlayerDestroyed["Target"]}}`)
           }
-          else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Target]: expected type {string} instead found {${typeof this.OnPlayerPlacing["Target"]}}`)
+          else return new Error(`[${this.name}] [component: OnPlayerDestroyed] [child: Target]: expected type {string} instead found {${typeof this.OnPlayerDestroyed["Target"]}}`)
         }
-        this.__components["minecraft:on_player_placing"] = __OnPlayerPlacing;
+        this.__components["minecraft:on_player_destroyed"] = __OnPlayerDestroyed;
       }
-      else return new Error(`[${this.name}] [component: OnPlayerPlacing]: expected {object} instead found {${typeof this.OnPlayerPlacing}}`)
+      else return new Error(`[${this.name}] [component: OnPlayerDestroyed]: expected {object} instead found {${typeof this.OnPlayerDestroyed}}`)
     }
     /**
      * @handleOnPlaced
