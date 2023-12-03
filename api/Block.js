@@ -565,6 +565,34 @@ class Block {
     /**
      * @handleOnInteract
      */
+    if(this.OnInteract) {
+      if(typeof this.OnInteract == "object") {
+        let __OnInteract = {}
+        if(this.OnInteract["Condition"]) {
+          if(typeof this.OnInteract["Condition"] == "string") {
+            __OnInteract["condition"] = this.OnInteract["Condition"];
+          }
+          else return new Error(`[${this.name}] [component: OnInteract] [child: Condition]: expected type {string} instead found {${typeof this.OnInteract["Condition"]}}`)
+        }
+        if(this.OnInteract["Event"]) {
+          if(typeof this.OnInteract["Event"] == "string") {
+            __OnInteract["event"] = this.OnInteract["Target"];
+          }
+          else return new Error(`[${this.name}] [component: OnInteract] [child: Event]: expected type {string} instead found {${typeof this.OnInteract["Event"]}}`)
+        }
+        if(this.OnInteract["Target"]) {
+          if(typeof this.OnInteract["Target"] == "string") {
+            if(this.OnInteract["Target"] == ("self" || "other")) {
+              __OnInteract["target"] = this.OnInteract["Target"];
+            }
+            else return new Error(`[${this.name}] [component: OnInteract] [child: Target]: expected type {Targets} instead found {${this.OnInteract["Target"]}}`)
+          }
+          else return new Error(`[${this.name}] [component: OnInteract] [child: Target]: expected type {string} instead found {${typeof this.OnInteract["Target"]}}`)
+        }
+        this.__components["minecraft:on_interact"] = __OnInteract;
+      }
+      else return new Error(`[${this.name}] [component: OnInteract]: expected {object} instead found {${typeof this.OnInteract}}`)
+    }
     /**
      * @handleQueuedTicking
      */
