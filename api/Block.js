@@ -52,7 +52,8 @@ class Block {
   static OnPlayerPlacing;
   static OnPlaced;
   static OnPlayerDestroy;
-  static OnDestroyed;
+  static QueuedTicking;
+  static RandomTicking;
   /**
    * @CreatesBlockObject
    */
@@ -375,6 +376,105 @@ class Block {
       }
       else return new Error(`[${this.name}] [component: SelectionBox]: expected type {object} instead found {${typeof this.SelectionBox}}`)
     }
+    /**
+     * @handleOnStepOn
+     */
+    if(this.OnStepOn) {
+      if(typeof this.OnStepOn == "object") {
+        let __OnStepOn = {}
+        if(this.OnStepOn["Condition"]) {
+          if(typeof this.OnStepOn["Condition"] == "string") {
+            
+          }
+        }
+        if(this.OnStepOn["Event"]) {
+          if(typeof this.OnStepOn["Event"] == "string") {
+            
+          }
+        }
+        if(this.OnStepOn["Target"]) {
+          if(typeof this.OnStepOn["Target"] == "string") {
+            if(this.OnStepOn["Target"] == ("self" || "other")) {
+              
+            }
+            else return new Error(`[${this.name}] [component: OnStepOn] [child: Target]: expected type {Targets} instead found {${this.OnStepOn["Target"]}}`)
+          }
+          else return new Error(`[${this.name}] [component: OnStepOn] [child: Target]: expected type {string} instead found {${typeof this.OnStepOn["Target"]}}`)
+        }
+      }
+    }
+    /**
+     * @handleOnStepOff
+     */
+    if(this.OnStepOff) {
+      if(typeof this.OnStepOff == "object") {
+        let __OnStepOff = {}
+        if(this.OnStepOff["Condition"]) {
+          if(typeof this.OnStepOff["Condition"] == "string") {
+            
+          }
+        }
+        if(this.OnStepOff["Event"]) {
+          if(typeof this.OnStepOff["Event"] == "string") {
+            
+          }
+        }
+        if(this.OnStepOff["Target"]) {
+          if(typeof this.OnStepOff["Target"] == "string") {
+            if(this.OnStepOff["Target"] == ("self" || "other")) {
+              
+            }
+            else return new Error(`[${this.name}] [component: OnStepOff] [child: Target]: expected type {Targets} instead found {${this.OnStepOff["Target"]}}`)
+          }
+          else return new Error(`[${this.name}] [component: OnStepOff] [child: Target]: expected type {string} instead found {${typeof this.OnStepOff["Target"]}}`)
+        }
+      }
+    }
+    /**
+     * @handleOnFallOn
+     */
+    if(this.OnFallOn) {
+      if(typeof this.OnFallOn == "object") {
+        let __OnFallOn = {}
+        if(this.OnFallOn["Condition"]) {
+          if(typeof this.OnFallOn["Condition"] == "string") {
+            
+          }
+        }
+        if(this.OnFallOn["Event"]) {
+          if(typeof this.OnFallOn["Event"] == "string") {
+            
+          }
+        }
+        if(this.OnFallOn["Target"]) {
+          if(typeof this.OnFallOn["Target"] == "string") {
+            if(this.OnFallOn["Target"] == ("self" || "other")) {
+              
+            }
+            else return new Error(`[${this.name}] [component: OnFallOn] [child: Target]: expected type {Targets} instead found {${this.OnFallOn["Target"]}}`)
+          }
+          else return new Error(`[${this.name}] [component: OnFallOn] [child: Target]: expected type {string} instead found {${typeof this.OnFallOn["Target"]}}`)
+        }
+      }
+    }
+    /**
+     * @handleOnPlayerPlacing
+     */
+    /**
+     * @handleOnPlayerDestroyed
+     */
+    /**
+     * @handleOnPlaced
+     */
+    /**
+     * @handleOnInteract
+     */
+    /**
+     * @handleQueuedTicking
+     */
+    /**
+     * @handleRandomTicking
+     */
     
     return JSON.stringify(this.__Data);
   }
