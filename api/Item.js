@@ -81,7 +81,9 @@ class Item {
          */
         if (this.DisplayName) {
           if (typeof this.DisplayName === "string") {
-            this.__components["minecraft:display_name"] = this.DisplayName;
+            this.__components["minecraft:display_name"] = {
+              "value": this.DisplayName
+            }
           } else
             return new Error(`[${this.name}] [component: DisplayName]: expected string instead found ${this.DisplayName}`);
         }
