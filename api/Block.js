@@ -11,8 +11,8 @@ class Block {
         "identifier": "",
         "menu_category": {}
       },
-      "components": {},
-    },
+      "components": {}
+    }
   };
   static __components = this.__Data["minecraft:block"]["components"];
   /**
@@ -188,6 +188,10 @@ class Block {
       }
       else return new Error(`[${this.name}] [component: LightDampening]: expected number instead found ${typeof this.LightDampening}`)
     }
+    /**
+     * @handleGeometry
+     */
+    if(this.Geometry || this.)
     
     
     return JSON.stringify(this.__Data);
