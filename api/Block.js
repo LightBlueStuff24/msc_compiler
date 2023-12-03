@@ -384,13 +384,15 @@ class Block {
         let __OnStepOn = {}
         if(this.OnStepOn["Condition"]) {
           if(typeof this.OnStepOn["Condition"] == "string") {
-            
+            __OnStepOn["condition"] = this.OnStepOn["Condition"];
           }
+          else return new Error(`[${this.name}] [component: OnStepOn] [child: Condition]: expected type {string} instead found {${typeof this.OnStepOn["Condition"]}}`)
         }
         if(this.OnStepOn["Event"]) {
           if(typeof this.OnStepOn["Event"] == "string") {
-            
+            __OnStepOn["event"] = this.OnStepOn["Event"];
           }
+          else return new Error(`[${this.name}] [component: OnStepOn] [child: Event]: expected type {string} instead found {${typeof this.OnStepOn["Event"]}}`)
         }
         if(this.OnStepOn["Target"]) {
           if(typeof this.OnStepOn["Target"] == "string") {
