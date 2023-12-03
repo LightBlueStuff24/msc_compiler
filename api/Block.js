@@ -467,11 +467,39 @@ class Block {
         }
         this.__components["minecraft:on_fall_on"] = __OnFallOn;
       }
-      else return new Error(`[${this.name}] [component: OnFallOn]: expected {object} instead found {${typeof this.OnStepOn}}`)
+      else return new Error(`[${this.name}] [component: OnFallOn]: expected {object} instead found {${typeof this.OnFallOn}}`)
     }
     /**
      * @handleOnPlayerPlacing
      */
+    if(this.OnPlayerPlacing) {
+      if(typeof this.OnPlayerPlacing == "object") {
+        let __OnPlayerPlacing = {}
+        if(this.OnPlayerPlacing["Condition"]) {
+          if(typeof this.OnPlayerPlacing["Condition"] == "string") {
+            __OnPlayerPlacing["condition"] = this.OnPlayerPlacing["Condition"];
+          }
+          else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Condition]: expected type {string} instead found {${typeof this.OnPlayerPlacing["Condition"]}}`)
+        }
+        if(this.OnPlayerPlacing["Event"]) {
+          if(typeof this.OnPlayerPlacing["Event"] == "string") {
+            __OnPlayerPlacing["event"] = this.OnPlayerPlacing["Target"];
+          }
+          else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Event]: expected type {string} instead found {${typeof this.OnPlayerPlacing["Event"]}}`)
+        }
+        if(this.OnPlayerPlacing["Target"]) {
+          if(typeof this.OnPlayerPlacing["Target"] == "string") {
+            if(this.OnPlayerPlacing["Target"] == ("self" || "other")) {
+              __OnPlayerPlacing["target"] = this.OnPlayerPlacing["Target"];
+            }
+            else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Target]: expected type {Targets} instead found {${this.OnPlayerPlacing["Target"]}}`)
+          }
+          else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Target]: expected type {string} instead found {${typeof this.OnPlayerPlacing["Target"]}}`)
+        }
+        this.__components["minecraft:on_player_placing"] = __OnPlayerPlacing;
+      }
+      else return new Error(`[${this.name}] [component: OnPlayerPlacing]: expected {object} instead found {${typeof this.OnPlayerPlacing}}`)
+    }
     /**
      * @handleOnPlayerDestroyed
      */
