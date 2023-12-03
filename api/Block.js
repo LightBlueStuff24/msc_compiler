@@ -328,7 +328,7 @@ class Block {
      */
     if(this.CollisionBox) {
       if(typeof this.CollisionBox == "object") {
-        
+        if(this.CollisionBox["size"])
       }
     }
     /**
