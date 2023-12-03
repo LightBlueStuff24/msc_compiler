@@ -313,8 +313,9 @@ class Block {
      */
     if(this.MapColor) {
       if(typeof this.MapColor == "string") {
-        
+        this.__components["minecraft:map_color"] = this.MapColor;
       }
+      if(this.MapColor[3])
     }
     /**
      * @handleCollisionBox
