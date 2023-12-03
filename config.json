@@ -9,5 +9,6 @@
     "destroy_time": 3,
     "friction": 0.4,
     "explosion_resistance": 10
-  }
+  },
+  "inputDirectory":"blocks"
 }

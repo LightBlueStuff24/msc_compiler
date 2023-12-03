@@ -104,7 +104,7 @@ class Item {
          */
         if (this.AllowOffHand) {
           if (typeof this.AllowOffHand === "boolean") {
-            this.__components["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
+            this.__components["minecraft:allow_off_hand"]=this.AllowOffHand;
           }
         }
         /**

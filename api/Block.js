@@ -103,7 +103,7 @@ class Block {
     if (this.DestroyTime) {
       if (typeof this.DestroyTime == "boolean") {
         this.__components["minecraft:destructible_by_mining"] = this.DestroyTime;
-      } else return new Error(`[${this.name}] [component: DestroyTime]: expected type {boolean|integer} instead found {${typeof this.DestroyTime}}`)
+      } else
       if (typeof this.DestroyTime == "number") {
         this.__components["minecraft:destructible_by_mining"] = {
           "seconds_to_destroy": this.DestroyTime,
@@ -116,7 +116,7 @@ class Block {
     if (this.ExplosionResistance) {
       if (typeof this.ExplosionResistance == "boolean") {
         this.__components["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
-      } else return new Error(`[${this.name}] [component: ExplosionResistance]: expected type {boolean|integer} instead found {${typeof this.ExplosionResistance}}`)
+      } else 
       if (typeof this.ExplosionResistance == "number") {
         this.__components["minecraft:destructible_by_explosion"] = {
           "explosion_resistance": this.ExplosionResistance,
@@ -612,7 +612,3 @@ class Block {
 }
 
 exports.Block = Block;
-
-class PalmLog extends Block{
-  static 
-}
