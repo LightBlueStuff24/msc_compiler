@@ -49,10 +49,6 @@ class Item {
       static UseAnimation;
       static UseDuration;
       static Wearable;
-      static InteractButton;
-      static ItemStorage;
-      static LiquidClipped;
-
       /**
        * @CreatesItemObject
        */
@@ -66,9 +62,9 @@ class Item {
             if(validCategories.has(this.Category)) {
               this.__Data["minecraft:block"]["description"]["menu_category"]["category"] = this.Category;
             } 
-            else return new BlockError(`[${this.name}] [component: Category]: expected @class {Category} instead found ${this.Category}`);
+            else return new Error(`[${this.name}] [component: Category]: expected @class {Category} instead found ${this.Category}`);
           }
-          else return new BlockError(`[${this.name}] [component: Category]: expected string instead found ${this.Category}`);
+          else return new Error(`[${this.name}] [component: Category]: expected string instead found ${this.Category}`);
         }
         /**
          * @handleGroup
@@ -77,7 +73,7 @@ class Item {
           if (typeof this.Group==="string") {
             this.__Data["minecraft:block"]["description"]["menu_category"]["group"] = this.Group;
           }
-          else return new BlockError(`[${this.name}] [component: Group]: expected string but instead found ${typeof this.Group}`);
+          else return new Error(`[${this.name}] [component: Group]: expected string but instead found ${typeof this.Group}`);
         }
     
         /**
@@ -87,7 +83,7 @@ class Item {
           if (typeof this.DisplayName === "string") {
             this.__components["minecraft:display_name"] = this.DisplayName;
           } else
-            return new BlockError(`[${this.name}] [component: DisplayName]: expected string instead found ${this.DisplayName}`);
+            return new Error(`[${this.name}] [component: DisplayName]: expected string instead found ${this.DisplayName}`);
         }
         /**
          * @handleDamage
@@ -97,7 +93,7 @@ class Item {
             this.__components["minecraft:damage"] = {
               "value": this.Damage,
             }
-          } else return new BlockError(`[${this.name}] [component: Damage]: expected integer greater than -1 instead found ${typeof this.DestroyTime}`)
+          } else return new Error(`[${this.name}] [component: Damage]: expected integer greater than -1 instead found ${typeof this.DestroyTime}`)
         }
         /**
          * @handleAllowOffHand
@@ -126,13 +122,13 @@ class Item {
             if (typeof this.CatchChanceModifier === "number") {
               __Flammable["catch_chance_modifier"] = this.CatchChanceModifier;
             }
-            else return new BlockError(`[${this.name}] [component: CatchChanceModifier]: expected number instead found ${typeof this.CatchChanceModifier}`)
+            else return new Error(`[${this.name}] [component: CatchChanceModifier]: expected number instead found ${typeof this.CatchChanceModifier}`)
           }
           if (this.DestroyChanceModifier) {
             if (typeof this.DestroyChanceModifier === "number") {
               __Flammable["destory_chance_modifier"] = thid.DestroyChanceModifier;
             }
-            else return new BlockError(`[${this.name}] [component: DestroyChanceModifier`)
+            else return new Error(`[${this.name}] [component: DestroyChanceModifier`)
           }
         }
         /**
@@ -150,9 +146,9 @@ class Item {
               if(this.RenderMethod == ("opaque"||"blend"||"alpha_test"||"double_sided")) {
                 __MaterialInstances["render_method"] = this.RenderMethod;
               }
-              else return new BlockError(`[${this.name}] [component: RenderMethod]: expected @RenderMethod but found ${this.RenderMethod}`)
+              else return new Error(`[${this.name}] [component: RenderMethod]: expected @RenderMethod but found ${this.RenderMethod}`)
             }
-            else return new BlockError(`[${this.name}] [component: RenderMethod]: expected string instead found ${typeof this.RenderMethod}`)
+            else return new Error(`[${this.name}] [component: RenderMethod]: expected string instead found ${typeof this.RenderMethod}`)
           }
           if(this.FaceDimming) {
             
