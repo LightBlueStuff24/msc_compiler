@@ -66,9 +66,9 @@ class Block {
         if(this.Category==("construction"||"equipments"||"items"||"nature"||"none")) {
           this.__Data["minecraft:block"]["description"]["menu_category"]["category"] = this.Category;
         } 
-        else return new Error(`[${this.name}] [component: Category]: expected type Category instead found ${this.Category}`);
+        else return new Error(`[${this.name}] [component: Category]: expected type {Categorys} instead found {${this.Category}}`);
       }
-      else return new Error(`[${this.name}] [component: Category]: expected string instead found ${this.Category}`);
+      else return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
     }
     /**
      * @handleGroup
@@ -77,7 +77,7 @@ class Block {
       if (typeof this.Group=="string") {
         this.__Data["minecraft:block"]["description"]["menu_category"]["group"] = this.Group;
       }
-      else return new Error(`[${this.name}] [component: Group]: expected string but instead found ${typeof this.Group}`);
+      else return new Error(`[${this.name}] [component: Group]: expected type {Groups|string} but instead found {${typeof this.Group}}`);
     }
 
     /**
@@ -87,7 +87,7 @@ class Block {
       if (typeof this.DisplayName == "string") {
         this.__components["minecraft:display_name"] = this.DisplayName;
       } else
-        return new Error(`[${this.name}] [component: DisplayName]: expected string instead found ${this.DisplayName}`);
+        return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
     }
     /**
      * @handleDestroytime
@@ -95,12 +95,12 @@ class Block {
     if (this.DestroyTime) {
       if (typeof this.DestroyTime == "boolean") {
         this.__components["minecraft:destructible_by_mining"] = this.DestroyTime;
-      } else return new Error(`[${this.name}] [component: DestroyTime]: expected either boolean or integer instead found ${typeof this.DestroyTime}`)
+      } else return new Error(`[${this.name}] [component: DestroyTime]: expected type {boolean|integer} instead found {${typeof this.DestroyTime}}`)
       if (typeof this.DestroyTime == "number") {
         this.__components["minecraft:destructible_by_mining"] = {
           "seconds_to_destroy": this.DestroyTime,
         }
-      } else return new Error(`[${this.name}] [component: DestroyTime]: expected either boolean or integer instead found ${typeof this.DestroyTime}`)
+      } else return new Error(`[${this.name}] [component: DestroyTime]: expected type {boolean|integer} instead found {${typeof this.DestroyTime}}`)
     }
     /**
      * @handleExplosionResistance
@@ -108,12 +108,12 @@ class Block {
     if (this.ExplosionResistance) {
       if (typeof this.ExplosionResistance == "boolean") {
         this.__components["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
-      } else return new Error(`[${this.name}] [component: ExplosionResistance]: expected either boolean or integer instead found ${typeof this.DestroyTime}`)
+      } else return new Error(`[${this.name}] [component: ExplosionResistance]: expected type {boolean|integer} instead found {${typeof this.ExplosionResistance}}`)
       if (typeof this.ExplosionResistance == "number") {
         this.__components["minecraft:destructible_by_explosion"] = {
           "explosion_resistance": this.ExplosionResistance,
         };
-      } else return new Error(`[${this.name}] [component: ExplosionResistance]: expected either boolean or integer instead found ${typeof this.DestroyTime}`)
+      } else return new Error(`[${this.name}] [component: ExplosionResistance]: expected type {boolean|integer} instead found {${typeof this.ExplosionResistance}}`)
     }
     /**
      * @handleFriction
@@ -122,8 +122,8 @@ class Block {
       if (typeof this.Friction == "number") {
         if (isFloat(this.Friction)) {
           this.__components["minecraft:friction"] = this.Friction;
-        } else return new Error(`[${this.name}] [component: friction]: expected float instead found integer `)
-      } else return new Error(`[${this.name}] [component: friction]: expected number instead found ${typeof this.Friction}`)
+        } else return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
+      } else return new Error(`[${this.name}] [component: friction]: expected {number} instead found {${typeof this.Friction}}`)
     }
     /**
      * @handleFlammable
@@ -134,13 +134,13 @@ class Block {
         if (typeof this.CatchChanceModifier == "number") {
           __Flammable["catch_chance_modifier"] = this.CatchChanceModifier;
         }
-        else return new Error(`[${this.name}] [component: CatchChanceModifier]: expected number instead found ${typeof this.CatchChanceModifier}`)
+        else return new Error(`[${this.name}] [component: CatchChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
       }
       if (this.DestroyChanceModifier) {
         if (typeof this.DestroyChanceModifier == "number") {
           __Flammable["destory_chance_modifier"] = thid.DestroyChanceModifier;
         }
-        else return new Error(`[${this.name}] [component: DestroyChanceModifier]: expected number instead found ${typeof this.CatchChanceModifier}`)
+        else return new Error(`[${this.name}] [component: DestroyChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
       }
     }
     /**
@@ -152,28 +152,28 @@ class Block {
         if (typeof this.Texture == "string") {
           __MaterialInstances["texture"] = this.Texture;
         }
-        else return new Error(`[${this.name}] [component: Texture]: expected string instead found ${typeof this.Texture}`)
+        else return new Error(`[${this.name}] [component: Texture]: expected {string} instead found {${typeof this.Texture}}`)
       }
       if(this.RenderMethod) {
         if(typeof this.RenderMethod == "string") {
           if(this.RenderMethod == ("opaque"||"blend"||"alpha_test"||"double_sided")) {
             __MaterialInstances["render_method"] = this.RenderMethod;
           }
-          else return new Error(`[${this.name}] [component: RenderMethod]: expected @RenderMethod but found ${this.RenderMethod}`)
+          else return new Error(`[${this.name}] [component: RenderMethod]: expected type {RenderMethod} but found {${this.RenderMethod}}`)
         }
-        else return new Error(`[${this.name}] [component: RenderMethod]: expected string instead found ${typeof this.RenderMethod}`)
+        else return new Error(`[${this.name}] [component: RenderMethod]: expected {string} instead found {${typeof this.RenderMethod}}`)
       }
       if(this.FaceDimming) {
         if(typeof this.FaceDimming == "boolean") {
           __MaterialInstances["face_dimming"] = this.FaceDimming;
         }
-        else return new Error(`[${this.name}] [component: FaceDimming]: expected boolean instead found ${typeof this.FaceDimming}`)
+        else return new Error(`[${this.name}] [component: FaceDimming]: expected {boolean} instead found {${typeof this.FaceDimming}}`)
       }
       if(this.AmbientOcclusion) {
         if(typeof this.AmbientOcclusion == "boolean") {
           __MaterialInstances["ambient_occlusion"] = this.AmbientOcclusion;
         }
-        else return new Error(`[${this.name}] [component: AmbientOcclusion]: expected boolean instead found ${typeof this.AmbientOcclusion}`)
+        else return new Error(`[${this.name}] [component: AmbientOcclusion]: expected {boolean} instead found {${typeof this.AmbientOcclusion}}`)
       }
       this.__components["minecraft:material_instances"] = __MaterialInstances;
     }
@@ -184,7 +184,7 @@ class Block {
       if(typeof this.LightEmmision == "number") {
         this.__components["minecraft:block_light_emmision"] = this.LightEmmision;
       }
-      else return new Error(`[${this.name}] [component: LightEmmision]: expected number instead found ${typeof this.LightEmmision}`)
+      else return new Error(`[${this.name}] [component: LightEmmision]: expected {number} instead found {${typeof this.LightEmmision}}`)
     }
     /**
      * @handleBlockLightDampening
@@ -193,7 +193,7 @@ class Block {
       if(typeof this.LightDampening == "number") {
         this.__components["minecraft:block_light_dampening"] = this.LightDampening;
       }
-      else return new Error(`[${this.name}] [component: LightDampening]: expected number instead found ${typeof this.LightDampening}`)
+      else return new Error(`[${this.name}] [component: LightDampening]: expected {number} instead found {${typeof this.LightDampening}}`)
     }
     /**
      * @handleGeometry
@@ -205,7 +205,7 @@ class Block {
             "identifier": this.Geometry
           }
         }
-        else return new Error(`[${this.name}] [component: Geometry]: expected string instead found ${typeof this.Geometry}`)
+        else return new Error(`[${this.name}] [component: Geometry]: expected {string} instead found {${typeof this.Geometry}}`)
       }
       if(this.BoneVisibility) {
         if(!this.Geometry) return new Error(`[${this.name}] [component: BoneVisibility]: using BoneVisibility needs a geometry component.`)
@@ -214,11 +214,11 @@ class Block {
             if(typeof bone == "string" && typeof value == ("string"||"boolean")) {
               this.__components["minecraft:geometry"]["bone_visibility"] = { bone: value }
             }
-            if(typeof bone != "string") return new Error(`[${this.name}] [component: bone_visibility] [${bone}]: expected string instead found ${typeof bone}`)
-            if(typeof value != ("string" || "boolean")) return new Error(`[${this.name}] [component: bone_visibility] [${value}]: expected string or boolean instead found ${typeof value}`)
+            if(typeof bone != "string") return new Error(`[${this.name}] [component: bone_visibility] [child: ${bone}]: expected {string} instead found {${typeof bone}}`)
+            if(typeof value != ("string" || "boolean")) return new Error(`[${this.name}] [component: bone_visibility] [child: ${value}]: expected {string} or boolean instead found {${typeof value}}`)
           }
         }
-        else return new Error(`[${this.name}] [component: BoneVisibility]: expected object instead found ${typeof this.BoneVisibility}`)
+        else return new Error(`[${this.name}] [component: BoneVisibility]: expected {object} instead found {${typeof this.BoneVisibility}}`)
       }
     }
     /**
@@ -236,7 +236,9 @@ class Block {
                 if(["up","down","north","south","east","west"].includes(face)) {
                   __condition["allowed_faces"].push(face)
                 }
+                else return new Error(`[${this.name}] [component: PlacementFilter] [child: AllowedFaces]: expected type {Faces} instead found {${face}}`)
               }
+              else return new Error(`[${this.name}] [component: PlacementFilter] [child: AllowedFaces]: expected {string} instead found {${typeof face}}`)
             });
           }
           if(condition["BlockFilter"]) {
@@ -247,17 +249,21 @@ class Block {
               }
               if(typeof block == "object") {
                 for(let [key, value] of Object.entries(block)) {
+                  if(key!="tags") return new Error(``)
                   if(typeof value == "string") {
                     __condition["block_filter"].push({"tags": value})
                   }
+                  else return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter]: expected type {string} instead found {${typeof value}})`)
                 }
               }
+              else return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter]: expected type {Blocks} instead found ${typeof block}`)
             })
           }
           __PlacementFilter["conditions"].push(__condition)
         }
         this.__components["minecraft:placement_filter"]=__PlacementFilter;
       }
+      else return new Error(`[${this.name}] [component: PlacementFilter]: expected type {object} instead found {${typeof this.PlacementFilter}}`)
     }
     /**
      * @handleTransformation
