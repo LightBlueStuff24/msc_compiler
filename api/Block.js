@@ -334,6 +334,7 @@ class Block {
             if(typeof o == "number") {
               __CollisionBox["origin"].push(o)
             }
+            else return new Error(`[${this.name}] [component: CollisionBox] [child: Origin]: expected type {number} instead found {${typeof o}}`)
           })
         }
         if(this.CollisionBox["Size"]) {
@@ -341,6 +342,7 @@ class Block {
             if(typeof s == "number") {
               __CollisionBox["size"].push(s)
             }
+            else return new Error(`[${this.name}] [component: CollisionBox] [child: Size]: expected type {number} instead found {${typeof s}}`)
           })
         }
         this.__components["minecraft:collision_box"] = __CollisionBox;
@@ -358,6 +360,7 @@ class Block {
             if(typeof o == "number") {
               __SelectionBox["origin"].push(o)
             }
+            else return new Error(`[${this.name}] [component: SelectionBox] [child: Origin]: expected type {number} instead found {${typeof s}}`)
           })
         }
         if(this.SelectionBox["Size"]) {
@@ -365,6 +368,7 @@ class Block {
             if(typeof s == "number") {
               __SelectionBox["size"].push(s)
             }
+            else return new Error(`[${this.name}] [component: SelectionBox] [child: Size]: expected type {number} instead found {${typeof s}}`)
           })
         }
         this.__components["minecraft:selection_box"] = __SelectionBox;
