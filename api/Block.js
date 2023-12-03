@@ -315,7 +315,11 @@ class Block {
       if(typeof this.MapColor == "string") {
         this.__components["minecraft:map_color"] = this.MapColor;
       }
-      if(this.MapColor[3])
+      if(typeof this.MapColor == "object") {
+        if(this.MapColor["R"] && this.MapColor["B"] && this.MapColor["G"]) {
+          this.__components["minecraft:map_color"] = [this.MapColor["R"], this.MapColor["B"], this.MapColor["G"]]
+        }
+      }
     }
     /**
      * @handleCollisionBox
