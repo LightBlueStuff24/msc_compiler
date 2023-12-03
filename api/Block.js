@@ -403,7 +403,9 @@ class Block {
           }
           else return new Error(`[${this.name}] [component: OnStepOn] [child: Target]: expected type {string} instead found {${typeof this.OnStepOn["Target"]}}`)
         }
+        this.__components["minecraft:on_step_on"] = __OnStepOn;
       }
+      else return new Error(`[${this.name}] [component: OnStepOn]: expected {object} instead found {${typeof this.OnStepOn}}`)
     }
     /**
      * @handleOnStepOff
@@ -432,7 +434,9 @@ class Block {
           }
           else return new Error(`[${this.name}] [component: OnStepOff] [child: Target]: expected type {string} instead found {${typeof this.OnStepOff["Target"]}}`)
         }
+        this.__components["minecraft:on_step_off"] = __OnStepOff;
       }
+      else return new Error(`[${this.name}] [component: OnStepOff]: expected {object} instead found {${typeof this.OnStepOn}}`)
     }
     /**
      * @handleOnFallOn
@@ -442,24 +446,28 @@ class Block {
         let __OnFallOn = {}
         if(this.OnFallOn["Condition"]) {
           if(typeof this.OnFallOn["Condition"] == "string") {
-            
+            __OnFallOn["condition"] = this.OnFallOn["Condition"];
           }
+          else return new Error(`[${this.name}] [component: OnFallOn] [child: Condition]: expected type {string} instead found {${typeof this.OnFallOn["Condition"]}}`)
         }
         if(this.OnFallOn["Event"]) {
           if(typeof this.OnFallOn["Event"] == "string") {
-            
+            __OnFallOn["event"] = this.OnFallOn["Target"];
           }
+          else return new Error(`[${this.name}] [component: OnFallOn] [child: Event]: expected type {string} instead found {${typeof this.OnFallOn["Event"]}}`)
         }
         if(this.OnFallOn["Target"]) {
           if(typeof this.OnFallOn["Target"] == "string") {
             if(this.OnFallOn["Target"] == ("self" || "other")) {
-              
+              __OnFallOn["target"] = this.OnFallOn["Target"];
             }
             else return new Error(`[${this.name}] [component: OnFallOn] [child: Target]: expected type {Targets} instead found {${this.OnFallOn["Target"]}}`)
           }
           else return new Error(`[${this.name}] [component: OnFallOn] [child: Target]: expected type {string} instead found {${typeof this.OnFallOn["Target"]}}`)
         }
+        this.__components["minecraft:on_fall_on"] = __OnFallOn;
       }
+      else return new Error(`[${this.name}] [component: OnFallOn]: expected {object} instead found {${typeof this.OnStepOn}}`)
     }
     /**
      * @handleOnPlayerPlacing
