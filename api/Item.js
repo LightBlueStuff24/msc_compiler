@@ -105,61 +105,6 @@ class Item {
             this.__components["minecraft:allow_off_hand"]=this.AllowOffHand;
           }
         }
-        /**
-         * @handleFriction
-         */
-        if (typeof this.Friction) {
-          if (typeof this.Friction === "number") {
-            if (isFloat(this.Friction)) {
-              this.__components["minecraft:friction"] = this.Friction;
-            }
-          }
-        }
-        /**
-         * @handleFlammable
-         */
-        if (this.CatchChanceModifier || this.DestroyChanceModifier) {
-          let __Flammable = this.__Data["minecraft:block"]["components"]["minecraft:flammable"] = {}
-          if (this.CatchChanceModifier) {
-            if (typeof this.CatchChanceModifier === "number") {
-              __Flammable["catch_chance_modifier"] = this.CatchChanceModifier;
-            }
-            else return new Error(`[${this.name}] [component: CatchChanceModifier]: expected number instead found ${typeof this.CatchChanceModifier}`)
-          }
-          if (this.DestroyChanceModifier) {
-            if (typeof this.DestroyChanceModifier === "number") {
-              __Flammable["destory_chance_modifier"] = thid.DestroyChanceModifier;
-            }
-            else return new Error(`[${this.name}] [component: DestroyChanceModifier`)
-          }
-        }
-        /**
-         * @handleMaterialInstance
-         */
-        if (this.Texture || this.RenderMethod || this.FaceDimming || this.AmbientOcclusion) {
-          let __MaterialInstances = {}
-          if (this.Texture) {
-            if (typeof this.Texture === "string") {
-              __MaterialInstances["texture"] = this.Texture;
-            }
-          }
-          if(this.RenderMethod) {
-            if(typeof this.RenderMethod === "string") {
-              if(this.RenderMethod == ("opaque"||"blend"||"alpha_test"||"double_sided")) {
-                __MaterialInstances["render_method"] = this.RenderMethod;
-              }
-              else return new Error(`[${this.name}] [component: RenderMethod]: expected @RenderMethod but found ${this.RenderMethod}`)
-            }
-            else return new Error(`[${this.name}] [component: RenderMethod]: expected string instead found ${typeof this.RenderMethod}`)
-          }
-          if(this.FaceDimming) {
-            
-          }
-          if(this.AmbientOcclusion) {
-            
-          }
-        }
-    
         return JSON.stringify(this.__Data);
       }
 }
