@@ -320,6 +320,7 @@ class Block {
           this.__components["minecraft:map_color"] = [this.MapColor["R"], this.MapColor["B"], this.MapColor["G"]]
         }
       }
+      else return new Error(`[${this.name}] [component: MapColor]: expected type {string|object} instead found {${typeof this.MapColor}}`)
     }
     /**
      * @handleCollisionBox
