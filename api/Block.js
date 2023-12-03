@@ -256,7 +256,7 @@ class Block {
                   else return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter]: expected type {string} instead found {${typeof value}})`)
                 }
               }
-              else return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter]: expected type {Blocks} instead found ${typeof block}`)
+              else return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter]: expected type {Blocks|string} instead found ${typeof block}`)
             })
           }
           __PlacementFilter["conditions"].push(__condition)
