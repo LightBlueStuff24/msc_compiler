@@ -397,7 +397,7 @@ class Block {
         if(this.OnStepOn["Target"]) {
           if(typeof this.OnStepOn["Target"] == "string") {
             if(this.OnStepOn["Target"] == ("self" || "other")) {
-              
+              __OnStepOn["target"] = this.OnStepOn["Target"];
             }
             else return new Error(`[${this.name}] [component: OnStepOn] [child: Target]: expected type {Targets} instead found {${this.OnStepOn["Target"]}}`)
           }
@@ -413,18 +413,20 @@ class Block {
         let __OnStepOff = {}
         if(this.OnStepOff["Condition"]) {
           if(typeof this.OnStepOff["Condition"] == "string") {
-            
+            __OnStepOff["condition"] = this.OnStepOff["Condition"]
           }
+          else return new Error(`[${this.name}] [component: OnStepOff] [child: Condition]: expected type {string} instead found {${typeof this.OnStepOff["Condition"]}}`)
         }
         if(this.OnStepOff["Event"]) {
           if(typeof this.OnStepOff["Event"] == "string") {
-            
+            __OnStepOff["event"] = this.OnStepOff["Event"]
           }
+          else return new Error(`[${this.name}] [component: OnStepOff] [child: Event]: expected type {string} instead found {${typeof this.OnStepOff["Event"]}}`)
         }
         if(this.OnStepOff["Target"]) {
           if(typeof this.OnStepOff["Target"] == "string") {
             if(this.OnStepOff["Target"] == ("self" || "other")) {
-              
+              __OnStepOff["target"] = this.OnStepOff["Target"]
             }
             else return new Error(`[${this.name}] [component: OnStepOff] [child: Target]: expected type {Targets} instead found {${this.OnStepOff["Target"]}}`)
           }
