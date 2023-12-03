@@ -328,7 +328,17 @@ class Block {
      */
     if(this.CollisionBox) {
       if(typeof this.CollisionBox == "object") {
-        if(this.CollisionBox["size"])
+        let __CollisionBox = {}
+        if(this.CollisionBox["origin"]) {
+          this.CollisionBox["origin"].forEach(o=>{
+            
+          })
+        }
+        if(this.CollisionBox["size"]) {
+          this.CollisionBox["size"].forEach(s=>{
+            
+          })
+        }
       }
     }
     /**
