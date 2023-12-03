@@ -328,29 +328,48 @@ class Block {
      */
     if(this.CollisionBox) {
       if(typeof this.CollisionBox == "object") {
-        let __CollisionBox = {
-          origin: [],
-          size: []
-        }
+        let __CollisionBox = {}
         if(this.CollisionBox["Origin"]) {
           this.CollisionBox["Origin"].forEach(o=>{
-            __CollisionBox["origin"].push(o)
+            if(typeof o == "number") {
+              __CollisionBox["origin"].push(o)
+            }
           })
         }
         if(this.CollisionBox["Size"]) {
           this.CollisionBox["Size"].forEach(s=>{
-            __CollisionBox["size"].push(s)
+            if(typeof s == "number") {
+              __CollisionBox["size"].push(s)
+            }
           })
         }
+        this.__components["minecraft:collision_box"] = __CollisionBox;
       }
+      else return new Error(`[${this.name}] [component: CollisionBox]: expected type {object} instead found {${typeof this.CollisionBox}}`)
     }
     /**
      * @handleSelectionBox
      */
     if(this.SelectionBox) {
       if(typeof this.SelectionBox == "object") {
-        
+        let __SelectionBox = {}
+        if(this.SelectionBox["Origin"]) {
+          this.SelectionBox["Origin"].forEach(o=>{
+            if(typeof o == "number") {
+              __SelectionBox["origin"].push(o)
+            }
+          })
+        }
+        if(this.SelectionBox["Size"]) {
+          this.SelectionBox["Size"].forEach(s=>{
+            if(typeof s == "number") {
+              __SelectionBox["size"].push(s)
+            }
+          })
+        }
+        this.__components["minecraft:selection_box"] = __SelectionBox;
       }
+      else return new Error(`[${this.name}] [component: SelectionBox]: expected type {object} instead found {${typeof this.SelectionBox}}`)
     }
     
     return JSON.stringify(this.__Data);
