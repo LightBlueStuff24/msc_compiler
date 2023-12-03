@@ -1,9 +1,13 @@
 const { isFloat } = require("../Utils.js")
 const c = require("../config.json");
 
-const config = c["block"];
+const config = c['block'];
+
 
 class Block {
+  /**
+   * @private
+   */
   static __Data = {
     "format_version": config["version"],
     "minecraft:block": {
@@ -14,6 +18,9 @@ class Block {
       "components": {},
     },
   };
+  /**
+   * @private
+   */
   static __components = this.__Data["minecraft:block"]["components"];
   /**
    * @BlockData
@@ -162,3 +169,7 @@ class Block {
 }
 
 exports.Block = Block;
+
+class PalmLog extends Block{
+  static 
+}
