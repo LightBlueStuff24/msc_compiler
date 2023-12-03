@@ -1,4 +1,4 @@
-# mcb_compiler
+# msc_compiler
 A Minecraft Bedrock Addon writer using classes
 
 Example of Creating Block:
