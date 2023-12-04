@@ -418,32 +418,6 @@ class Block {
           }
           else return new Error(`[${this.name}] [component: OnStepOn] [child: Event]: expected type {string} instead found {${typeof this.OnStepOn["Event"]}}`)
         }
-        if(this.OnStepOn["OnCall"]) {
-          let __Event = {}
-          if(typeof this.OnStepOn["OnCall"] == "object") {
-            for(const [key, value] of Object.entries(this.OnStepOn["OnCall"])) {
-              let __eventObj = {}
-              if(typeof key == "string") {
-                if(typeof value == "object") {
-                  for(let [k,v] of Object.entries(value)) {
-                    /**
-                     * @SetBlockState
-                     */
-                    if(v["SetBlockState"]) {
-                      if(!__eventObj["set_block_state"]) {
-                        __eventObj["set_block_state"] = v["SetBlockState"];
-                      }
-                    }
-                    /**
-                     * @SetBlock
-                     */
-                    
-                  }
-                }
-              }
-            }
-          }
-        }
         if(this.OnStepOn["Target"]) {
           if(typeof this.OnStepOn["Target"] == "string") {
             if(this.OnStepOn["Target"] == ("self" || "other")) {
