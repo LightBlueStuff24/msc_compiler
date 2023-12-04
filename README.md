@@ -1,7 +1,7 @@
 # msc_compiler
 A Minecraft Bedrock Addon writer using classes
 
-Example of Creating Block:
+Example of Creating a Block and Creating another same type of Block:
 ```javascript
 class Log extends Block {
   static Category = "nature";
