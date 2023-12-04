@@ -1,4 +1,4 @@
-const { BlockRegistry } = require("./BlockRegistry");
+const { BlockRegistry } = require("./api/Registries/BlockRegistry");
 const fs = require("fs");
 const path = require("path");
 const currentDirectory = process.cwd();
@@ -26,6 +26,8 @@ function loadFilesInDir() {
   });
 }
 
+
+
 function loadFile(filePath) {
   return new Promise((resolve, reject) => {
     if (!filePath) reject(process.exit(1));
@@ -35,3 +37,5 @@ function loadFile(filePath) {
 }
 
 loadFilesInDir();
+//Write a function that Modifies the js import in a file and changes it to something else
+

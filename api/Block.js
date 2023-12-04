@@ -722,11 +722,12 @@ class Block {
      * @handlePermutations
      */
     if(this.Permutations) {
-      if(typeof this.Permutations != ("object" || "string" || "boolean" || "number" || "Function")) {
+      if(typeof this.Permutations != ("string" || "boolean" || "number" || "Function" || "object")) {
         let __Permutations = []
         this.Permutations.forEach((p, i) => {
           let perm = {}
           let permc = perm["components"] = {}
+          
           if(p["Condition"]) {
             if(typeof p["Condition"] == "string") {
               perm["condition"] = p["Condition"];

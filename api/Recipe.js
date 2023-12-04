@@ -1,4 +1,4 @@
-const config = reguire("../config.json")
+const config = require("../config.json")
 
 class ShapedRecipe {
   static __Data = {
@@ -26,7 +26,7 @@ class ShapedRecipe {
      * @handleTags
      */
     if(this.Tags) {
-      if(typeof this.Tags != ("string"||"boolean"||"number"||"object"||"Function")) {
+      if(typeof this.Tags != ("string"||"boolean"||"number"||"Function")) {
         this.Tags.forEach((p, i)=>{
           if(typeof p == "string") {
             this.__Data["minecraft:recipe_shaped"]["tags"].push(p);
@@ -40,7 +40,7 @@ class ShapedRecipe {
      * @handlePattern
      */
     if(this.Pattern) {
-      if(typeof this.Pattern != ("string"||"boolean"||"number"||"object"||"Function")) {
+      if(typeof this.Pattern != ("string"||"boolean"||"number"||"Function")) {
         this.Pattern.forEach((p, i)=>{
           if(typeof p == "string") {
             this.__Data["minecraft:recipe_shaped"]["pattern"].push(p);
@@ -52,6 +52,8 @@ class ShapedRecipe {
     }
     
     
-    return this.__Data;
+    return JSON.stringify(this.__Data);
   }
 }
+
+exports.ShapedRecipe = ShapedRecipe;
