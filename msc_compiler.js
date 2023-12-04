@@ -10,7 +10,6 @@ function loadFilesInDir() {
     fs.readdir(directoryPath, (err, files) => {
         if (err || !files) process.exit(1);
         const fileLoad = files.map(file => loadFile(path.join(directoryPath, file)))
-
         Promise.all(fileLoad).then(() => {
             //console.log(BlockRegistry.Registries["minecraft:block"]["description"]["identifier"])
             BlockRegistry.Registries.forEach(registry => {

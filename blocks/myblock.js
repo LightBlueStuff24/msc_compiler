@@ -2,7 +2,7 @@ const {Block} = require("../api/Block")
 //const {Categorys, Groups} = require("./api/Type")
 const {BlockRegistry} = require("../BlockRegistry")
 
-
+//Compiler to create addons from js
 class BlueBrick extends Block {
   static Category = "construction";
   static Group = "scraft:bricks";

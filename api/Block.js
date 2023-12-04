@@ -1,6 +1,6 @@
 const { isFloat } = require("../Utils.js")
 const c = require("../config.json");
-
+const {validCategories} = require('./Type.js')
 const config = c['block'];
 
 
@@ -71,7 +71,7 @@ class Block {
      */
     if (this.Category) {
       if (typeof this.Category == "string") {
-        if(this.Category==("construction"||"equipments"||"items"||"nature"||"none")) {
+        if(validCategories.has(this.Category)) {
           this.__Data["minecraft:block"]["description"]["menu_category"]["category"] = this.Category;
         } 
         else return new Error(`[${this.name}] [component: Category]: expected type {Categorys} instead found {${this.Category}}`);
