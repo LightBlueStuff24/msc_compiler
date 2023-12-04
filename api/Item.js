@@ -59,21 +59,21 @@ class Item {
          */
         if (this.Category) {
           if (typeof this.Category == "string") {
-            if(validCategories.has(this.Category)) {
+            if(this.Category==("construction"||"equipments"||"items"||"nature"||"none")) {
               this.__Data["minecraft:block"]["description"]["menu_category"]["category"] = this.Category;
             } 
-            else return new Error(`[${this.name}] [component: Category]: expected @class {Category} instead found ${this.Category}`);
+            else return new Error(`[${this.name}] [component: Category]: expected type {Categorys} instead found {${this.Category}}`);
           }
-          else return new Error(`[${this.name}] [component: Category]: expected string instead found ${this.Category}`);
+          else return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
         }
         /**
          * @handleGroup
          */
         if (this.Group) {
-          if (typeof this.Group==="string") {
+          if (typeof this.Group=="string") {
             this.__Data["minecraft:block"]["description"]["menu_category"]["group"] = this.Group;
           }
-          else return new Error(`[${this.name}] [component: Group]: expected string but instead found ${typeof this.Group}`);
+          else return new Error(`[${this.name}] [component: Group]: expected type {Groups|string} but instead found {${typeof this.Group}}`);
         }
         /**
          * @handleIsHiddenInCommands
@@ -82,6 +82,7 @@ class Item {
           if(typeof this.IsHiddenInCommands == "boolean") {
             this.__Data["minecraft:block"]["description"]["menu_category"]["is_hidden_in_commands"] = this.IsHiddenInCommands;
           }
+          else return new Error(`[${this.name}] [component: IsHiddenInCommands]: expected type {boolean} instead found {${typeof this.IsHiddenInCommands}}`)
         }
         /**
          * @handleDisplayName
@@ -92,7 +93,7 @@ class Item {
               "value": this.DisplayName
             }
           } else
-            return new Error(`[${this.name}] [component: DisplayName]: expected string instead found ${this.DisplayName}`);
+            return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
         }
         /**
          * @handleDamage
@@ -102,7 +103,7 @@ class Item {
             this.__components["minecraft:damage"] = {
               "value": this.Damage,
             }
-          } else return new Error(`[${this.name}] [component: Damage]: expected integer greater than -1 instead found ${typeof this.DestroyTime}`)
+          } else return new Error(`[${this.name}] [component: Damage]: expected type {integer} greater than -1 instead found ${typeof this.DestroyTime}`)
         }
         /**
          * @handleAllowOffHand
