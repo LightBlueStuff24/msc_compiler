@@ -2,6 +2,7 @@
 --------------
 ### Block Components:
 
+- <a href="#Category">`Category`</a>
 - `DisplayName`
 - `DestroyTime`
 - `ExplosionResistance`
@@ -12,3 +13,5 @@
 - `RenderMethod`
 - `FaceDimming`
 - `AmbientOcclusion`
+
+
