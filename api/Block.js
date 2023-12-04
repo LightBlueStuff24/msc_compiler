@@ -28,6 +28,7 @@ class Block {
   
   static Category;
   static Group;
+  static IsHiddenInCommands;
   static DisplayName;
   static DestroyTime;
   static ExplosionResistance;
@@ -92,7 +93,15 @@ class Block {
       }
       else return new Error(`[${this.name}] [component: Group]: expected type {Groups|string} but instead found {${typeof this.Group}}`);
     }
-
+    /**
+     * @handleIsHiddenInCommands
+     */
+    if(this.IsHiddenInCommands) {
+      if(typeof this.IsHiddenInCommands == "boolean") {
+        this.__Data["minecraft:block"]["description"]["menu_category"]["is_hidden_in_commands"] = this.IsHiddenInCommands;
+      }
+      else return new Error(`[${this.name}] [component: IsHiddenInCommands]: expected type {boolean} instead found {${typeof this.IsHiddenInCommands}}`)
+    }
     /**
      * @handleDisplayName
      */
