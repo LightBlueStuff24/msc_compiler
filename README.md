@@ -27,3 +27,5 @@ BlockRegistry.register(NewLog)
 - Write more than 1 block a file upto as much as you need.
 - set your pack name and details only once in `msc.config.js`. Don't have to write `manifest.json` twice for `BehaviorPack` and `ResourcePack`.
 - Specify your pack type e.g. only `behavior pack` or only `Resource pack` in `pack_type: "your_pack_type"` in `msc.config.js`
+
+<a href="./docs/BLOCK.md">Blocks</a>
