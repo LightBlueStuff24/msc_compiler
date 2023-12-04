@@ -50,7 +50,31 @@ class ShapedRecipe {
       }
       else return new Error(`[${this.name}] [propetry: Pattern]: expected type {string[]} instead found {${typeof this.Pattern}}`)
     }
-    
+    /**
+     * @handleKeys
+     */
+    if(this.Keys) {
+      if(typeof this.Keys == "object") {
+        for(const [key, value] of Object.entries(this.Keys)) {
+          if(typeof key == "string") {
+            if(typeof value == "object") {
+              if(value["item"]) {
+                if(typeof value["item"] == "string") {
+                  this.Keys[key] = {
+                    "item": value["item"]
+                  }
+                }
+                else return new Error(`[${this.name}] [propetry: Keys] [child: ${key}] [param: item]: expected type {string} instead found {${typeof value["item"]}}`)
+              }
+              else return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected propetry {item} instead found {object}`)
+            }
+            else return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected type {object} instead found {${typeof value}}`)
+          }
+          else return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected type {string} instead found {${typeof key}}`)
+        }
+      }
+      else return new Error(`[${this.name}] [propetry: Keys]: expected type {object} instead found {${typeof this.Keys}}`)
+    }
     
     return this.__Data;
   }
