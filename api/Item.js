@@ -17,7 +17,7 @@ class Item {
       /**
        * @BlockData
        */
-      static isHiddenInCommands = false;
+      static IsHiddenInCommands = false;
       static Category;
       static Group;
       static AllowOffHand;
@@ -75,7 +75,14 @@ class Item {
           }
           else return new Error(`[${this.name}] [component: Group]: expected string but instead found ${typeof this.Group}`);
         }
-    
+        /**
+         * @handleIsHiddenInCommands
+         */
+        if(this.IsHiddenInCommands) {
+          if(typeof this.IsHiddenInCommands == "boolean") {
+            this.__Data["minecraft:block"]["description"]["menu_category"]["is_hidden_in_commands"] = this.IsHiddenInCommands;
+          }
+        }
         /**
          * @handleDisplayName
          */
