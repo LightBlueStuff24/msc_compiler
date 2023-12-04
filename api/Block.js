@@ -62,6 +62,11 @@ class Block {
   static QueuedTicking;
   static RandomTicking;
   /**
+   * @BlockStatesAndPermutations
+   */
+   static States;
+   static Permutation;
+  /**
    * @CreatesBlockObject
    */
   static init() {
@@ -606,6 +611,29 @@ class Block {
     /**
      * @handleRandomTicking
      */
+    /**
+     * @handleStates
+     */
+    if(this.States) {
+      if(typeof this.States == "object") {
+        let __States = {}
+        for(let [state, values] of Object.entries(this.States)) {
+          if(typeof state == "string") {
+            let stateName = `${c["prefix"]}:${state}`
+            __States[stateName] = [];
+            values.forEach(v=> {
+              if(typeof values == ("boolean" || "number")) {
+                __States[stateName].push(v)
+              }
+              else return new Error(`[${this.name}] [property: States] [name: ${stateName}]: expected type {string[]|number[]|boolean[]} instead found ${typeof v}`)
+            })
+          }
+          else return new Error(`[${this.name}] [property: States] [name: ${state}]: expected type {string} instead found ${typeof state}`)
+        }
+      }
+      else return new Error(`[${this.name}] [property: States]: expected type {object} instead found ${typeof this.States}`)
+    }
+    
     
     return JSON.stringify(this.__Data);
   }
