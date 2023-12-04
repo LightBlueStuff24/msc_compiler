@@ -62,10 +62,10 @@ class Block {
   static QueuedTicking;
   static RandomTicking;
   /**
-   * @BlockStatesAndPermutations
+   * @BlockStatesAndPermutationss
    */
    static States;
-   static Permutation;
+   static Permutations;
   /**
    * @CreatesBlockObject
    */
@@ -99,8 +99,8 @@ class Block {
     if (this.DisplayName) {
       if (typeof this.DisplayName == "string") {
         this.__components["minecraft:display_name"] = this.DisplayName;
-      } else
-        return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
+      }
+      else return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
     }
     /**
      * @handleDestroytime
@@ -108,8 +108,8 @@ class Block {
     if (this.DestroyTime) {
       if (typeof this.DestroyTime == "boolean") {
         this.__components["minecraft:destructible_by_mining"] = this.DestroyTime;
-      } else
-      if (typeof this.DestroyTime == "number") {
+      }
+      else if (typeof this.DestroyTime == "number") {
         this.__components["minecraft:destructible_by_mining"] = {
           "seconds_to_destroy": this.DestroyTime,
         }
@@ -121,8 +121,8 @@ class Block {
     if (this.ExplosionResistance) {
       if (typeof this.ExplosionResistance == "boolean") {
         this.__components["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
-      } else 
-      if (typeof this.ExplosionResistance == "number") {
+      }
+      else if (typeof this.ExplosionResistance == "number") {
         this.__components["minecraft:destructible_by_explosion"] = {
           "explosion_resistance": this.ExplosionResistance,
         };
@@ -135,8 +135,10 @@ class Block {
       if (typeof this.Friction == "number") {
         if (isFloat(this.Friction)) {
           this.__components["minecraft:friction"] = this.Friction;
-        } else return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
-      } else return new Error(`[${this.name}] [component: friction]: expected {number} instead found {${typeof this.Friction}}`)
+        }
+        else return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
+      }
+      else return new Error(`[${this.name}] [component: friction]: expected {number} instead found {${typeof this.Friction}}`)
     }
     /**
      * @handleFlammable
@@ -630,8 +632,33 @@ class Block {
           }
           else return new Error(`[${this.name}] [property: States] [name: ${state}]: expected type {string} instead found ${typeof state}`)
         }
+        this.__Data["minecraft:block"]["description"]["states"] = __States;
       }
       else return new Error(`[${this.name}] [property: States]: expected type {object} instead found ${typeof this.States}`)
+    }
+    /**
+     * @handlePermutations
+     */
+    if(this.Permutations) {
+      if(typeof this.Permutations != ("object" || "string" || "boolean" || "number" || "Function")) {
+        let __Permutations = []
+        this.Permutations.forEach((p, i) => {
+          let perm = {}
+          let permc = perm["components"] = {}
+          if(p["Condition"]) {
+            if(typeof p["Condition"] == "string") {
+              perm["condition"] = p["Condition"];
+            }
+            else return new Error(`[${this.name}] [property: Permutations] [index: ${i}] [prop: Condition]: expected type {string} instead found {${typeof p["Condition"]}}`)
+          }
+          for(let [key, val] of Object.entries(p)) {
+            permc[key.toLowerCase()] = val
+          }
+          __Permutations.push(perm)
+        })
+        this.__Data["minecraft:block"]["permutations"] = __Permutations;
+      }
+      else return new Error(`[${this.name}] [property: Permutations]: expected type {object[]} instead found {${typeof this.Permutations}}`)
     }
     
     
