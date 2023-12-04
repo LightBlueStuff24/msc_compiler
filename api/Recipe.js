@@ -26,54 +26,34 @@ class ShapedRecipe {
      * @handleTags
      */
     if(this.Tags) {
-      if(typeof this.Tags != ("string"||"boolean"||"number"||"object"||"Function")) {
-        this.Tags.forEach((p, i)=>{
-          if(typeof p == "string") {
-            this.__Data["minecraft:recipe_shaped"]["tags"].push(p);
-          }
-          else return new Error(`[${this.name}] [propetry: Tags] [index: ${i}]: expected type {string} instead found {${typeof p}}`)
-        })
-      }
-      else return new Error(`[${this.name}] [propetry: Tags]: expected type {string[]} instead found {${typeof this.Tags}}`)
+      if(typeof this.Tags == ("string"||"boolean"||"number"||"object"||"Function")) return new Error(`[${this.name}] [propetry: Tags]: expected type {string[]} instead found {${typeof this.Tags}}`)
+      this.Tags.forEach((p, i)=>{
+        if(typeof p != "string") return new Error(`[${this.name}] [propetry: Tags] [index: ${i}]: expected type {string} instead found {${typeof p}}`)
+        this.__Data["minecraft:recipe_shaped"]["tags"].push(p);
+      })
     }
     /**
      * @handlePattern
      */
     if(this.Pattern) {
-      if(typeof this.Pattern != ("string"||"boolean"||"number"||"object"||"Function")) {
-        this.Pattern.forEach((p, i)=>{
-          if(typeof p == "string") {
-            this.__Data["minecraft:recipe_shaped"]["pattern"].push(p);
-          }
-          else return new Error(`[${this.name}] [propetry: Pattern] [index: ${i}]: expected type {string} instead found {${typeof p}}`)
-        })
-      }
-      else return new Error(`[${this.name}] [propetry: Pattern]: expected type {string[]} instead found {${typeof this.Pattern}}`)
+      if(typeof this.Pattern == ("string"||"boolean"||"number"||"object"||"Function")) return new Error(`[${this.name}] [propetry: Pattern]: expected type {string[]} instead found {${typeof this.Pattern}}`)
+      this.Pattern.forEach((p, i)=>{
+        if(typeof p != "string") return new Error(`[${this.name}] [propetry: Pattern] [index: ${i}]: expected type {string} instead found {${typeof p}}`)
+        this.__Data["minecraft:recipe_shaped"]["pattern"].push(p);
+      })
     }
     /**
      * @handleKeys
      */
     if(this.Keys) {
-      if(typeof this.Keys == "object") {
-        for(const [key, value] of Object.entries(this.Keys)) {
-          if(typeof key == "string") {
-            if(typeof value == "object") {
-              if(value["item"]) {
-                if(typeof value["item"] == "string") {
-                  this.Keys[key] = {
-                    "item": value["item"]
-                  }
-                }
-                else return new Error(`[${this.name}] [propetry: Keys] [child: ${key}] [param: item]: expected type {string} instead found {${typeof value["item"]}}`)
-              }
-              else return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected propetry {item} instead found {object}`)
-            }
-            else return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected type {object} instead found {${typeof value}}`)
-          }
-          else return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected type {string} instead found {${typeof key}}`)
-        }
+      if(typeof this.Keys != "object") return new Error(`[${this.name}] [propetry: Keys]: expected type {object} instead found {${typeof this.Keys}}`)
+      for(const [key, value] of Object.entries(this.Keys)) {
+        if(typeof key != "string") return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected type {string} instead found {${typeof key}}`)
+        if(typeof value != "object") return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected type {object} instead found {${typeof value}}`)
+        if(value["item"]) return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected propetry {item} instead found {object}`)
+        if(typeof value["item"] == "string") return new Error(`[${this.name}] [propetry: Keys] [child: ${key}] [param: item]: expected type {string} instead found {${typeof value["item"]}}`)
+        this.Keys[key] = {"item": value["item"]}
       }
-      else return new Error(`[${this.name}] [propetry: Keys]: expected type {object} instead found {${typeof this.Keys}}`)
     }
     
     return this.__Data;
