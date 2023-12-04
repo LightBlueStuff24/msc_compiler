@@ -26,21 +26,17 @@ class ShapedRecipe {
      * @handleTags
      */
     if(this.Tags) {
-      if(typeof this.Tags != ("string"||"boolean"||"number"||"Function")) {
-        this.Tags.forEach((p, i)=>{
-          if(typeof p == "string") {
-            this.__Data["minecraft:recipe_shaped"]["tags"].push(p);
-          }
-          else return new Error(`[${this.name}] [propetry: Tags] [index: ${i}]: expected type {string} instead found {${typeof p}}`)
-        })
-      }
-      else return new Error(`[${this.name}] [propetry: Tags]: expected type {string[]} instead found {${typeof this.Tags}}`)
+      if(typeof this.Tags == ("string"||"boolean"||"number"||"object"||"Function")) return new Error(`[${this.name}] [propetry: Tags]: expected type {string[]} instead found {${typeof this.Tags}}`)
+      this.Tags.forEach((p, i)=>{
+        if(typeof p != "string") return new Error(`[${this.name}] [propetry: Tags] [index: ${i}]: expected type {string} instead found {${typeof p}}`)
+        this.__Data["minecraft:recipe_shaped"]["tags"].push(p);
+      })
     }
     /**
      * @handlePattern
      */
     if(this.Pattern) {
-      if(typeof this.Pattern != ("string"||"boolean"||"number"||"Function")) {
+      if(typeof this.Pattern != ("string"||"boolean"||"number"||"object"||"Function")) {
         this.Pattern.forEach((p, i)=>{
           if(typeof p == "string") {
             this.__Data["minecraft:recipe_shaped"]["pattern"].push(p);

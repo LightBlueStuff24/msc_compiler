@@ -2,7 +2,7 @@ const { BlockRegistry } = require("./api/Registries/BlockRegistry");
 const fs = require("fs");
 const path = require("path");
 const currentDirectory = process.cwd();
-const configPath = path.join(currentDirectory, '/config.json');
+const configPath = path.join(currentDirectory, '/msc.config.json');
 const config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath)) : undefined;
 
 function loadFilesInDir() {

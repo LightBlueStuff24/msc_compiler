@@ -1,7 +1,7 @@
 const { isFloat } = require("../Utils.js")
-const c = require("../config.json");
+const config = require("../config.json");
 const {validCategories} = require('./Type.js')
-const config = c['block'];
+
 
 
 class Block {
@@ -9,7 +9,7 @@ class Block {
    * @private
    */
   static __Data = {
-    "format_version": config["version"],
+    "format_version": config["block"]["version"],
     "minecraft:block": {
       "description": {
         "identifier": "",
@@ -71,7 +71,7 @@ class Block {
    * @CreatesBlockObject
    */
   static init() {
-    this.__Data["minecraft:block"]["description"]["identifier"] = `${c["prefix"]}:${this.name.toLowerCase()}`
+    this.__Data["minecraft:block"]["description"]["identifier"] = `${config["prefix"]}:${this.name.toLowerCase()}`
     /**
      * @handleCategory
      */
@@ -404,6 +404,7 @@ class Block {
      */
     if(this.OnStepOn) {
       if(typeof this.OnStepOn == "object") {
+        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
         let __OnStepOn = {}
         if(this.OnStepOn["Condition"]) {
           if(typeof this.OnStepOn["Condition"] == "string") {
@@ -416,6 +417,32 @@ class Block {
             __OnStepOn["event"] = this.OnStepOn["Event"];
           }
           else return new Error(`[${this.name}] [component: OnStepOn] [child: Event]: expected type {string} instead found {${typeof this.OnStepOn["Event"]}}`)
+        }
+        if(this.OnStepOn["OnCall"]) {
+          let __Event = {}
+          if(typeof this.OnStepOn["OnCall"] == "object") {
+            for(const [key, value] of Object.entries(this.OnStepOn["OnCall"])) {
+              let __eventObj = {}
+              if(typeof key == "string") {
+                if(typeof value == "object") {
+                  for(let [k,v] of Object.entries(value)) {
+                    /**
+                     * @SetBlockState
+                     */
+                    if(v["SetBlockState"]) {
+                      if(!__eventObj["set_block_state"]) {
+                        __eventObj["set_block_state"] = v["SetBlockState"];
+                      }
+                    }
+                    /**
+                     * @SetBlock
+                     */
+                    
+                  }
+                }
+              }
+            }
+          }
         }
         if(this.OnStepOn["Target"]) {
           if(typeof this.OnStepOn["Target"] == "string") {
@@ -435,6 +462,7 @@ class Block {
      */
     if(this.OnStepOff) {
       if(typeof this.OnStepOff == "object") {
+        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
         let __OnStepOff = {}
         if(this.OnStepOff["Condition"]) {
           if(typeof this.OnStepOff["Condition"] == "string") {
@@ -466,6 +494,7 @@ class Block {
      */
     if(this.OnFallOn) {
       if(typeof this.OnFallOn == "object") {
+        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
         let __OnFallOn = {}
         if(this.OnFallOn["Condition"]) {
           if(typeof this.OnFallOn["Condition"] == "string") {
@@ -497,6 +526,7 @@ class Block {
      */
     if(this.OnPlayerPlacing) {
       if(typeof this.OnPlayerPlacing == "object") {
+        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
         let __OnPlayerPlacing = {}
         if(this.OnPlayerPlacing["Condition"]) {
           if(typeof this.OnPlayerPlacing["Condition"] == "string") {
@@ -528,6 +558,7 @@ class Block {
      */
     if(this.OnPlayerDestroyed) {
       if(typeof this.OnPlayerDestroyed == "object") {
+        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
         let __OnPlayerDestroyed = {}
         if(this.OnPlayerDestroyed["Condition"]) {
           if(typeof this.OnPlayerDestroyed["Condition"] == "string") {
@@ -559,6 +590,7 @@ class Block {
      */
     if(this.OnPlaced) {
       if(typeof this.OnPlaced == "object") {
+        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
         let __OnPlaced = {}
         if(this.OnPlaced["Condition"]) {
           if(typeof this.OnPlaced["Condition"] == "string") {
@@ -590,6 +622,7 @@ class Block {
      */
     if(this.OnInteract) {
       if(typeof this.OnInteract == "object") {
+        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
         let __OnInteract = {}
         if(this.OnInteract["Condition"]) {
           if(typeof this.OnInteract["Condition"] == "string") {
@@ -621,6 +654,7 @@ class Block {
      */
     if(this.QueuedTicking) {
       if(typeof this.QueuedTicking == "object") {
+        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
         let __QueuedTicking = {"on_tick":{}}
         if(this.QueuedTicking["Looping"]) {
           if(typeof this.QueuedTicking["Looping"] == "boolean") {
@@ -669,6 +703,7 @@ class Block {
      */
     if(this.RandomTicking) {
       if(typeof this.RandomTicking == "object") {
+        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
         let __RandomTicking = {"on_tick":{}}
         if(this.RandomTicking["Condition"]) {
           if(typeof this.RandomTicking["Condition"] == "string") {
@@ -703,7 +738,7 @@ class Block {
         let __States = {}
         for(let [state, values] of Object.entries(this.States)) {
           if(typeof state == "string") {
-            let stateName = `${c["prefix"]}:${state}`
+            let stateName = `${config["prefix"]}:${state}`
             __States[stateName] = [];
             values.forEach(v=> {
               if(typeof values == ("boolean" || "number")) {
@@ -735,7 +770,7 @@ class Block {
             else return new Error(`[${this.name}] [property: Permutations] [index: ${i}] [prop: Condition]: expected type {string} instead found {${typeof p["Condition"]}}`)
           }
           for(let [key, val] of Object.entries(p)) {
-            permc[key.toLowerCase()] = val
+            permconfig[key.toLowerCase()] = val
           }
           __Permutations.push(perm)
         })
@@ -743,7 +778,6 @@ class Block {
       }
       else return new Error(`[${this.name}] [property: Permutations]: expected type {object[]} instead found {${typeof this.Permutations}}`)
     }
-    
     
     return JSON.stringify(this.__Data);
   }
