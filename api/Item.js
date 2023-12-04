@@ -59,7 +59,7 @@ class Item {
      */
     if (this.Category) {
       if (typeof this.Category != "string") return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
-      if (this.Category != ("construction" || "equipments" || "items" || "nature" || "none")) return new Error(`[${this.name}] [component: Category]: expected type {Categorys} instead found {${this.Category}}`);
+      if (!validCategories.has(this.Category)) return new Error(`[${this.name}] [component: Category]: expected type {Categorys} instead found {${this.Category}}`);
       this.__Data["minecraft:block"]["description"]["menu_category"]["category"] = this.Category;
     }
     /**
