@@ -1,6 +1,5 @@
 # MSC Compiler
 --------------
-
 ### Block Components:
 
 - `DisplayName`
