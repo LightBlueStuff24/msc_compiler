@@ -92,8 +92,8 @@ class Item {
             this.__components["minecraft:display_name"] = {
               "value": this.DisplayName
             }
-          } else
-            return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
+          }
+          else return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
         }
         /**
          * @handleDamage
@@ -112,6 +112,7 @@ class Item {
           if (typeof this.AllowOffHand === "boolean") {
             this.__components["minecraft:allow_off_hand"]=this.AllowOffHand;
           }
+          else return new Error(`[${this.name}] [component: AllowOffHand]: expected type {string} instead found {${typeof this.AllowOffHand}}`)
         }
         return JSON.stringify(this.__Data);
       }
