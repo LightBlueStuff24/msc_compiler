@@ -610,9 +610,82 @@ class Block {
     /**
      * @handleQueuedTicking
      */
+    if(this.QueuedTicking) {
+      if(typeof this.QueuedTicking == "object") {
+        let __QueuedTicking = {"on_tick":{}}
+        if(this.QueuedTicking["Looping"]) {
+          if(typeof this.QueuedTicking["Looping"] == "boolean") {
+            __QueuedTicking["looping"] = this.QueuedTicking["Looping"];
+          }
+          else return new Error(`[${this.name}] [component: QueuedTicking] [child: Looping]: expected type {boolean} instead found {${typeof this.QueuedTicking["Looping"]}}`)
+        }
+        if(this.QueuedTicking["IntervalRange"]) {
+          if(typeof this.QueuedTicking["IntervalRange"] != ("string" || "object" || "boolean" || "number" || "Function")) {
+            this.QueuedTicking["IntervalRange"].forEach(r=>{
+              if(typeof r == "number") {
+                __QueuedTicking["condition"] = this.QueuedTicking["IntervalRange"];
+              }
+              else return  new Error(`[${this.name}] [component: QueuedTicking] [child: IntervalRange]: expected type {number} instead found {${typeof this.QueuedTicking["IntervalRange"]}}`)
+            })
+          }
+          else return new Error(`[${this.name}] [component: QueuedTicking] [child: IntervalRange]: expected type {number[]} instead found {${typeof this.QueuedTicking["Condition"]}}`)
+        }
+        if(this.QueuedTicking["Condition"]) {
+          if(typeof this.QueuedTicking["Condition"] == "string") {
+            __QueuedTicking["on_tick"]["condition"] = this.QueuedTicking["Condition"];
+          }
+          else return new Error(`[${this.name}] [component: QueuedTicking] [child: Condition]: expected type {string} instead found {${typeof this.QueuedTicking["Condition"]}}`)
+        }
+        if(this.QueuedTicking["Event"]) {
+          if(typeof this.QueuedTicking["Event"] == "string") {
+            __QueuedTicking["on_tick"]["event"] = this.QueuedTicking["Target"];
+          }
+          else return new Error(`[${this.name}] [component: QueuedTicking] [child: Event]: expected type {string} instead found {${typeof this.QueuedTicking["Event"]}}`)
+        }
+        if(this.QueuedTicking["Target"]) {
+          if(typeof this.QueuedTicking["Target"] == "string") {
+            if(this.QueuedTicking["Target"] == ("self" || "other")) {
+              __QueuedTicking["on_tick"]["target"] = this.QueuedTicking["Target"];
+            }
+            else return new Error(`[${this.name}] [component: QueuedTicking] [child: Target]: expected type {Targets} instead found {${this.QueuedTicking["Target"]}}`)
+          }
+          else return new Error(`[${this.name}] [component: QueuedTicking] [child: Target]: expected type {string} instead found {${typeof this.QueuedTicking["Target"]}}`)
+        }
+        this.__components["minecraft:queued_ticking"] = __QueuedTicking;
+      }
+      else return new Error(`[${this.name}] [component: QueuedTicking]: expected {object} instead found {${typeof this.QueuedTicking}}`)
+    }
     /**
      * @handleRandomTicking
      */
+    if(this.RandomTicking) {
+      if(typeof this.RandomTicking == "object") {
+        let __RandomTicking = {"on_tick":{}}
+        if(this.RandomTicking["Condition"]) {
+          if(typeof this.RandomTicking["Condition"] == "string") {
+            __RandomTicking["on_tick"]["condition"] = this.RandomTicking["Condition"];
+          }
+          else return new Error(`[${this.name}] [component: RandomTicking] [child: Condition]: expected type {string} instead found {${typeof this.RandomTicking["Condition"]}}`)
+        }
+        if(this.RandomTicking["Event"]) {
+          if(typeof this.RandomTicking["Event"] == "string") {
+            __RandomTicking["on_tick"]["event"] = this.RandomTicking["Target"];
+          }
+          else return new Error(`[${this.name}] [component: RandomTicking] [child: Event]: expected type {string} instead found {${typeof this.RandomTicking["Event"]}}`)
+        }
+        if(this.RandomTicking["Target"]) {
+          if(typeof this.RandomTicking["Target"] == "string") {
+            if(this.RandomTicking["Target"] == ("self" || "other")) {
+              __RandomTicking["on_tick"]["target"] = this.RandomTicking["Target"];
+            }
+            else return new Error(`[${this.name}] [component: RandomTicking] [child: Target]: expected type {Targets} instead found {${this.RandomTicking["Target"]}}`)
+          }
+          else return new Error(`[${this.name}] [component: RandomTicking] [child: Target]: expected type {string} instead found {${typeof this.RandomTicking["Target"]}}`)
+        }
+        this.__components["minecraft:random_ticking"] = __RandomTicking;
+      }
+      else return new Error(`[${this.name}] [component: RandomTicking]: expected {object} instead found {${typeof this.RandomTicking}}`)
+    }
     /**
      * @handleStates
      */
