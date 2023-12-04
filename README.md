@@ -17,7 +17,7 @@ BlockRegistry.register(Log)
 class NewLog extends Log {
   static DisplayName = "New Log"
 }
-BlockRegistry.register(Log)
+BlockRegistry.register(NewLog)
 
 ```
 
