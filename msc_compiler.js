@@ -17,7 +17,7 @@ function loadFilesInDir() {
                 const registryParsed = JSON.parse(registry);
                 let filename = registryParsed["minecraft:block"]["description"]["identifier"].split(':')[1];
                 fs.writeFile(filename + ".json",
-                    JSON.stringify(registryParsed, null, 2), function (err, res) {
+                    JSON.stringify(registryParsed), function (err, res) {
                         if (err) throw new Error(err)
                         else return console.log("Created " + filename + ".json")
                     });
