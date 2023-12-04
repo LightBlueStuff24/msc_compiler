@@ -28,6 +28,7 @@ class Block {
   
   static Category;
   static Group;
+  static IsHiddenInCommands;
   static DisplayName;
   static DestroyTime;
   static ExplosionResistance;
@@ -62,6 +63,11 @@ class Block {
   static QueuedTicking;
   static RandomTicking;
   /**
+   * @BlockStatesAndPermutationss
+   */
+   static States;
+   static Permutations;
+  /**
    * @CreatesBlockObject
    */
   static init() {
@@ -87,15 +93,23 @@ class Block {
       }
       else return new Error(`[${this.name}] [component: Group]: expected type {Groups|string} but instead found {${typeof this.Group}}`);
     }
-
+    /**
+     * @handleIsHiddenInCommands
+     */
+    if(this.IsHiddenInCommands) {
+      if(typeof this.IsHiddenInCommands == "boolean") {
+        this.__Data["minecraft:block"]["description"]["menu_category"]["is_hidden_in_commands"] = this.IsHiddenInCommands;
+      }
+      else return new Error(`[${this.name}] [component: IsHiddenInCommands]: expected type {boolean} instead found {${typeof this.IsHiddenInCommands}}`)
+    }
     /**
      * @handleDisplayName
      */
     if (this.DisplayName) {
       if (typeof this.DisplayName == "string") {
         this.__components["minecraft:display_name"] = this.DisplayName;
-      } else
-        return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
+      }
+      else return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
     }
     /**
      * @handleDestroytime
@@ -103,8 +117,8 @@ class Block {
     if (this.DestroyTime) {
       if (typeof this.DestroyTime == "boolean") {
         this.__components["minecraft:destructible_by_mining"] = this.DestroyTime;
-      } else
-      if (typeof this.DestroyTime == "number") {
+      }
+      else if (typeof this.DestroyTime == "number") {
         this.__components["minecraft:destructible_by_mining"] = {
           "seconds_to_destroy": this.DestroyTime,
         }
@@ -116,8 +130,8 @@ class Block {
     if (this.ExplosionResistance) {
       if (typeof this.ExplosionResistance == "boolean") {
         this.__components["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
-      } else 
-      if (typeof this.ExplosionResistance == "number") {
+      }
+      else if (typeof this.ExplosionResistance == "number") {
         this.__components["minecraft:destructible_by_explosion"] = {
           "explosion_resistance": this.ExplosionResistance,
         };
@@ -130,8 +144,10 @@ class Block {
       if (typeof this.Friction == "number") {
         if (isFloat(this.Friction)) {
           this.__components["minecraft:friction"] = this.Friction;
-        } else return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
-      } else return new Error(`[${this.name}] [component: friction]: expected {number} instead found {${typeof this.Friction}}`)
+        }
+        else return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
+      }
+      else return new Error(`[${this.name}] [component: friction]: expected {number} instead found {${typeof this.Friction}}`)
     }
     /**
      * @handleFlammable
@@ -603,9 +619,130 @@ class Block {
     /**
      * @handleQueuedTicking
      */
+    if(this.QueuedTicking) {
+      if(typeof this.QueuedTicking == "object") {
+        let __QueuedTicking = {"on_tick":{}}
+        if(this.QueuedTicking["Looping"]) {
+          if(typeof this.QueuedTicking["Looping"] == "boolean") {
+            __QueuedTicking["looping"] = this.QueuedTicking["Looping"];
+          }
+          else return new Error(`[${this.name}] [component: QueuedTicking] [child: Looping]: expected type {boolean} instead found {${typeof this.QueuedTicking["Looping"]}}`)
+        }
+        if(this.QueuedTicking["IntervalRange"]) {
+          if(typeof this.QueuedTicking["IntervalRange"] != ("string" || "object" || "boolean" || "number" || "Function")) {
+            this.QueuedTicking["IntervalRange"].forEach(r=>{
+              if(typeof r == "number") {
+                __QueuedTicking["condition"] = this.QueuedTicking["IntervalRange"];
+              }
+              else return  new Error(`[${this.name}] [component: QueuedTicking] [child: IntervalRange]: expected type {number} instead found {${typeof this.QueuedTicking["IntervalRange"]}}`)
+            })
+          }
+          else return new Error(`[${this.name}] [component: QueuedTicking] [child: IntervalRange]: expected type {number[]} instead found {${typeof this.QueuedTicking["Condition"]}}`)
+        }
+        if(this.QueuedTicking["Condition"]) {
+          if(typeof this.QueuedTicking["Condition"] == "string") {
+            __QueuedTicking["on_tick"]["condition"] = this.QueuedTicking["Condition"];
+          }
+          else return new Error(`[${this.name}] [component: QueuedTicking] [child: Condition]: expected type {string} instead found {${typeof this.QueuedTicking["Condition"]}}`)
+        }
+        if(this.QueuedTicking["Event"]) {
+          if(typeof this.QueuedTicking["Event"] == "string") {
+            __QueuedTicking["on_tick"]["event"] = this.QueuedTicking["Target"];
+          }
+          else return new Error(`[${this.name}] [component: QueuedTicking] [child: Event]: expected type {string} instead found {${typeof this.QueuedTicking["Event"]}}`)
+        }
+        if(this.QueuedTicking["Target"]) {
+          if(typeof this.QueuedTicking["Target"] == "string") {
+            if(this.QueuedTicking["Target"] == ("self" || "other")) {
+              __QueuedTicking["on_tick"]["target"] = this.QueuedTicking["Target"];
+            }
+            else return new Error(`[${this.name}] [component: QueuedTicking] [child: Target]: expected type {Targets} instead found {${this.QueuedTicking["Target"]}}`)
+          }
+          else return new Error(`[${this.name}] [component: QueuedTicking] [child: Target]: expected type {string} instead found {${typeof this.QueuedTicking["Target"]}}`)
+        }
+        this.__components["minecraft:queued_ticking"] = __QueuedTicking;
+      }
+      else return new Error(`[${this.name}] [component: QueuedTicking]: expected {object} instead found {${typeof this.QueuedTicking}}`)
+    }
     /**
      * @handleRandomTicking
      */
+    if(this.RandomTicking) {
+      if(typeof this.RandomTicking == "object") {
+        let __RandomTicking = {"on_tick":{}}
+        if(this.RandomTicking["Condition"]) {
+          if(typeof this.RandomTicking["Condition"] == "string") {
+            __RandomTicking["on_tick"]["condition"] = this.RandomTicking["Condition"];
+          }
+          else return new Error(`[${this.name}] [component: RandomTicking] [child: Condition]: expected type {string} instead found {${typeof this.RandomTicking["Condition"]}}`)
+        }
+        if(this.RandomTicking["Event"]) {
+          if(typeof this.RandomTicking["Event"] == "string") {
+            __RandomTicking["on_tick"]["event"] = this.RandomTicking["Target"];
+          }
+          else return new Error(`[${this.name}] [component: RandomTicking] [child: Event]: expected type {string} instead found {${typeof this.RandomTicking["Event"]}}`)
+        }
+        if(this.RandomTicking["Target"]) {
+          if(typeof this.RandomTicking["Target"] == "string") {
+            if(this.RandomTicking["Target"] == ("self" || "other")) {
+              __RandomTicking["on_tick"]["target"] = this.RandomTicking["Target"];
+            }
+            else return new Error(`[${this.name}] [component: RandomTicking] [child: Target]: expected type {Targets} instead found {${this.RandomTicking["Target"]}}`)
+          }
+          else return new Error(`[${this.name}] [component: RandomTicking] [child: Target]: expected type {string} instead found {${typeof this.RandomTicking["Target"]}}`)
+        }
+        this.__components["minecraft:random_ticking"] = __RandomTicking;
+      }
+      else return new Error(`[${this.name}] [component: RandomTicking]: expected {object} instead found {${typeof this.RandomTicking}}`)
+    }
+    /**
+     * @handleStates
+     */
+    if(this.States) {
+      if(typeof this.States == "object") {
+        let __States = {}
+        for(let [state, values] of Object.entries(this.States)) {
+          if(typeof state == "string") {
+            let stateName = `${c["prefix"]}:${state}`
+            __States[stateName] = [];
+            values.forEach(v=> {
+              if(typeof values == ("boolean" || "number")) {
+                __States[stateName].push(v)
+              }
+              else return new Error(`[${this.name}] [property: States] [name: ${stateName}]: expected type {string[]|number[]|boolean[]} instead found ${typeof v}`)
+            })
+          }
+          else return new Error(`[${this.name}] [property: States] [name: ${state}]: expected type {string} instead found ${typeof state}`)
+        }
+        this.__Data["minecraft:block"]["description"]["states"] = __States;
+      }
+      else return new Error(`[${this.name}] [property: States]: expected type {object} instead found ${typeof this.States}`)
+    }
+    /**
+     * @handlePermutations
+     */
+    if(this.Permutations) {
+      if(typeof this.Permutations != ("object" || "string" || "boolean" || "number" || "Function")) {
+        let __Permutations = []
+        this.Permutations.forEach((p, i) => {
+          let perm = {}
+          let permc = perm["components"] = {}
+          if(p["Condition"]) {
+            if(typeof p["Condition"] == "string") {
+              perm["condition"] = p["Condition"];
+            }
+            else return new Error(`[${this.name}] [property: Permutations] [index: ${i}] [prop: Condition]: expected type {string} instead found {${typeof p["Condition"]}}`)
+          }
+          for(let [key, val] of Object.entries(p)) {
+            permc[key.toLowerCase()] = val
+          }
+          __Permutations.push(perm)
+        })
+        this.__Data["minecraft:block"]["permutations"] = __Permutations;
+      }
+      else return new Error(`[${this.name}] [property: Permutations]: expected type {object[]} instead found {${typeof this.Permutations}}`)
+    }
+    
     
     return JSON.stringify(this.__Data);
   }
