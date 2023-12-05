@@ -13,23 +13,24 @@
 - `RenderMethod: string`
 - `FaceDimming: boolean`
 - `AmbientOcclusion: boolean`
-- `Geometry: string`
-- `BoneVisibility: object`
 - `LightEmmision: number`
 - `LightAbsorption: number`
+- `Geometry: string`
+- `BoneVisibility: object`
 - `Loot: string`
 - `MapColor: string|number[]`
 - `PlacementFilter: object`
 - `Transformation: object`
-- `QueuedTicking: object`
-- `RandomTicking: object`
+- `CollisionBox: object`
+- `SelectionBox: object`
+
 - `OnStepOn: object`
 - `OnStepOff: object`
 - `OnFallOn: object`
 - `OnInteract: object`
+- `OnPlaced: object`
 - `OnPlayerPlacing: object`
 - `OnPlayerDestroyed: object`
-- `OnPlaced: object`
-
-
+- `QueuedTicking: object`
+- `RandomTicking: object`
 
