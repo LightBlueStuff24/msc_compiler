@@ -76,78 +76,54 @@ class Block {
      * @handleCategory
      */
     if (this.Category) {
-      if (typeof this.Category == "string") {
-        if(validCategories.has(this.Category)) {
-          this.__Data["minecraft:block"]["description"]["menu_category"]["category"] = this.Category;
-        } 
-        else return new Error(`[${this.name}] [component: Category]: expected type {Categorys} instead found {${this.Category}}`);
-      }
-      else return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
+      if (typeof this.Category != "string") return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
+      if(!validCategories.has(this.Category)) return new Error(`[${this.name}] [component: Category]: expected type {Categorys} instead found {${this.Category}}`);
+      this.__Data["minecraft:block"]["description"]["menu_category"]["category"] = this.Category;
     }
     /**
      * @handleGroup
      */
     if (this.Group) {
-      if (typeof this.Group=="string") {
-        this.__Data["minecraft:block"]["description"]["menu_category"]["group"] = this.Group;
-      }
-      else return new Error(`[${this.name}] [component: Group]: expected type {Groups|string} but instead found {${typeof this.Group}}`);
+      if (typeof this.Group != "string") return new Error(`[${this.name}] [component: Group]: expected type {Groups|string} but instead found {${typeof this.Group}}`);
+       this.__Data["minecraft:block"]["description"]["menu_category"]["group"] = this.Group;
     }
     /**
      * @handleIsHiddenInCommands
      */
     if(this.IsHiddenInCommands) {
-      if(typeof this.IsHiddenInCommands == "boolean") {
-        this.__Data["minecraft:block"]["description"]["menu_category"]["is_hidden_in_commands"] = this.IsHiddenInCommands;
-      }
-      else return new Error(`[${this.name}] [component: IsHiddenInCommands]: expected type {boolean} instead found {${typeof this.IsHiddenInCommands}}`)
+      if(typeof this.IsHiddenInCommands != "boolean") return new Error(`[${this.name}] [component: IsHiddenInCommands]: expected type {boolean} instead found {${typeof this.IsHiddenInCommands}}`)
+      this.__Data["minecraft:block"]["description"]["menu_category"]["is_hidden_in_commands"] = this.IsHiddenInCommands;
     }
     /**
      * @handleDisplayName
      */
     if (this.DisplayName) {
-      if (typeof this.DisplayName == "string") {
-        this.__components["minecraft:display_name"] = this.DisplayName;
-      }
-      else return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
+      if (typeof this.DisplayName != "string") return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
+      this.__components["minecraft:display_name"] = this.DisplayName;
     }
     /**
      * @handleDestroytime
      */
     if (this.DestroyTime) {
-      if (typeof this.DestroyTime == "boolean") {
-        this.__components["minecraft:destructible_by_mining"] = this.DestroyTime;
-      }
-      else if (typeof this.DestroyTime == "number") {
-        this.__components["minecraft:destructible_by_mining"] = {
-          "seconds_to_destroy": this.DestroyTime,
-        }
-      } else return new Error(`[${this.name}] [component: DestroyTime]: expected type {boolean|integer} instead found {${typeof this.DestroyTime}}`)
+      if (typeof this.DestroyTime == "boolean") this.__components["minecraft:destructible_by_mining"] = this.DestroyTime;
+      else if (typeof this.DestroyTime == "number") this.__components["minecraft:destructible_by_mining"] = {"seconds_to_destroy": this.DestroyTime}
+      else return new Error(`[${this.name}] [component: DestroyTime]: expected type {boolean|integer} instead found {${typeof this.DestroyTime}}`)
     }
     /**
      * @handleExplosionResistance
      */
     if (this.ExplosionResistance) {
-      if (typeof this.ExplosionResistance == "boolean") {
-        this.__components["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
-      }
-      else if (typeof this.ExplosionResistance == "number") {
-        this.__components["minecraft:destructible_by_explosion"] = {
-          "explosion_resistance": this.ExplosionResistance,
-        };
-      } else return new Error(`[${this.name}] [component: ExplosionResistance]: expected type {boolean|integer} instead found {${typeof this.ExplosionResistance}}`)
+      if (typeof this.ExplosionResistance == "boolean") this.__components["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
+      else if (typeof this.ExplosionResistance == "number") this.__components["minecraft:destructible_by_explosion"] = {"explosion_resistance": this.ExplosionResistance};
+      else return new Error(`[${this.name}] [component: ExplosionResistance]: expected type {boolean|integer} instead found {${typeof this.ExplosionResistance}}`)
     }
     /**
      * @handleFriction
      */
     if (this.Friction) {
-      if (typeof this.Friction == "number") {
-        if (isFloat(this.Friction)) {
-          this.__components["minecraft:friction"] = this.Friction;
-        }
-        else return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
-      }
-      else return new Error(`[${this.name}] [component: friction]: expected {number} instead found {${typeof this.Friction}}`)
+      if (typeof this.Friction != "number") return new Error(`[${this.name}] [component: friction]: expected {number} instead found {${typeof this.Friction}}`)
+      if (!isFloat(this.Friction)) return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
+      this.__components["minecraft:friction"] = this.Friction;
     }
     /**
      * @handleFlammable
@@ -155,16 +131,12 @@ class Block {
     if (this.CatchChanceModifier || this.DestroyChanceModifier) {
       let __Flammable = this.__Data["minecraft:block"]["components"]["minecraft:flammable"] = {}
       if (this.CatchChanceModifier) {
-        if (typeof this.CatchChanceModifier == "number") {
-          __Flammable["catch_chance_modifier"] = this.CatchChanceModifier;
-        }
-        else return new Error(`[${this.name}] [component: CatchChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
+        if (typeof this.CatchChanceModifier != "number") return new Error(`[${this.name}] [component: CatchChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
+        __Flammable["catch_chance_modifier"] = this.CatchChanceModifier;
       }
       if (this.DestroyChanceModifier) {
-        if (typeof this.DestroyChanceModifier == "number") {
-          __Flammable["destory_chance_modifier"] = thid.DestroyChanceModifier;
-        }
-        else return new Error(`[${this.name}] [component: DestroyChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
+        if (typeof this.DestroyChanceModifier != "number") return new Error(`[${this.name}] [component: DestroyChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
+        __Flammable["destory_chance_modifier"] = thid.DestroyChanceModifier;
       }
     }
     /**
@@ -173,31 +145,21 @@ class Block {
     if (this.Texture || this.RenderMethod || this.FaceDimming || this.AmbientOcclusion) {
       let __MaterialInstances = {}
       if (this.Texture) {
-        if (typeof this.Texture == "string") {
-          __MaterialInstances["texture"] = this.Texture;
-        }
-        else return new Error(`[${this.name}] [component: Texture]: expected {string} instead found {${typeof this.Texture}}`)
+        if (typeof this.Texture != "string") return new Error(`[${this.name}] [component: Texture]: expected {string} instead found {${typeof this.Texture}}`)
+        __MaterialInstances["texture"] = this.Texture;
       }
       if(this.RenderMethod) {
-        if(typeof this.RenderMethod == "string") {
-          if(this.RenderMethod == ("opaque"||"blend"||"alpha_test"||"double_sided")) {
-            __MaterialInstances["render_method"] = this.RenderMethod;
-          }
-          else return new Error(`[${this.name}] [component: RenderMethod]: expected type {RenderMethod} but found {${this.RenderMethod}}`)
-        }
-        else return new Error(`[${this.name}] [component: RenderMethod]: expected {string} instead found {${typeof this.RenderMethod}}`)
+        if(typeof this.RenderMethod != "string") return new Error(`[${this.name}] [component: RenderMethod]: expected {string} instead found {${typeof this.RenderMethod}}`)
+        if(this.RenderMethod == ("opaque"||"blend"||"alpha_test"||"double_sided")) return new Error(`[${this.name}] [component: RenderMethod]: expected type {RenderMethod} but found {${this.RenderMethod}}`)
+        __MaterialInstances["render_method"] = this.RenderMethod;
       }
       if(this.FaceDimming) {
-        if(typeof this.FaceDimming == "boolean") {
-          __MaterialInstances["face_dimming"] = this.FaceDimming;
-        }
-        else return new Error(`[${this.name}] [component: FaceDimming]: expected {boolean} instead found {${typeof this.FaceDimming}}`)
+        if(typeof this.FaceDimming == "boolean") return new Error(`[${this.name}] [component: FaceDimming]: expected {boolean} instead found {${typeof this.FaceDimming}}`)
+        __MaterialInstances["face_dimming"] = this.FaceDimming;
       }
       if(this.AmbientOcclusion) {
-        if(typeof this.AmbientOcclusion == "boolean") {
-          __MaterialInstances["ambient_occlusion"] = this.AmbientOcclusion;
-        }
-        else return new Error(`[${this.name}] [component: AmbientOcclusion]: expected {boolean} instead found {${typeof this.AmbientOcclusion}}`)
+        if(typeof this.AmbientOcclusion == "boolean") return new Error(`[${this.name}] [component: AmbientOcclusion]: expected {boolean} instead found {${typeof this.AmbientOcclusion}}`)
+        __MaterialInstances["ambient_occlusion"] = this.AmbientOcclusion;
       }
       this.__components["minecraft:material_instances"] = __MaterialInstances;
     }
@@ -205,46 +167,35 @@ class Block {
      * @handleBlockLightEmmision
      */
     if(this.LightEmmision){
-      if(typeof this.LightEmmision == "number") {
-        this.__components["minecraft:block_light_emmision"] = this.LightEmmision;
-      }
-      else return new Error(`[${this.name}] [component: LightEmmision]: expected {number} instead found {${typeof this.LightEmmision}}`)
+      if(typeof this.LightEmmision != "number") return new Error(`[${this.name}] [component: LightEmmision]: expected {number} instead found {${typeof this.LightEmmision}}`)
+      this.__components["minecraft:light_emmision"] = this.LightEmmision;
     }
     /**
      * @handleBlockLightDampening
      */
     if(this.LightDampening){
-      if(typeof this.LightDampening == "number") {
-        this.__components["minecraft:block_light_dampening"] = this.LightDampening;
-      }
-      else return new Error(`[${this.name}] [component: LightDampening]: expected {number} instead found {${typeof this.LightDampening}}`)
+      if(typeof this.LightDampening != "number") return new Error(`[${this.name}] [component: LightDampening]: expected {number} instead found {${typeof this.LightDampening}}`)
+      this.__components["minecraft:light_dampening"] = this.LightDampening;
     }
     /**
      * @handleGeometry
      */
     if(this.Geometry || this.BoneVisibility) {
       if(this.Geometry) {
-        if(typeof this.Geometry == "string") {
-          this.__components["minecraft:geometry"] = {
-            "identifier": this.Geometry
-          }
-        }
-        else return new Error(`[${this.name}] [component: Geometry]: expected {string} instead found {${typeof this.Geometry}}`)
+        if(typeof this.Geometry != "string") return new Error(`[${this.name}] [component: Geometry]: expected {string} instead found {${typeof this.Geometry}}`)
+        this.__components["minecraft:geometry"] = {"identifier": this.Geometry}
       }
       if(this.BoneVisibility) {
         if(!this.Geometry) return new Error(`[${this.name}] [component: BoneVisibility]: using BoneVisibility needs a geometry component.`)
-        if(typeof this.BoneVisibility == "object") {
-          for(const [bone, value] of this.BoneVisibility) {
-            if(typeof bone == "string" && typeof value == ("string"||"boolean")) {
-              this.__components["minecraft:geometry"]["bone_visibility"] = { bone: value }
-            }
-            if(typeof bone != "string") return new Error(`[${this.name}] [component: bone_visibility] [child: ${bone}]: expected {string} instead found {${typeof bone}}`)
-            if(typeof value != ("string" || "boolean")) return new Error(`[${this.name}] [component: bone_visibility] [child: ${value}]: expected {string} or boolean instead found {${typeof value}}`)
-          }
+        if(typeof this.BoneVisibility != "object") return new Error(`[${this.name}] [component: BoneVisibility]: expected {object} instead found {${typeof this.BoneVisibility}}`)
+        for(const [bone, value] of this.BoneVisibility) {
+          if(typeof bone != "string") return new Error(`[${this.name}] [component: bone_visibility] [child: ${bone}]: expected {string} instead found {${typeof bone}}`)
+          if(typeof value != ("string" || "boolean")) return new Error(`[${this.name}] [component: bone_visibility] [child: ${value}]: expected {string} or boolean instead found {${typeof value}}`)
+          this.__components["minecraft:geometry"]["bone_visibility"] = { bone: value }
         }
-        else return new Error(`[${this.name}] [component: BoneVisibility]: expected {object} instead found {${typeof this.BoneVisibility}}`)
       }
     }
+    // TODO: From here
     /**
      * @handlePlacementFilter
      */
@@ -402,227 +353,32 @@ class Block {
     /**
      * @handleOnStepOn
      */
-    if(this.OnStepOn) {
-      if(typeof this.OnStepOn == "object") {
-        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
-        let __OnStepOn = {}
-        if(this.OnStepOn["Condition"]) {
-          if(typeof this.OnStepOn["Condition"] == "string") {
-            __OnStepOn["condition"] = this.OnStepOn["Condition"];
-          }
-          else return new Error(`[${this.name}] [component: OnStepOn] [child: Condition]: expected type {string} instead found {${typeof this.OnStepOn["Condition"]}}`)
-        }
-        if(this.OnStepOn["Event"]) {
-          if(typeof this.OnStepOn["Event"] == "string") {
-            __OnStepOn["event"] = this.OnStepOn["Event"];
-          }
-          else return new Error(`[${this.name}] [component: OnStepOn] [child: Event]: expected type {string} instead found {${typeof this.OnStepOn["Event"]}}`)
-        }
-        if(this.OnStepOn["Target"]) {
-          if(typeof this.OnStepOn["Target"] == "string") {
-            if(this.OnStepOn["Target"] == ("self" || "other")) {
-              __OnStepOn["target"] = this.OnStepOn["Target"];
-            }
-            else return new Error(`[${this.name}] [component: OnStepOn] [child: Target]: expected type {Targets} instead found {${this.OnStepOn["Target"]}}`)
-          }
-          else return new Error(`[${this.name}] [component: OnStepOn] [child: Target]: expected type {string} instead found {${typeof this.OnStepOn["Target"]}}`)
-        }
-        this.__components["minecraft:on_step_on"] = __OnStepOn;
-      }
-      else return new Error(`[${this.name}] [component: OnStepOn]: expected {object} instead found {${typeof this.OnStepOn}}`)
-    }
+    if(this.OnStepOn) {this.__components["minecraft:on_step_on"] = BlockEventTriggerHandler(this.OnStepOn, this.__Data, "OnStepOn")}
     /**
      * @handleOnStepOff
      */
-    if(this.OnStepOff) {
-      if(typeof this.OnStepOff == "object") {
-        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
-        let __OnStepOff = {}
-        if(this.OnStepOff["Condition"]) {
-          if(typeof this.OnStepOff["Condition"] == "string") {
-            __OnStepOff["condition"] = this.OnStepOff["Condition"]
-          }
-          else return new Error(`[${this.name}] [component: OnStepOff] [child: Condition]: expected type {string} instead found {${typeof this.OnStepOff["Condition"]}}`)
-        }
-        if(this.OnStepOff["Event"]) {
-          if(typeof this.OnStepOff["Event"] == "string") {
-            __OnStepOff["event"] = this.OnStepOff["Event"]
-          }
-          else return new Error(`[${this.name}] [component: OnStepOff] [child: Event]: expected type {string} instead found {${typeof this.OnStepOff["Event"]}}`)
-        }
-        if(this.OnStepOff["Target"]) {
-          if(typeof this.OnStepOff["Target"] == "string") {
-            if(this.OnStepOff["Target"] == ("self" || "other")) {
-              __OnStepOff["target"] = this.OnStepOff["Target"]
-            }
-            else return new Error(`[${this.name}] [component: OnStepOff] [child: Target]: expected type {Targets} instead found {${this.OnStepOff["Target"]}}`)
-          }
-          else return new Error(`[${this.name}] [component: OnStepOff] [child: Target]: expected type {string} instead found {${typeof this.OnStepOff["Target"]}}`)
-        }
-        this.__components["minecraft:on_step_off"] = __OnStepOff;
-      }
-      else return new Error(`[${this.name}] [component: OnStepOff]: expected {object} instead found {${typeof this.OnStepOn}}`)
-    }
+    if(this.OnStepOff) {this.__components["minecraft:on_step_off"] = BlockEventTriggerHandler(this.OnStepOff, this.__Data, "OnStepOff")}
     /**
      * @handleOnFallOn
      */
-    if(this.OnFallOn) {
-      if(typeof this.OnFallOn == "object") {
-        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
-        let __OnFallOn = {}
-        if(this.OnFallOn["Condition"]) {
-          if(typeof this.OnFallOn["Condition"] == "string") {
-            __OnFallOn["condition"] = this.OnFallOn["Condition"];
-          }
-          else return new Error(`[${this.name}] [component: OnFallOn] [child: Condition]: expected type {string} instead found {${typeof this.OnFallOn["Condition"]}}`)
-        }
-        if(this.OnFallOn["Event"]) {
-          if(typeof this.OnFallOn["Event"] == "string") {
-            __OnFallOn["event"] = this.OnFallOn["Target"];
-          }
-          else return new Error(`[${this.name}] [component: OnFallOn] [child: Event]: expected type {string} instead found {${typeof this.OnFallOn["Event"]}}`)
-        }
-        if(this.OnFallOn["Target"]) {
-          if(typeof this.OnFallOn["Target"] == "string") {
-            if(this.OnFallOn["Target"] == ("self" || "other")) {
-              __OnFallOn["target"] = this.OnFallOn["Target"];
-            }
-            else return new Error(`[${this.name}] [component: OnFallOn] [child: Target]: expected type {Targets} instead found {${this.OnFallOn["Target"]}}`)
-          }
-          else return new Error(`[${this.name}] [component: OnFallOn] [child: Target]: expected type {string} instead found {${typeof this.OnFallOn["Target"]}}`)
-        }
-        this.__components["minecraft:on_fall_on"] = __OnFallOn;
-      }
-      else return new Error(`[${this.name}] [component: OnFallOn]: expected {object} instead found {${typeof this.OnFallOn}}`)
-    }
+    if(this.OnFallOn) {this.__components["minecraft:on_fall_on"] = BlockEventTriggerHandler(this.OnFallOn, this.__Data, "OnFallOn")}
     /**
      * @handleOnPlayerPlacing
      */
-    if(this.OnPlayerPlacing) {
-      if(typeof this.OnPlayerPlacing == "object") {
-        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
-        let __OnPlayerPlacing = {}
-        if(this.OnPlayerPlacing["Condition"]) {
-          if(typeof this.OnPlayerPlacing["Condition"] == "string") {
-            __OnPlayerPlacing["condition"] = this.OnPlayerPlacing["Condition"];
-          }
-          else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Condition]: expected type {string} instead found {${typeof this.OnPlayerPlacing["Condition"]}}`)
-        }
-        if(this.OnPlayerPlacing["Event"]) {
-          if(typeof this.OnPlayerPlacing["Event"] == "string") {
-            __OnPlayerPlacing["event"] = this.OnPlayerPlacing["Target"];
-          }
-          else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Event]: expected type {string} instead found {${typeof this.OnPlayerPlacing["Event"]}}`)
-        }
-        if(this.OnPlayerPlacing["Target"]) {
-          if(typeof this.OnPlayerPlacing["Target"] == "string") {
-            if(this.OnPlayerPlacing["Target"] == ("self" || "other")) {
-              __OnPlayerPlacing["target"] = this.OnPlayerPlacing["Target"];
-            }
-            else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Target]: expected type {Targets} instead found {${this.OnPlayerPlacing["Target"]}}`)
-          }
-          else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Target]: expected type {string} instead found {${typeof this.OnPlayerPlacing["Target"]}}`)
-        }
-        this.__components["minecraft:on_player_placing"] = __OnPlayerPlacing;
-      }
-      else return new Error(`[${this.name}] [component: OnPlayerPlacing]: expected {object} instead found {${typeof this.OnPlayerPlacing}}`)
-    }
+    if(this.OnPlayerPlacing) {this.__components["minecraft:on_player_placing"] = BlockEventTriggerHandler(this.OnPlayerPlacing, this.__Data, "OnPlayerPlacing")}
     /**
      * @handleOnPlayerDestroyeded
      */
-    if(this.OnPlayerDestroyed) {
-      if(typeof this.OnPlayerDestroyed == "object") {
-        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
-        let __OnPlayerDestroyed = {}
-        if(this.OnPlayerDestroyed["Condition"]) {
-          if(typeof this.OnPlayerDestroyed["Condition"] == "string") {
-            __OnPlayerDestroyed["condition"] = this.OnPlayerDestroyed["Condition"];
-          }
-          else return new Error(`[${this.name}] [component: OnPlayerDestroyed] [child: Condition]: expected type {string} instead found {${typeof this.OnPlayerDestroyed["Condition"]}}`)
-        }
-        if(this.OnPlayerDestroyed["Event"]) {
-          if(typeof this.OnPlayerDestroyed["Event"] == "string") {
-            __OnPlayerDestroyed["event"] = this.OnPlayerDestroyed["Target"];
-          }
-          else return new Error(`[${this.name}] [component: OnPlayerDestroyed] [child: Event]: expected type {string} instead found {${typeof this.OnPlayerDestroyed["Event"]}}`)
-        }
-        if(this.OnPlayerDestroyed["Target"]) {
-          if(typeof this.OnPlayerDestroyed["Target"] == "string") {
-            if(this.OnPlayerDestroyed["Target"] == ("self" || "other")) {
-              __OnPlayerDestroyed["target"] = this.OnPlayerDestroyed["Target"];
-            }
-            else return new Error(`[${this.name}] [component: OnPlayerDestroyed] [child: Target]: expected type {Targets} instead found {${this.OnPlayerDestroyed["Target"]}}`)
-          }
-          else return new Error(`[${this.name}] [component: OnPlayerDestroyed] [child: Target]: expected type {string} instead found {${typeof this.OnPlayerDestroyed["Target"]}}`)
-        }
-        this.__components["minecraft:on_player_destroyed"] = __OnPlayerDestroyed;
-      }
-      else return new Error(`[${this.name}] [component: OnPlayerDestroyed]: expected {object} instead found {${typeof this.OnPlayerDestroyed}}`)
-    }
+    if(this.OnPlayerDestroyed) {this.__components["minecraft:on_player_destroyed"] = BlockEventTriggerHandler(this.OnPlayerDestroyed, this.__Data, "OnPlayerDestroyed");}
     /**
      * @handleOnPlaced
      */
-    if(this.OnPlaced) {
-      if(typeof this.OnPlaced == "object") {
-        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
-        let __OnPlaced = {}
-        if(this.OnPlaced["Condition"]) {
-          if(typeof this.OnPlaced["Condition"] == "string") {
-            __OnPlaced["condition"] = this.OnPlaced["Condition"];
-          }
-          else return new Error(`[${this.name}] [component: OnPlaced] [child: Condition]: expected type {string} instead found {${typeof this.OnPlaced["Condition"]}}`)
-        }
-        if(this.OnPlaced["Event"]) {
-          if(typeof this.OnPlaced["Event"] == "string") {
-            __OnPlaced["event"] = this.OnPlaced["Target"];
-          }
-          else return new Error(`[${this.name}] [component: OnPlaced] [child: Event]: expected type {string} instead found {${typeof this.OnPlaced["Event"]}}`)
-        }
-        if(this.OnPlaced["Target"]) {
-          if(typeof this.OnPlaced["Target"] == "string") {
-            if(this.OnPlaced["Target"] == ("self" || "other")) {
-              __OnPlaced["target"] = this.OnPlaced["Target"];
-            }
-            else return new Error(`[${this.name}] [component: OnPlaced] [child: Target]: expected type {Targets} instead found {${this.OnPlaced["Target"]}}`)
-          }
-          else return new Error(`[${this.name}] [component: OnPlaced] [child: Target]: expected type {string} instead found {${typeof this.OnPlaced["Target"]}}`)
-        }
-        this.__components["minecraft:on_placed"] = __OnPlaced;
-      }
-      else return new Error(`[${this.name}] [component: OnPlaced]: expected {object} instead found {${typeof this.OnPlaced}}`)
-    }
+    if(this.OnPlaced) {this.__components["minecraft:on_placed"] = BlockEventTriggerHandler(this.OnPlaced, this.__Data, "OnPlaced");}
     /**
      * @handleOnInteract
      */
-    if(this.OnInteract) {
-      if(typeof this.OnInteract == "object") {
-        if(!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
-        let __OnInteract = {}
-        if(this.OnInteract["Condition"]) {
-          if(typeof this.OnInteract["Condition"] == "string") {
-            __OnInteract["condition"] = this.OnInteract["Condition"];
-          }
-          else return new Error(`[${this.name}] [component: OnInteract] [child: Condition]: expected type {string} instead found {${typeof this.OnInteract["Condition"]}}`)
-        }
-        if(this.OnInteract["Event"]) {
-          if(typeof this.OnInteract["Event"] == "string") {
-            __OnInteract["event"] = this.OnInteract["Target"];
-          }
-          else return new Error(`[${this.name}] [component: OnInteract] [child: Event]: expected type {string} instead found {${typeof this.OnInteract["Event"]}}`)
-        }
-        if(this.OnInteract["Target"]) {
-          if(typeof this.OnInteract["Target"] == "string") {
-            if(this.OnInteract["Target"] == ("self" || "other")) {
-              __OnInteract["target"] = this.OnInteract["Target"];
-            }
-            else return new Error(`[${this.name}] [component: OnInteract] [child: Target]: expected type {Targets} instead found {${this.OnInteract["Target"]}}`)
-          }
-          else return new Error(`[${this.name}] [component: OnInteract] [child: Target]: expected type {string} instead found {${typeof this.OnInteract["Target"]}}`)
-        }
-        this.__components["minecraft:on_interact"] = __OnInteract;
-      }
-      else return new Error(`[${this.name}] [component: OnInteract]: expected {object} instead found {${typeof this.OnInteract}}`)
-    }
+    if(this.OnInteract) {this.__components["minecraft:on_interact"] = BlockEventTriggerHandler(this.OnInteract, this.__Data, "OnInteract");}
+    // TODO: add BlockEventTriggerHandler
     /**
      * @handleQueuedTicking
      */

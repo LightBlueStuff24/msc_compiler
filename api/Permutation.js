@@ -48,7 +48,7 @@ class PermutationComponent {
   static QueuedTicking;
   static RandomTicking;
 
-  static int(){
+  static init(){
    /**
      * @handleDisplayName
      */
