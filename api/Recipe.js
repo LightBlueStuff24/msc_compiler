@@ -51,7 +51,7 @@ class ShapedRecipe {
       this.__Data["minecraft:recipe_shaped"]["unlocks"]=[]
       this.Unlocks.forEach((u, i)=>{
         if(typeof u != "string") return new Error(`[${this.name}] [propetry: Unlocks] index: ${i}]: expected type {string} instead found {${typeof u}}`)
-        this.__Data["unlocks"].push({"item": u})
+        this.__Data["minecraft:recipe_shaped"]["unlocks"].push({"item": u})
       })
     }
     /**
@@ -61,12 +61,19 @@ class ShapedRecipe {
       if(typeof this.Results == ("string"||"boolean"||"number"||"object"||"Function")) return new Error(`[${this.name}] [propetry: Results]: expected type {string[]} instead found {${typeof this.Results}}`)
       this.__Data["minecraft:recipe_shaped"]["results"]=[]
       this.Results.forEach((u, i)=>{
-        if(typeof u != "object") return new Error(`[${this.name}] [propetry: Results] [[index: ${i}]: expected type {string} instead found {${typeof u}}`)
+        if(typeof u != "object") return new Error(`[${this.name}] [propetry: Results] [[index: ${i}]: expected type {object} instead found {${typeof u}}`)
         if(typeof u["Item"] != "string") return new Error(`[${this.name}] [propetry: Results] [index: ${i}] [child: Item]: expected type {string} instead found {${typeof u["Item"]}}`)
         if(!u["Count"]) u["Count"] = 1;
-        if(typeof u["Count"] != "number") return new Error(`[${this.name}] [propetry: Results] [index: ${i}] [child: Count]: expected type {string} instead found {${typeof u["Count"]}}`)
+        if(typeof u["Count"] != "number") return new Error(`[${this.name}] [propetry: Results] [index: ${i}] [child: Count]: expected type {number} instead found {${typeof u["Count"]}}`)
         this.__Data["minecraft:recipe_shaped"]["results"].push({"item": u["Item"], "count": u["Count"]})
       })
+    }
+    /**
+     * @handlePriority
+     */
+    if(this.Priority) {
+      if(typeof this.Priority != "number") return new Error(`[${this.name}] [propetry: Priority]: expected type {number} instead found {${typeof this.Priority}}`)
+      this.__Data["minecraft:recipe_shaped"]["priority"] = this.Priority;
     }
     
     return JSON.stringify(this.__Data);
