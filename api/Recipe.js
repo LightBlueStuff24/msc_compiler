@@ -44,6 +44,17 @@ class ShapedRecipe {
       })
     }
     /**
+     * @handdleKeys
+     */
+    if(this.Keys) {
+      if(typeof this.Keys != "object") return new Error(`[${this.name}] [propetry: Keys]: expected type {object} instead found {${typeof this.Keys}}`)
+      for(const [key, value] of Object.entries(this.Keys)) {
+        if(typeof key != "string") return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected type {string} instead found {${typeof key}}`)
+        if(typeof value !=  "string") return new Error(`[${this.name}] [propetry: Keys] [child: ${key}] [value: ${value}]: expected type {string} instead found {${typeof value}}`)
+        this.__Data["minecraft:recipe_shaped"]["keys"][key] = value;
+      }
+    }
+    /**
      * @handleUnlocks
      */
     if(this.Unlocks) {
