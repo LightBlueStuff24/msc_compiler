@@ -2,7 +2,7 @@
 ### Block Components:
 
 - [Category](#Category)
-- `Group: string`
+- [Group](#Group)
 - `DisplayName: string`
 - `DestroyTime: boolean|number`
 - `ExplosionResistance: boolean|number`
@@ -34,10 +34,22 @@
 - `QueuedTicking: object`
 - `RandomTicking: object`
 
-# Components:
+## Components:
 * ## Category
-  `Block.Category: string`
-  example
+  Component: `Category: string`
+  BlockComponent:
+  ```json
+  "menu_category": {
+    "category": "construction"
+  }
+  ```
+  example usage:
   ```javascript
   static Category = "construction"
+  ```
+* ## Group
+  `Group: string|GroupEnum`
+  example usage:
+  ```javascript
+  static Group = "itemGroup.planks.name"
   ```
