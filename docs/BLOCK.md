@@ -36,7 +36,7 @@
 
 ## Components:
 * ## Category
-  Component: `Category: string`
+  Component: `Category: string|CategoryEnum`
   BlockComponent:
   ```json
   "menu_category": {
@@ -57,5 +57,5 @@
   ```
   example usage:
   ```javascript
-  static Group = "itemGroup.planks.name"
+  static Group = GroupEnum.Planks
   ```
