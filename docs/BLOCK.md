@@ -1,7 +1,7 @@
 # MSC Compiler
 ### Block Components:
 
-- [Category] (#Category)
+- [Category](#Category)
 - `Group: string`
 - `DisplayName: string`
 - `DestroyTime: boolean|number`
