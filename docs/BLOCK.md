@@ -58,6 +58,6 @@
   ```
   example usage:
   ```javascript
-  static Group = GroupEnum.Planks
+  static Group = "mygroup"
   ```
   - [back to top](#Block-Components-List)
