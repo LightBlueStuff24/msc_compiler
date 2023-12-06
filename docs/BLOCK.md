@@ -35,7 +35,7 @@
 - `RandomTicking: object`
 
 ## Components:
-* ## Category
+## Category
   Component: `Category: string|CategoryEnum`
   BlockComponent:
   ```json
@@ -45,9 +45,9 @@
   ```
   example usage:
   ```javascript
-    static Category = "construction"
+  static Category = "construction"
   ```
-* ## Group
+## Group
   Component: `Group: string|GroupEnum`
   BlockComponent:
   ```json
@@ -57,5 +57,5 @@
   ```
   example usage:
   ```javascript
-    static Group = GroupEnum.Planks
+  static Group = GroupEnum.Planks
   ```
