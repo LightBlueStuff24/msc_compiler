@@ -48,7 +48,13 @@
   static Category = "construction"
   ```
 * ## Group
-  `Group: string|GroupEnum`
+  Component: `Group: string|GroupEnum`
+  BlockComponent:
+  ```json
+  "menu_category": {
+    "group": "itemGroup.planks.name"
+  }
+  ```
   example usage:
   ```javascript
   static Group = "itemGroup.planks.name"
