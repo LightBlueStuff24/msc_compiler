@@ -58,6 +58,6 @@
   ```
   example usage:
   ```javascript
-  static Group = "mygroup"
+  static Group = "itemGroup.planks.name"
   ```
   - [back to top](#Block-Components-List)
