@@ -10,10 +10,19 @@
     "type": "git",
     "url": "git+https://github.com/Sifatplayz/msc_compiler.git"
   },
-  "author": ["@Sifatplayz","@Redux"],
+  "author": [
+    "@Sifatplayz",
+    "@Redux"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Sifatplayz/msc_compiler/issues"
   },
-  "homepage": "https://github.com/Sifatplayz/msc_compiler#readme"
+  "homepage": "https://github.com/Sifatplayz/msc_compiler#readme",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "hidefile": "^3.0.0",
+    "path": "^0.12.7",
+    "yargs": "^17.7.2"
+  }
 }

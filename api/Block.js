@@ -1,5 +1,5 @@
 const { isFloat } = require("../Utils.js")
-const config = require("../config.json");
+const config = require("../msc.config.json");
 const { validCategories } = require('./Type.js')
 const {BlockEventTriggerHandler} = require('./Handler.js')
 
