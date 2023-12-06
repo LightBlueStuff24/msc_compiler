@@ -1,7 +1,7 @@
 # MSC Compiler
 ### Block Components:
 
-- [`Category: string`]
+- [Category] (#Category)
 - `Group: string`
 - `DisplayName: string`
 - `DestroyTime: boolean|number`
@@ -33,3 +33,11 @@
 - `OnPlayerDestroyed: object`
 - `QueuedTicking: object`
 - `RandomTicking: object`
+
+# Components:
+* ## Category
+  `Block.Category: string`
+  example
+  ```javascript
+  static Category = "construction"
+  ```
