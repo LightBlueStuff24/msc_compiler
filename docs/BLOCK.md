@@ -1,5 +1,5 @@
 # MSC Compiler
-### Block Components:
+## Block-Components-List:
 
 - [Category](#Category)
 - [Group](#Group)
@@ -47,6 +47,7 @@
   ```javascript
   static Category = "construction"
   ```
+  - [back to top](#Block-Components-List)
 ## Group
   Component: `Group: string|GroupEnum`
   BlockComponent:
@@ -59,3 +60,4 @@
   ```javascript
   static Group = GroupEnum.Planks
   ```
+  - [back to top](#Block-Components-List)
