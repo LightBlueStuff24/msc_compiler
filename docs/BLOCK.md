@@ -1,7 +1,7 @@
 # MSC Compiler
 ### Block Components:
 
-- `Category: string`
+- [`Category: string`]
 - `Group: string`
 - `DisplayName: string`
 - `DestroyTime: boolean|number`
@@ -33,4 +33,3 @@
 - `OnPlayerDestroyed: object`
 - `QueuedTicking: object`
 - `RandomTicking: object`
-
