@@ -31,5 +31,5 @@ BlockRegistry.register(NewLog)
 - set your pack name and details only once in `msc.config.json`. Don't have to write `manifest.json` twice for `BehaviorPack` and `ResourcePack`.
 
 - Specify your pack type e.g. only `behavior pack` or only `Resource pack` or Both by setting it's value to true in `behavior_pack: boolean (default: true)` and `resource_pack: boolean (default: true)` in `msc.config.js`
-
-- [Blocks Documentation](./docs/BLOCK.md)
+## Documentations
+[Blocks Documentation](./docs/BLOCK.md)
