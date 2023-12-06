@@ -45,7 +45,7 @@
   ```
   example usage:
   ```javascript
-  static Category = "construction"
+    static Category = "construction"
   ```
 * ## Group
   Component: `Group: string|GroupEnum`
@@ -57,5 +57,5 @@
   ```
   example usage:
   ```javascript
-  static Group = GroupEnum.Planks
+    static Group = GroupEnum.Planks
   ```
