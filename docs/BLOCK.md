@@ -219,7 +219,9 @@
   Component: `Geometry: string`
   BlockComponent:
   ```json
-  "minecraft:geometry": "geometry.my_geometry"
+  "minecraft:geometry": {
+    "identifier": "geometry.my_geometry"
+  }
   ```
   example usage:
   ```javascript
