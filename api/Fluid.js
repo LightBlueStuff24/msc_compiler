@@ -1,14 +1,17 @@
-const {Block} = require("./Block.js");
+const { Block } = require("./Block.js");
+
 class Fluid {
     static __Data = {
-
+        // Your Fluid data here
     }
 }
-/**
- * @private
- * @param {string} name 
- * @param {object} data 
- */
-function generateBlock(name, data) {
-    
+
+class DefaultBlock extends Block {
+    constructor(name,data) {
+        super();
+        this.name = name;
+        this.displayName = displayName;
+    }
 }
+
+

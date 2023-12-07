@@ -11,8 +11,17 @@
     "url": "git+https://github.com/Sifatplayz/msc_compiler.git"
   },
   "author": [
-    "@Sifatplayz",
-    "@Redux"
+{
+ "name": "Sifatplayz",
+ "email": "",
+ "url": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+},
+{
+    "name": "Redux",
+    "email": "",
+    "url": "https://github.com/kumja1"
+
+}
   ],
   "license": "ISC",
   "bugs": {
@@ -20,6 +29,8 @@
   },
   "homepage": "https://github.com/Sifatplayz/msc_compiler#readme",
   "dependencies": {
+    "@minecraft/server": "^1.7.0",
+    "@types/node": "^20.10.4",
     "fs": "^0.0.1-security",
     "hidefile": "^3.0.0",
     "path": "^0.12.7",
