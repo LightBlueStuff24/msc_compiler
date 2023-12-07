@@ -156,7 +156,7 @@ class Block {
       }
       if (this.DestroyChanceModifier) {
         if (typeof this.DestroyChanceModifier !== "number") return new Error(`[${this.name}] [component: DestroyChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
-          __Flammable["destory_chance_modifier"] = thid.DestroyChanceModifier;
+          __Flammable["destory_chance_modifier"] = this.DestroyChanceModifier;
       }
     }
     /**
