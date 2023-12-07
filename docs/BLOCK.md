@@ -1,38 +1,23 @@
 # MSC Compiler
 ## Block-Components-List:
 
-- [Category](#Category)
-- [Group](#Group)
-- `DisplayName: string`
-- `DestroyTime: boolean|number`
-- `ExplosionResistance: boolean|number`
-- `Friction: float (0.1-1.0)`
-- `CatchChanceModifier: number`
-- `DestroyChanceModifier: number`
-- `Texture: string`
-- `RenderMethod: string`
-- `FaceDimming: boolean`
-- `AmbientOcclusion: boolean`
-- `LightEmmision: number`
-- `LightAbsorption: number`
-- `Geometry: string`
-- `BoneVisibility: object`
-- `Loot: string`
-- `MapColor: string|number[]`
-- `PlacementFilter: object`
-- `Transformation: object`
-- `CollisionBox: object`
-- `SelectionBox: object`
-
-- `OnStepOn: object`
-- `OnStepOff: object`
-- `OnFallOn: object`
-- `OnInteract: object`
-- `OnPlaced: object`
-- `OnPlayerPlacing: object`
-- `OnPlayerDestroyed: object`
-- `QueuedTicking: object`
-- `RandomTicking: object`
+- [Components:](#components)
+  - [Category](#category)
+  - [Group](#group)
+  - [DisplayName](#displayname)
+  - [DestroyTime](#destroytime)
+  - [ExplosionResistance](#explosionresistance)
+  - [Friction](#friction)
+  - [CatchChanceModifier](#catchchancemodifier)
+  - [DestroyChanceModifier](#destroychancemodifier)
+  - [Texture](#texture)
+  - [RenderMethod](#rendermethod)
+  - [FaceDimming](#facedimming)
+  - [AmbientOcclusion](#ambientocclusion)
+  - [LightEmmision](#lightemmision)
+  - [LightDampening](#lightdampening)
+  - [Geometry](#geometry)
+  - [BoneVisibility](#bonevisibility)
 
 ## Components:
 ## Category
@@ -47,7 +32,7 @@
   ```javascript
   static Category = "construction"
   ```
-  - [back to top](#Block-Components-List)
+  - [back to top](#block-components-list)
 ## Group
   Component: `Group: string|GroupEnum`
   BlockComponent:
@@ -60,4 +45,202 @@
   ```javascript
   static Group = "itemGroup.planks.name"
   ```
-  - [back to top](#Block-Components-List)
+  - [back to top](#block-components-list)
+## DisplayName
+  Component: `DisplayName: string`
+  BlockComponent:
+  ```json
+  "minecraft:display_name": "My Block Name"
+  ```
+  example usage:
+  ```javascript
+  static DisplayName = "My Block Name"
+  ```
+  - [back to top](#block-components-list)
+## DestroyTime
+  Component: `DestroyTime: boolean|number`
+  BlockComponent:
+  ```json
+  "minecraft:destructible_by_mining": false
+  ```
+  ```json
+  "minecraft:destructible_by_mining": {
+    "seconds_to_destroy": 0.5
+  }
+  ```
+  example usage:
+  ```javascript
+  static DestroyTime = false
+  ```
+  ```javascript
+  static DestroyTime = 0.5
+  ```
+  - [back to top](#block-components-list)
+
+## ExplosionResistance
+  Component: `ExplosionResistance: boolean|number`
+  BlockComponent:
+  ```json
+  "minecraft:destructible_by_explosion": false
+  ```
+  ```json
+  "minecraft:destructible_by_explosion": {
+    "explosion_resistance": 20
+  }
+  ```
+  example usage:
+  ```javascript
+  static ExplosionResistance = false
+  ```
+  ```javascript
+  static ExplosionResistance = 20
+  ```
+  - [back to top](#block-components-list)
+## Friction
+  Component: `Friction: float (0.1-1.0)`
+  BlockComponent:
+  ```json
+  "minecraft:friction": 0.4
+  ```
+  example usage:
+  ```javascript
+  static Friction = 0.4
+  ```
+  - [back to top](#block-components-list)
+## CatchChanceModifier
+  Component: `CatchChanceModifier: number`
+  BlockComponent:
+  ```json
+  "minecraft:flammable": {
+  "catch_chance_modifier": 5
+}
+  ```
+  example usage:
+  ```javascript
+  static CatchChanceModifier = 5
+  ```
+  - [back to top](#block-components-list)
+## DestroyChanceModifier
+  Component: `DestroyChanceModifier: number`
+  BlockComponent:
+  ```json
+  "minecraft:flammable": {
+  "destroy_chance_modifier": 20
+}
+  ```
+  example usage:
+  ```javascript
+  static DestroyChanceModifier = 20
+  ```
+  - [back to top](#block-components-list)
+## Texture
+  Component: `Texture: string`
+  BlockComponent:
+  ```json
+  "minecraft:material_instances": {
+    "*": {
+      "texture": "texture_name"
+    }
+  }
+  ```
+  example usage:
+  ```javascript
+  static Texture = "texture_name"
+  ```
+  - [back to top](#block-components-list)
+## RenderMethod
+  Component: `RenderMethod: string`
+  BlockComponent:
+  ```json
+  "minecraft:material_instances": {
+    "*": {
+      "render_method": "blend"
+    }
+  }
+  ```
+  example usage:
+  ```javascript
+  static RenderMethod = "blend"
+  ```
+  - [back to top](#block-components-list)
+## FaceDimming
+  Component: `FaceDimming: boolean`
+  BlockComponent:
+  ```json
+  "minecraft:material_instances": {
+    "*": {
+      "face_dimming": true
+    }
+  }
+  ```
+  example usage:
+  ```javascript
+  static FaceDimming = true
+  ```
+  - [back to top](#block-components-list)
+## AmbientOcclusion
+  Component: `AmbientOcclusion: boolean`
+  BlockComponent:
+  ```json
+  "minecraft:material_instances": {
+    "*": {
+      "ambient_occlusion": true
+    }
+  }
+  ```
+  example usage:
+  ```javascript
+  static AmbientOcclusion = true
+  ```
+  - [back to top](#block-components-list)
+## LightEmmision
+  Component: `LightEmmision: number`
+  BlockComponent:
+  ```json
+  "minecraft:light_emission": 10
+  ```
+  example usage:
+  ```javascript
+  static LightEmmision = 10
+  ```
+  - [back to top](#block-components-list)
+## LightDampening
+  Component: `LightDampening: number`
+  BlockComponent:
+  ```json
+  "minecraft:light_dampening": 7
+  ```
+  example usage:
+  ```javascript
+  static LightDampening = 7
+  ```
+  - [back to top](#block-components-list)
+## Geometry
+  Component: `Geometry: string`
+  BlockComponent:
+  ```json
+  "minecraft:geometry": "geometry.my_geometry"
+  ```
+  example usage:
+  ```javascript
+  static Geometry = "geometry.my_geometry"
+  ```
+  - [back to top](#block-components-list)
+## BoneVisibility
+  Component: `BoneVisibility: object`
+  BlockComponent:
+  ```json
+  "minecraft:geometry": {
+  "identifier": "geometry.my_geometry",
+  "bone_visibility": {
+    "my_bone": true
+    }
+  }
+  ```
+  example usage:
+  ```javascript
+  static BoneVisibility = {
+        MyBone: true
+      }
+  ```
+  - [back to top](#block-components-list)
