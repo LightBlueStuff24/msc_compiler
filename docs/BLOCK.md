@@ -131,8 +131,7 @@
   ```
   - [back to top](#block-components-list)
 ## Material
-  Compoenent: `Material: MaterialInstances`
-  - [see type MaterialInstances](./TYPEDEF.md#materialinstances)
+  Compoenent: `Material: MaterialInstances`[see type MaterialInstances](./TYPEDEF.md#materialinstances)
   BlockComponent:
   ```json
   "minecraft:material_instances": {
@@ -144,11 +143,9 @@
     }
   }
   ```
-  - `[Bone: string]: Materal`
-  - [See type Material](./TYPEDEF.md)
+  - `[Bone: string]: Materal`[See type Material](./TYPEDEF.md)
   - `Texture: String`
-  - `RenderMethod: RenderMethodEnum`
-  - [See RenderMethodEnum](./ENUM.md#rendermethodenum)
+  - `RenderMethod: RenderMethodEnum`[See RenderMethodEnum](./ENUM.md#rendermethodenum)
   - `FaceDimming: boolean`
   - `AmbientOcclusion: boolean`
   example usage:
