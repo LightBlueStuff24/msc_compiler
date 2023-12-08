@@ -1,7 +1,7 @@
 # MSC Compiler
 ## Block-Components-List:
 
-## Components:
+- [Components:](#Components)
   - [Category](#Category)
   - [Group](#Group)
   - [DisplayName](#DisplayName)
