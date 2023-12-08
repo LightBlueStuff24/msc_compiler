@@ -1,19 +1,19 @@
 class Permutation {
 
-  /**
- * @private
- */
+    /**
+   * @private
+   */
   static __Data = {
-    "components": {}
-
+      "components": {}
+    
   };
 
   static __components = this.__Data['components']
-
-  /**
-* @BlockData
-*/
-
+  
+     /**
+   * @BlockData
+   */
+  
   static DisplayName;
   static DestroyTime;
   static ExplosionResistance;
@@ -34,7 +34,7 @@ class Permutation {
   static MapColor;
   static CollisionBox;
   static SelectionBox;
-
+  
   /**
    * @BlockEventTriggers
    */
@@ -48,146 +48,145 @@ class Permutation {
   static QueuedTicking;
   static RandomTicking;
 
-  static init() {
-    /**
-      * @handleDisplayName
-      */
-    if (this.DisplayName) {
-      if (typeof this.DisplayName == "string") {
-        this.__components["minecraft:display_name"] = this.DisplayName;
-      }
-      else return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
-    }
-    /**
-     * @handleDestroytime
+  static init(){
+   /**
+     * @handleDisplayName
      */
-    if (this.DestroyTime) {
-      if (typeof this.DestroyTime == "boolean") {
-        this.__components["minecraft:destructible_by_mining"] = this.DestroyTime;
-      }
-      else if (typeof this.DestroyTime == "number") {
-        this.__components["minecraft:destructible_by_mining"] = {
-          "seconds_to_destroy": this.DestroyTime,
-        }
-      } else return new Error(`[${this.name}] [component: DestroyTime]: expected type {boolean|integer} instead found {${typeof this.DestroyTime}}`)
+   if (this.DisplayName) {
+    if (typeof this.DisplayName == "string") {
+      this.__components["minecraft:display_name"] = this.DisplayName;
     }
-    /**
-     * @handleExplosionResistance
-     */
-    if (this.ExplosionResistance) {
-      if (typeof this.ExplosionResistance == "boolean") {
-        this.__components["minecraft:destructible_by_explosion"] = this.ExplosionResistance;
-      }
-      else if (typeof this.ExplosionResistance == "number") {
-        this.__components["minecraft:destructible_by_explosion"] = {
-          "explosion_resistance": this.ExplosionResistance,
-        };
-      } else return new Error(`[${this.name}] [component: ExplosionResistance]: expected type {boolean|integer} instead found {${typeof this.ExplosionResistance}}`)
+    else return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
+  }
+  /**
+   * @handleDestroytime
+   */
+  if (this.DestroyTime) {
+    if (typeof this.DestroyTime == "boolean") {
+      this.__components["minecraft:destructible_by_mining"] = this.DestroyTime;
     }
-    /**
-     * @handleFriction
-     */
-    if (this.Friction) {
-      if (typeof this.Friction == "number") {
-        if (isFloat(this.Friction)) {
-          this.__components["minecraft:friction"] = this.Friction;
-        }
-        else return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
+    else if (typeof this.DestroyTime == "number") {
+      this.__components["minecraft:destructible_by_mining"] = {
+        "seconds_to_destroy": this.DestroyTime,
       }
-      else return new Error(`[${this.name}] [component: friction]: expected {number} instead found {${typeof this.Friction}}`)
+    } else return new Error(`[${this.name}] [component: DestroyTime]: expected type {boolean|integer} instead found {${typeof this.DestroyTime}}`)
+  }
+  /**
+   * @handleExplosionResistance
+   */
+  if (this.ExplosionResistance) {
+    if (typeof this.ExplosionResistance == "boolean") {
+      this.__components["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
     }
-    /**
-     * @handleFlammable
-     */
-    if (this.CatchChanceModifier || this.DestroyChanceModifier) {
-      let __Flammable = this.__Data["minecraft:block"]["components"]["minecraft:flammable"] = {}
-      if (this.CatchChanceModifier) {
-        if (typeof this.CatchChanceModifier == "number") {
-          __Flammable["catch_chance_modifier"] = this.CatchChanceModifier;
-        }
-        else return new Error(`[${this.name}] [component: CatchChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
+    else if (typeof this.ExplosionResistance == "number") {
+      this.__components["minecraft:destructible_by_explosion"] = {
+        "explosion_resistance": this.ExplosionResistance,
+      };
+    } else return new Error(`[${this.name}] [component: ExplosionResistance]: expected type {boolean|integer} instead found {${typeof this.ExplosionResistance}}`)
+  }
+  /**
+   * @handleFriction
+   */
+  if (this.Friction) {
+    if (typeof this.Friction == "number") {
+      if (isFloat(this.Friction)) {
+        this.__components["minecraft:friction"] = this.Friction;
       }
-      if (this.DestroyChanceModifier) {
-        if (typeof this.DestroyChanceModifier == "number") {
-          __Flammable["destory_chance_modifier"] = thid.DestroyChanceModifier;
-        }
-        else return new Error(`[${this.name}] [component: DestroyChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
-      }
+      else return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
     }
-    /**
-     * @handleMaterialInstance
-     */
-    if (this.Texture || this.RenderMethod || this.FaceDimming || this.AmbientOcclusion) {
-      let __MaterialInstances = {}
-      if (this.Texture) {
-        if (typeof this.Texture == "string") {
-          __MaterialInstances["texture"] = this.Texture;
-        }
-        else return new Error(`[${this.name}] [component: Texture]: expected {string} instead found {${typeof this.Texture}}`)
+    else return new Error(`[${this.name}] [component: friction]: expected {number} instead found {${typeof this.Friction}}`)
+  }
+  /**
+   * @handleFlammable
+   */
+  if (this.CatchChanceModifier || this.DestroyChanceModifier) {
+    let __Flammable = this.__Data["minecraft:block"]["components"]["minecraft:flammable"] = {}
+    if (this.CatchChanceModifier) {
+      if (typeof this.CatchChanceModifier == "number") {
+        __Flammable["catch_chance_modifier"] = this.CatchChanceModifier;
       }
-      if (this.RenderMethod) {
-        if (typeof this.RenderMethod == "string") {
-          if (this.RenderMethod == ("opaque" || "blend" || "alpha_test" || "double_sided")) {
-            __MaterialInstances["render_method"] = this.RenderMethod;
+      else return new Error(`[${this.name}] [component: CatchChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
+    }
+    if (this.DestroyChanceModifier) {
+      if (typeof this.DestroyChanceModifier == "number") {
+        __Flammable["destory_chance_modifier"] = thid.DestroyChanceModifier;
+      }
+      else return new Error(`[${this.name}] [component: DestroyChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
+    }
+  }
+  /**
+   * @handleMaterialInstance
+   */
+  if (this.Texture || this.RenderMethod || this.FaceDimming || this.AmbientOcclusion) {
+    let __MaterialInstances = {}
+    if (this.Texture) {
+      if (typeof this.Texture == "string") {
+        __MaterialInstances["texture"] = this.Texture;
+      }
+      else return new Error(`[${this.name}] [component: Texture]: expected {string} instead found {${typeof this.Texture}}`)
+    }
+    if(this.RenderMethod) {
+      if(typeof this.RenderMethod == "string") {
+        if(this.RenderMethod == ("opaque"||"blend"||"alpha_test"||"double_sided")) {
+          __MaterialInstances["render_method"] = this.RenderMethod;
+        }
+        else return new Error(`[${this.name}] [component: RenderMethod]: expected type {RenderMethod} but found {${this.RenderMethod}}`)
+      }
+      else return new Error(`[${this.name}] [component: RenderMethod]: expected {string} instead found {${typeof this.RenderMethod}}`)
+    }
+    if(this.FaceDimming) {
+      if(typeof this.FaceDimming == "boolean") {
+        __MaterialInstances["face_dimming"] = this.FaceDimming;
+      }
+      else return new Error(`[${this.name}] [component: FaceDimming]: expected {boolean} instead found {${typeof this.FaceDimming}}`)
+    }
+    if(this.AmbientOcclusion) {
+      if(typeof this.AmbientOcclusion == "boolean") {
+        __MaterialInstances["ambient_occlusion"] = this.AmbientOcclusion;
+      }
+      else return new Error(`[${this.name}] [component: AmbientOcclusion]: expected {boolean} instead found {${typeof this.AmbientOcclusion}}`)
+    }
+    this.__components["minecraft:material_instances"] = __MaterialInstances;
+  }
+  /**
+   * @handleBlockLightEmmision
+   */
+  if(this.LightEmmision){
+    if(typeof this.LightEmmision == "number") {
+      this.__components["minecraft:block_light_emmision"] = this.LightEmmision;
+    }
+    else return new Error(`[${this.name}] [component: LightEmmision]: expected {number} instead found {${typeof this.LightEmmision}}`)
+  }
+  /**
+   * @handleBlockLightDampening
+   */
+  if(this.LightDampening){
+    if(typeof this.LightDampening == "number") {
+      this.__components["minecraft:block_light_dampening"] = this.LightDampening;
+    }
+    else return new Error(`[${this.name}] [component: LightDampening]: expected {number} instead found {${typeof this.LightDampening}}`)
+  }
+  /**
+   * @handleGeometry
+   */
+  if(this.Geometry || this.BoneVisibility) {
+    if(this.Geometry) {
+      if(typeof this.Geometry == "string") {
+        this.__components["minecraft:geometry"] = {
+          "identifier": this.Geometry
+        }
+      }
+      else return new Error(`[${this.name}] [component: Geometry]: expected {string} instead found {${typeof this.Geometry}}`)
+    }
+    if(this.BoneVisibility) {
+      if(!this.Geometry) return new Error(`[${this.name}] [component: BoneVisibility]: using BoneVisibility needs a geometry component.`)
+      if(typeof this.BoneVisibility == "object") {
+        for(const [bone, value] of this.BoneVisibility) {
+          if(typeof bone == "string" && typeof value == ("string"||"boolean")) {
+            this.__components["minecraft:geometry"]["bone_visibility"] = { bone: value }
           }
-          else return new Error(`[${this.name}] [component: RenderMethod]: expected type {RenderMethod} but found {${this.RenderMethod}}`)
-        }
-        else return new Error(`[${this.name}] [component: RenderMethod]: expected {string} instead found {${typeof this.RenderMethod}}`)
-      }
-      if (this.FaceDimming) {
-        if (typeof this.FaceDimming == "boolean") {
-          __MaterialInstances["face_dimming"] = this.FaceDimming;
-        }
-        else return new Error(`[${this.name}] [component: FaceDimming]: expected {boolean} instead found {${typeof this.FaceDimming}}`)
-      }
-      if (this.AmbientOcclusion) {
-        if (typeof this.AmbientOcclusion == "boolean") {
-          __MaterialInstances["ambient_occlusion"] = this.AmbientOcclusion;
-        }
-        else return new Error(`[${this.name}] [component: AmbientOcclusion]: expected {boolean} instead found {${typeof this.AmbientOcclusion}}`)
-      }
-      this.__components["minecraft:material_instances"] = __MaterialInstances;
-    }
-    /**
-     * @handleBlockLightEmmision
-     */
-    if (this.LightEmmision) {
-      if (typeof this.LightEmmision == "number") {
-        this.__components["minecraft:block_light_emmision"] = this.LightEmmision;
-      }
-      else return new Error(`[${this.name}] [component: LightEmmision]: expected {number} instead found {${typeof this.LightEmmision}}`)
-    }
-    /**
-     * @handleBlockLightDampening
-     */
-    if (this.LightDampening) {
-      if (typeof this.LightDampening == "number") {
-        this.__components["minecraft:block_light_dampening"] = this.LightDampening;
-      }
-      else return new Error(`[${this.name}] [component: LightDampening]: expected {number} instead found {${typeof this.LightDampening}}`)
-    }
-    /**
-     * @handleGeometry
-     */
-    if (this.Geometry || this.BoneVisibility) {
-      if (this.Geometry) {
-        if (typeof this.Geometry == "string") {
-          this.__components["minecraft:geometry"] = {
-            "identifier": this.Geometry
-          }
-        }
-        else return new Error(`[${this.name}] [component: Geometry]: expected {string} instead found {${typeof this.Geometry}}`)
-      }
-      if (this.BoneVisibility) {
-        if (!this.Geometry) return new Error(`[${this.name}] [component: BoneVisibility]: using BoneVisibility needs a geometry component.`)
-        if (typeof this.BoneVisibility == "object") {
-          for (const [bone, value] of this.BoneVisibility) {
-            if (typeof bone == "string" && typeof value == ("string" || "boolean")) {
-              this.__components["minecraft:geometry"]["bone_visibility"] = { bone: value }
-            }
-            if (typeof bone != "string") return new Error(`[${this.name}] [component: bone_visibility] [child: ${bone}]: expected {string} instead found {${typeof bone}}`)
-            if (typeof value != ("string" || "boolean")) return new Error(`[${this.name}] [component: bone_visibility] [child: ${value}]: expected {string} or boolean instead found {${typeof value}}`)
-          }
+          if(typeof bone != "string") return new Error(`[${this.name}] [component: bone_visibility] [child: ${bone}]: expected {string} instead found {${typeof bone}}`)
+          if(typeof value != ("string" || "boolean")) return new Error(`[${this.name}] [component: bone_visibility] [child: ${value}]: expected {string} or boolean instead found {${typeof value}}`)
         }
       }
       else return new Error(`[${this.name}] [component: BoneVisibility]: expected {object} instead found {${typeof this.BoneVisibility}}`)
@@ -281,55 +280,69 @@ class Permutation {
     if(typeof this.Loot == "string") {
       this.__components["minecraft:loot"] = this.Loot;
     }
-    /**
-     * @handleMapColor
-     */
-    if (this.MapColor) {
-      if (typeof this.MapColor == "string") {
-        this.__components["minecraft:map_color"] = this.MapColor;
-      }
-      else if (typeof this.MapColor == "object") {
-        if (!(this.MapColor.R && this.MapColor.B && this.MapColor.G)) return new Error(`[${this.name}] [component: MapColor]: expected MapColor={R: number, B: number, G: number} instead found {${this.MapColor}}`)
-        this.__components["minecraft:map_color"] = [this.MapColor.R, this.MapColor.B, this.MapColor.G]
-      }
-      else return new Error(`[${this.name}] [component: MapColor]: expected type {string|object} instead found {${typeof this.MapColor}}`)
+    else return new Error(`[${this.name}] [component: Loot]: expected type {string} instead found {${typeof this.Loot}}`)
+  }
+  /**
+   * @handleMapColor
+   */
+  if(this.MapColor) {
+    if(typeof this.MapColor == "string") {
+      this.__components["minecraft:map_color"] = this.MapColor;
     }
-    /**
-     * @handleCollisionBox
-     */
-    if (this.CollisionBox) {
-      if (typeof this.CollisionBox != "object") return new Error(`[${this.name}] [component: CollisionBox]: expected type {object} instead found {${typeof this.CollisionBox}}`)
+    if(typeof this.MapColor == "object") {
+      if(this.MapColor["R"] && this.MapColor["B"] && this.MapColor["G"]) {
+        this.__components["minecraft:map_color"] = [this.MapColor["R"], this.MapColor["B"], this.MapColor["G"]]
+      }
+      else return new Error(`[${this.name}] [component: MapColor]: expected MapColor={R: number, B: number, G: number} instead found {${this.MapColor}}`)
+    }
+    else return new Error(`[${this.name}] [component: MapColor]: expected type {string|object} instead found {${typeof this.MapColor}}`)
+  }
+  /**
+   * @handleCollisionBox
+   */
+  if(this.CollisionBox) {
+    if(typeof this.CollisionBox == "object") {
       let __CollisionBox = {}
-      if (this.CollisionBox.Origin) {
-        this.CollisionBox.Origin.forEach(o => {
-          if (typeof o != "number") return new Error(`[${this.name}] [component: CollisionBox] [child: Origin]: expected type {number} instead found {${typeof o}}`)
-          __CollisionBox.origin.push(o)
+      if(this.CollisionBox["Origin"]) {
+        this.CollisionBox["Origin"].forEach(o=>{
+          if(typeof o == "number") {
+            __CollisionBox["origin"].push(o)
+          }
+          else return new Error(`[${this.name}] [component: CollisionBox] [child: Origin]: expected type {number} instead found {${typeof o}}`)
         })
       }
-      if (this.CollisionBox.Size) {
-        this.CollisionBox.Size.forEach(s => {
-          if (typeof s != "number") return new Error(`[${this.name}] [component: CollisionBox] [child: Size]: expected type {number} instead found {${typeof s}}`)
-          __CollisionBox.size.push(s)
+      if(this.CollisionBox["Size"]) {
+        this.CollisionBox["Size"].forEach(s=>{
+          if(typeof s == "number") {
+            __CollisionBox["size"].push(s)
+          }
+          else return new Error(`[${this.name}] [component: CollisionBox] [child: Size]: expected type {number} instead found {${typeof s}}`)
         })
       }
       this.__components["minecraft:collision_box"] = __CollisionBox;
     }
-    /**
-     * @handleSelectionBox
-     */
-    if (this.SelectionBox) {
-      if (typeof this.SelectionBox != "object") return new Error(`[${this.name}] [component: SelectionBox]: expected type {object} instead found {${typeof this.SelectionBox}}`)
+    else return new Error(`[${this.name}] [component: CollisionBox]: expected type {object} instead found {${typeof this.CollisionBox}}`)
+  }
+  /**
+   * @handleSelectionBox
+   */
+  if(this.SelectionBox) {
+    if(typeof this.SelectionBox == "object") {
       let __SelectionBox = {}
-      if (this.SelectionBox.Origin) {
-        this.SelectionBox.Origin.forEach(o => {
-          if (typeof o != "number") return new Error(`[${this.name}] [component: SelectionBox] [child: Origin]: expected type {number} instead found {${typeof s}}`)
-          __SelectionBox.origin.push(o)
+      if(this.SelectionBox["Origin"]) {
+        this.SelectionBox["Origin"].forEach(o=>{
+          if(typeof o == "number") {
+            __SelectionBox["origin"].push(o)
+          }
+          else return new Error(`[${this.name}] [component: SelectionBox] [child: Origin]: expected type {number} instead found {${typeof s}}`)
         })
       }
-      if (this.SelectionBox.Size) {
-        this.SelectionBox.Size.forEach(s => {
-          if (typeof s != "number") return new Error(`[${this.name}] [component: SelectionBox] [child: Size]: expected type {number} instead found {${typeof s}}`)
-            __SelectionBox.size.push(s)
+      if(this.SelectionBox["Size"]) {
+        this.SelectionBox["Size"].forEach(s=>{
+          if(typeof s == "number") {
+            __SelectionBox["size"].push(s)
+          }
+          else return new Error(`[${this.name}] [component: SelectionBox] [child: Size]: expected type {number} instead found {${typeof s}}`)
         })
       }
       this.__components["minecraft:selection_box"] = __SelectionBox;
@@ -637,4 +650,4 @@ class Permutation {
 }
 }
 
-exports.Permutation = PermutationComponent
+exports.Permutation = Permutation
