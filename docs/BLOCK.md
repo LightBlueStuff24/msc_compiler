@@ -14,6 +14,12 @@
   - [LightDampening](#lightdampening)
   - [Geometry](#geometry)
   - [BoneVisibility](#bonevisibility)
+  - [Loot](#loot)
+  - [MapColor](#mapcolor)
+  - `PlacementFilter: object`
+  - [Transformation](#transformation)
+  - [CollisionBox](#collisionbox)
+  - [SelectionBox](#selectionbox)
 
 ## Components:
 ## Category
@@ -192,7 +198,7 @@
   ```
   - [back to top](#block-components-list)
 ## BoneVisibility
-  Component: `BoneVisibility: object`
+  Component: `BoneVisibility: object`<br/>
   BlockComponent:
   ```json
   "minecraft:geometry": {
@@ -206,6 +212,87 @@
   ```javascript
   static BoneVisibility = {
     MyBone: true
+  }
+  ```
+  - [back to top](#block-components-list)
+## Loot
+  Component: `Loot: string`<br/>
+  BlockComponent:
+  ```json
+  "minecraft:loot": "loot_tables/blocks/my_loot.json"
+  ```
+  example usage:
+  ```javascript
+  static Loot = "loot_tables/blocks/my_loot.json"
+  ```
+  - [back to top](#block-components-list)
+## MapColor
+  Component: `MapColor: string|number[]`<br/>
+  BlockComponent:
+  ```json
+  "minecraft:map_color": "#ffffff"
+  ```
+  ```json
+  "minecraft:map_color": [255, 255, 255]
+  ```
+  example usage:
+  ```javascript
+  static MapColor = "#ffffff"
+  ```
+  ```javascript
+  static MapColor = [255, 255, 255]
+  ```
+  - [back to top](#block-components-list)
+## Transformation
+  Component: `Transformation: object`<br/>
+  BlockComponent:
+  ```json
+  "minecraft:transformation": {
+    "translation": [-5, 8, 0],
+    "rotation": [90, 180, 0],
+    "scale": [0.5, 1, 0.5],
+  }
+  ```
+  example usage:
+  ```javascript
+  static Transformation = {
+    Translation: [-5, 8, 0],
+    Rotation: [90, 180, 0],
+    Scale: [0.5, 1, 0.5]
+  }
+  ```
+  - [back to top](#block-components-list)
+## CollisionBox
+  Component: `CollisionBox: object`<br/>
+  BlockComponent:
+  ```json
+  "minecraft:collision_box": {
+    "origin": [-8, 0, -8],
+    "size": [16, 16, 16]
+  }
+  ```
+  example usage:
+  ```javascript
+  static CollisionBox = {
+    Origin: [-8, 0, -8],
+    Size: [16, 16, 16]
+  }
+  ```
+  - [back to top](#block-components-list)
+## SelectionBox
+  Component: `SelectionBox: object`<br/>
+  BlockComponent:
+  ```json
+  "minecraft:selection_box": {
+    "origin": [-8, 0, -8],
+    "size": [16, 16, 16]
+  }
+  ```
+  example usage:
+  ```javascript
+  static SelectionBox = {
+    Origin: [-8, 0, -8],
+    Size: [16, 16, 16]
   }
   ```
   - [back to top](#block-components-list)
