@@ -41,7 +41,7 @@
   ```
   example usage:
   ```javascript
-  static Group = "itemGroup.planks.name"
+  static Group  = "itemGroup.planks.name"
   ```
   - [back to top](#block-components-list)
 ## DisplayName
