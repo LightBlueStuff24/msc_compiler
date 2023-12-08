@@ -108,9 +108,9 @@
   BlockComponent:
   ```json
   "minecraft:flammable": {
-  "catch_chance_modifier": 5,
-  "destroy_chance_modifier": 20
-}
+    "catch_chance_modifier": 5,
+    "destroy_chance_modifier": 20
+  }
   ```
   example usage:
   ```javascript
@@ -121,7 +121,7 @@
   ```
   - [back to top](#block-components-list)
 ## Material
-  Compoenent: `Material: MaterialInstances`[see type MaterialInstances](./TYPEDEF.md#materialinstances)
+  Compoenent: `Material: MaterialInstances`[see type MaterialInstances](./TYPEDEF.md#materialinstances)<br />
   BlockComponent:
   ```json
   "minecraft:material_instances": {
