@@ -1,0 +1,15 @@
+{
+  "format_version": "1.20.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "test:palmlog",
+      "menu_category": {}
+    },
+    "components": {
+      "minecraft:display_name": "Palm Log",
+      "minecraft:material_instances": {
+        "texture": "palm_log"
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "jsx": "react",
+        "allowImportingTsExtensions": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true
+    },
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*"
+    ]
+}

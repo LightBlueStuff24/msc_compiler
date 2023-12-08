@@ -10,18 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/Sifatplayz/msc_compiler.git"
   },
-  "author": [
-{
- "name": "Sifatplayz",
- "email": "",
- "url": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-},
-{
-    "name": "Redux",
-    "email": "",
-    "url": "https://github.com/kumja1"
-
-}
+  "contributors": [
+    "Sifatplayz",
+    "Redux"
   ],
   "license": "ISC",
   "bugs": {
@@ -35,5 +26,6 @@
     "hidefile": "^3.0.0",
     "path": "^0.12.7",
     "yargs": "^17.7.2"
-  }
+  },
+  "type": "commonjs"
 }

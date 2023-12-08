@@ -1,8 +1,7 @@
 const { isFloat } = require("../Utils.js")
 const config = require("../msc.config.json");
-const { validCategories } = require('./Type.js')
+const {validCategories} = require('./Type.js')
 const {BlockEventTriggerHandler} = require('./Handler.js');
-
 
 class Block {
   /**
@@ -342,6 +341,7 @@ class Block {
             if (typeof o !== "number") return new Error(`[${this.name}] [component: SelectionBox] [child: Origin]: expected type {number} instead found {${typeof s}}`)
               __SelectionBox["origin"].push(o)
           })
+        }
         if (this.SelectionBox["Size"]) {
           this.SelectionBox["Size"].forEach(s => {
             if (typeof s == "number") return new Error(`[${this.name}] [component: SelectionBox] [child: Size]: expected type {number} instead found {${typeof s}}`) 
@@ -350,6 +350,7 @@ class Block {
         }
         this.__components["minecraft:selection_box"] = __SelectionBox;
       }
+
     /**
      * @handleOnStepOn
      */
@@ -520,10 +521,9 @@ class Block {
       })
       this.__Data["minecraft:block"]["permutations"] = __Permutations;
     }
-
     return JSON.stringify(this.__Data);
+}
   }
-}
-}
+
 
 exports.Block = Block;

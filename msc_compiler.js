@@ -8,20 +8,19 @@ const config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath
 
 function loadFilesInDir() {
   const directoryPath = path.join(currentDirectory, config.inputDirectory);
-  fs.readdir(directoryPath, (err, files) => {
+  fs.readdir(directoryPath,(err, files) => {
     if (err || !files) process.exit(1);
     const fileLoad = files.map(file => loadFile(path.join(directoryPath, file)))
 
     Promise.all(fileLoad).then((files) => {
       //console.log(BlockRegistry.Registries["minecraft:block"]["description"]["identifier"])
-    buildFiles(files);
+     buildFiles(files.length);
     
     });
   });
 }
 
 function buildFiles(filesLength){
-  
   fs.mkdir('build',()=>{
     fs.mkdir('build/BP',()=>{
   BlockRegistry.Registries.length !== 0 ? 
@@ -29,17 +28,17 @@ function buildFiles(filesLength){
   BlockRegistry.Registries.forEach(registry => {
     const registryParsed = JSON.parse(registry);
     let filename = registryParsed["minecraft:block"]["description"]["identifier"].split(':')[1];
-    fs.writeFile(filename + ".json",
-      JSON.stringify(registryParsed), function (err, res) {
+    fs.writeFile(`build/BP/blocks/${filename}.json`,
+      JSON.stringify(registryParsed,null,2), function (err, res) {
         if (err) throw new Error(err)
-        else return console.log("Created " + filename + ".json")
+        console.log(`Created ${filename}`)
       });
     })
-  }): undefined;
-
+  })
+  : undefined;
 })
   })
-  console.warn('Created ' + filesLength)
+  console.warn(`Created ${filesLength} file`)
 }
 
 function loadFile(filePath) {
