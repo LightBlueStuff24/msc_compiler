@@ -12,13 +12,15 @@ class PalmLog extends Block {
     static States = {
         "prop":[1,2,3]
     }
-static DisplayName = "Palm Log"
-static Texture = "palm_log"
-static Category = "construction"
-static Permutations = {
-    "prop==1": DestroyTime.init() 
-    }
+  static DisplayName = "Palm Log"
+  static Material = {
+    Texture: "palm_log"
   }
+  static Category = "construction"
+  static Permutations = {
+    "prop==1": DestroyTime.init() 
+  }
+}
 
 class GlassBottle extends Item {
     static DisplayName = "Glass Bottle"
