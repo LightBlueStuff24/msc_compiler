@@ -15,7 +15,12 @@
       }
     },
     "components": {
-      "minecraft:display_name": "Palm Log"
+      "minecraft:display_name": "Palm Log",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "palm_log"
+        }
+      }
     },
     "permutations": [
       {

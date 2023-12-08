@@ -16,6 +16,28 @@ class LogRotation2 extends Permutation {
     Rotation: [0, 90, 0]
   }
 }
+class PalmLog extends Block {
+    static States = {
+        "prop":[1,2,3]
+    }
+  static DisplayName = "Palm Log"
+  static Material = {
+    "*": {
+      Texture: "palm_log"
+    }
+  }
+  static Category = "construction"
+  static Permutations = {
+    "prop==1": DestroyTime.init() 
+  }
+}
+
+class GlassBottle extends Item {
+    static DisplayName = "Glass Bottle"
+    static Category = "construction"
+}
+ItemRegistry.register(GlassBottle)
+BlockRegistry.register(PalmLog)
 
 /**
  * @class Log
