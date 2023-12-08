@@ -3,10 +3,9 @@
   "minecraft:item": {
     "description": {
       "identifier": "test:glassbottle",
-      "category": "construction",
+      "category": "construction"
     },
     "components": {
-      "i"
       "minecraft:display_name": {
         "value": "Glass Bottle"
       }

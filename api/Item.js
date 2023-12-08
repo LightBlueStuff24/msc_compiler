@@ -7,8 +7,18 @@ const {
 const {
 	ItemEventTriggerHandler
 } = require("./Handler");
+const Fuse = require('fuse.js');
+const config = require('../msc.config.json');
 
-const config = require('../msc.config.json')
+Set.prototype.getClosestMatch = function (string) {
+    const fuse = new Fuse(Array.from(this), {
+        shouldSort: true,
+        threshold: 0.6,
+    });
+    const result = fuse.search(string);
+    return result.length > 0 ? result[0].item : null;
+};
+
 /**
  * @typedef {Object} BlockPlacerComponent
  * @property {string} block - The block to be placed
@@ -143,8 +153,8 @@ const config = require('../msc.config.json')
  * @property {boolean} [ShouldDespawn] - Whether the item should despawn.
  * @property {boolean} [StackedByData] - Whether the item is stacked by data.
  * @property {ThrowableComponent} [Throwable] - Whether the item is throwable.
- * @property {string} [UseAnimation] - The use animation of the item.
- * @property {number} [UseDuration] - The use duration of the item.
+ * @property {boolean} [UseAnimation] - The use animation of the item.
+ * @property {boolean} [UseDuration] - The use duration of the item.
  * @property {WearableComponent} [Wearable] - Whether the item is wearable.
  */
 
@@ -165,7 +175,7 @@ class Item {
 		"minecraft:item": {
 			"description": {
 				"identifier": `${config["prefix"]}:${this.name.toLowerCase()}`,
-				"category":""
+				"category": "none"
 			},
 			"components": {},
 		},
@@ -385,15 +395,15 @@ class Item {
 		 * @handleCategory
 		 */
 		if (this.Category) {
-			if (typeof this.Category != "string") return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
-			if (!validCategories.has(this.Category)) return new Error(`[${this.name}] [component: Category]: expected type {Categorys} instead found {${this.Category}}`);
+			if (typeof this.Category != "string") throw new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
+			if (!validCategories.has(this.Category.toLowerCase())) throw new Error(`[${this.name}] [component: Category]: expected type "${validCategories.getClosestMatch(this.Category)}" instead found "${this.Category}"`);
 			this.__Data["minecraft:item"]["description"]["category"] = this.Category;
 		}
 		/**
 		 * @handleDisplayName
 		 */
 		if (this.DisplayName) {
-			if (typeof this.DisplayName != "string") return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
+			if (typeof this.DisplayName != "string") throw new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
 			this.__components["minecraft:display_name"] = {
 				"value": this.DisplayName
 			}
@@ -402,21 +412,21 @@ class Item {
 		 * @handleDamage
 		 */
 		if (this.Damage) {
-			if (typeof this.Damage != "number" || isNegative(this.Damage)) return new Error(`[${this.name}] [component: Damage]: expected type {integer} greater than -1 instead found ${typeof this.DestroyTime}`)
+			if (typeof this.Damage != "number" || isNegative(this.Damage)) throw new Error(`[${this.name}] [component: Damage]: expected type {integer} greater than -1 instead found ${typeof this.DestroyTime}`)
 			this.__components["minecraft:damage"] = this.Damage
 		}
 		/**
 		 * @handleAllowOffHand
 		 */
 		if (this.AllowOffHand) {
-			if (typeof this.AllowOffHand != "boolean") return new Error(`[${this.name}] [component: AllowOffHand]: expected type {boolean} instead found {${typeof this.AllowOffHand}}`)
+			if (typeof this.AllowOffHand != "boolean") throw new Error(`[${this.name}] [component: AllowOffHand]: expected type {boolean} instead found {${typeof this.AllowOffHand}}`)
 			this.__components["minecraft:allow_off_hand"] = this.AllowOffHand;
 		}
 		/**
 		 * @handleBlockPlacer
 		 */
 		if (this.BlockPlacer) {
-			if (typeof this.BlockPlacer != "object") return new Error(`[${this.name}] [component: BlockPlacer]: expected type {object} instead found {${typeof this.BlockPlacer}}`)
+			if (typeof this.BlockPlacer != "object") throw new Error(`[${this.name}] [component: BlockPlacer]: expected type {object} instead found {${typeof this.BlockPlacer}}`)
 			this.__components["minecraft:block_placer"] = {
 				"block": this.BlockPlacer.block,
 				"use_on": this.BlockPlacer.useOn
@@ -426,7 +436,7 @@ class Item {
 		 * @handleEntityPlacer
 		 */
 		if (this.EntityPlacer) {
-			if (typeof this.EntityPlacer != "object") return new Error(`[${this.name}] [component: EntityPlacer]: expected type {object} instead found {${typeof this.EntityPlacer}}`)
+			if (typeof this.EntityPlacer != "object") throw new Error(`[${this.name}] [component: EntityPlacer]: expected type {object} instead found {${typeof this.EntityPlacer}}`)
 			this.__components['minecraft:entity_placer'] = {
 				"entity": this.EntityPlacer.entity,
 				"dispense_on": this.EntityPlacer.dispenseOn,
@@ -437,7 +447,7 @@ class Item {
 		 * @handleDigger
 		 */
 		if (this.Digger) {
-			if (typeof this.Digger != "object") return new Error(`[${this.name}] [component: Digger]: expected type {object} instead found {${typeof this.Digger}}`)
+			if (typeof this.Digger != "object") throw new Error(`[${this.name}] [component: Digger]: expected type {object} instead found {${typeof this.Digger}}`)
 			this.__components['minecraft:digger'] = {
 				"on_dig": ItemEventTriggerHandler(this.Digger.onDig, this.__Data, "OnDig"),
 				"use_efficiency": this.Digger.useEfficiency,
@@ -448,7 +458,7 @@ class Item {
 		 * @handleRecord
 		 */
 		if (this.Record) {
-			if (typeof this.Record != "object") return new Error(`[${this.name}] [component: Record]: expected type {object} instead found {${typeof this.Record}}`)
+			if (typeof this.Record != "object") throw new Error(`[${this.name}] [component: Record]: expected type {object} instead found {${typeof this.Record}}`)
 			this.__components['minecraft:record'] = {
 				"duration": this.Record.duration,
 				"sound_event": this.Record.soundEvent,
@@ -459,7 +469,7 @@ class Item {
 		 * @handleProjectile
 		 */
 		if (this.Projectile) {
-			if (typeof this.Projectile != "object") return new Error(`[${this.name}] [component: Projectile]: expected type {object} instead found {${typeof this.Projectile}}`)
+			if (typeof this.Projectile != "object") throw new Error(`[${this.name}] [component: Projectile]: expected type {object} instead found {${typeof this.Projectile}}`)
 			this.__components['minecraft:projectile'] = {
 				"critical_power": this.Projectile.criticalPower,
 				"projectile_entity": this.Projectile.projectileEntity
@@ -469,7 +479,7 @@ class Item {
 		 * @handleShooter
 		 */
 		if (this.Shooter) {
-			if (typeof this.Shooter != "object") return new Error(`[${this.name}] [component: Shooter]: expected type {object} instead found {${typeof this.Shooter}}`)
+			if (typeof this.Shooter != "object") throw new Error(`[${this.name}] [component: Shooter]: expected type {object} instead found {${typeof this.Shooter}}`)
 			this.__components['minecraft:shooter'] = {
 				"ammunition": this.Shooter.ammunition,
 				"charge_on_draw": this.Shooter.chargeOnDraw ?? false,
@@ -483,7 +493,7 @@ class Item {
 		 * @handleItemStorage
 		 */
 		if (this.ItemStorage) {
-			if (typeof this.ItemStorage != "object") return new Error(`[${this.name}] [component: ItemStorage]: expected type {object} instead found {${typeof this.ItemStorage}}`)
+			if (typeof this.ItemStorage != "object") throw new Error(`[${this.name}] [component: ItemStorage]: expected type {object} instead found {${typeof this.ItemStorage}}`)
 			this.__components['minecraft:item_storage'] = {
 				"capacity": this.ItemStorage?.capacity ?? 64
 			}
@@ -492,7 +502,7 @@ class Item {
 		 * @handleFood
 		 */
 		if (this.Food) {
-			if (typeof this.Food != "object") return new Error(`[${this.name}] [component: Food]: expected type {object} instead found {${typeof this.Food}}`)
+			if (typeof this.Food != "object") throw new Error(`[${this.name}] [component: Food]: expected type {object} instead found {${typeof this.Food}}`)
 			this.__components['minecraft:food'] = {
 				"nutrition": this.Food.nutrition,
 				"saturation_modifier": this.Food.saturationModifier,
@@ -505,7 +515,7 @@ class Item {
 		 * @handleFuel
 		 */
 		if (this.Fuel) {
-			if (typeof this.Fuel != "object") return new Error(`[${this.name}] [component: Fuel]: expected type {object} instead found {${typeof this.Fuel}}`)
+			if (typeof this.Fuel != "object") throw new Error(`[${this.name}] [component: Fuel]: expected type {object} instead found {${typeof this.Fuel}}`)
 			this.__components['minecraft:fuel'] = {
 				"duration": this.Fuel.duration
 			}
@@ -514,7 +524,7 @@ class Item {
 		 * @handleRepairable
 		 */
 		if (this.Repairable) {
-			if (typeof this.Repairable != "object") return new Error(`[${this.name}] [component: Repairable]: expected type {object} instead found {${typeof this.Repairable}}`)
+			if (typeof this.Repairable != "object") throw new Error(`[${this.name}] [component: Repairable]: expected type {object} instead found {${typeof this.Repairable}}`)
 			this.__components['minecraft:repairable'] = {
 				"repair_items": this.Repairable.repairItems,
 				"on_repair": ItemEventTriggerHandler(this.Repairable.onRepair)
@@ -524,7 +534,7 @@ class Item {
 		 * @handleEnchantable
 		 */
 		if (this.Enchantable) {
-			if (typeof this.Enchantable != "object") return new Error(`[${this.name}] [component: AllowOffHand]: expected type {boolean} instead found {${typeof this.AllowOffHand}}`)
+			if (typeof this.Enchantable != "object") throw new Error(`[${this.name}] [component: AllowOffHand]: expected type {boolean} instead found {${typeof this.AllowOffHand}}`)
 			this.__components['minecraft:enchantable'] = {
 				"value": this.Enchantable.value,
 				"slot": this.Enchantable.slot
@@ -534,7 +544,7 @@ class Item {
 		 * @handleDurability
 		 */
 		if (this.Durability) {
-			if (typeof this.Durability != "object") return new Error(`[${this.name}] [component: Durability]: expected type {object} instead found {${typeof this.AllowOffHand}}`)
+			if (typeof this.Durability != "object") throw new Error(`[${this.name}] [component: Durability]: expected type {object} instead found {${typeof this.AllowOffHand}}`)
 			this.__components['minecraft:durability'] = {
 				"damage_chance": this.Durability.damageChance,
 				"max_duration": this.Durability.durability
@@ -544,28 +554,28 @@ class Item {
 		 * @handleIcon
 		 */
 		if (this.Icon) {
-			if (typeof this.Icon != ("string" || "object")) return new Error(`[${this.name}] [component: Icon]: expected type {object} or {string} instead found {${typeof this.Icon}}`)
+			if (typeof this.Icon != ("string" || "object")) throw new Error(`[${this.name}] [component: Icon]: expected type {object} or {string} instead found {${typeof this.Icon}}`)
 			this.__components['minecraft:icon'] = Icon
 		}
 		/**
 		 * @handleShouldDespawn
 		 */
 		if (this.ShouldDespawn) {
-			if (typeof this.ShouldDespawn != "boolean") return new Error(`[${this.name}] [component: ShouldDespawn]: expected type {boolean} instead found {${typeof this.ShouldDespawn}}`)
+			if (typeof this.ShouldDespawn != "boolean") throw new Error(`[${this.name}] [component: ShouldDespawn]: expected type {boolean} instead found {${typeof this.ShouldDespawn}}`)
 			this.__components['minecraft:should_despawn'] = this.ShouldDespawn
 		}
 		/**
 		 * @handleStackedByData
 		 */
 		if (this.StackedByData) {
-			if (typeof this.StackedByData != "boolean") return new Error(`[${this.name}] [component: StackedByData]: expected type {boolean} instead found {${typeof this.StackedByData}}`)
+			if (typeof this.StackedByData != "boolean") throw new Error(`[${this.name}] [component: StackedByData]: expected type {boolean} instead found {${typeof this.StackedByData}}`)
 			this.__components['minecraft:stacked_by_data'] = this.StackedByData
 		}
 		/**
 		 * @handleThrowable
 		 */
 		if (this.Throwable) {
-			if (typeof this.Throwable != "object") return new Error(`[${this.name}] [component: Throwable]: expected type {object} instead found {${typeof this.Throwable}}`)
+			if (typeof this.Throwable != "object") throw new Error(`[${this.name}] [component: Throwable]: expected type {object} instead found {${typeof this.Throwable}}`)
 			this.__components['minecraft:throwable'] = {
 				"do_swing_animation": this.Throwable?.doSwing ?? false,
 				"max_launch_power": this.Throwable?.launchPower ?? 1,
@@ -579,7 +589,7 @@ class Item {
 		 * @handleCoolDown
 		 */
 		if (this.CoolDown) {
-			if (typeof this.CoolDown != "object") return new Error(`[${this.name}] [component: CoolDown]: expected type {object} instead found {${typeof this.CoolDown}}`)
+			if (typeof this.CoolDown != "object") throw new Error(`[${this.name}] [component: CoolDown]: expected type {object} instead found {${typeof this.CoolDown}}`)
 			this.__components['minecraft:cooldown'] = {
 				"duration": this.CoolDown.duration,
 				"category": this.CoolDown.category
@@ -589,21 +599,21 @@ class Item {
 		 * @handleUseAnimation
 		 */
 		if (this.UseAnimation) {
-			if (typeof this.UseAnimation != "string") return new Error(`[${this.name}] [component: UseAnimation]: expected type {string} instead found {${typeof this.UseAnimation}}`)
+			if (typeof this.UseAnimation != "string") throw new Error(`[${this.name}] [component: UseAnimation]: expected type {string} instead found {${typeof this.UseAnimation}}`)
 			this.__components['minecraft:use_animation'] = this.UseAnimation
 		}
 		/**
 		 * @handleUseDuration
 		 */
 		if (this.UseDuration) {
-			if (typeof this.UseDuration != "number") return new Error(`[${this.name}] [component: UseDuration]: expected type {number} instead found {${typeof this.UseDuration}}`)
+			if (typeof this.UseDuration != "number") throw new Error(`[${this.name}] [component: UseDuration]: expected type {number} instead found {${typeof this.UseDuration}}`)
 			this.__components['minecraft:use_duration'] = this.UseDuration
 		}
 		/**
 		 * @handleWearable
 		 */
 		if (this.Wearable) {
-			if (typeof this.Wearable != "object") return new Error(`[${this.name}] [component: Wearable]: expected type {object} instead found {${typeof this.Wearable}}`)
+			if (typeof this.Wearable != "object") throw new Error(`[${this.name}] [component: Wearable]: expected type {object} instead found {${typeof this.Wearable}}`)
 			this.__components['minecraft:wearable'] = {
 				"slot": this.Wearable.slot,
 				"protection": this.Wearable.protection,
@@ -614,35 +624,35 @@ class Item {
 		 * @handleGlint
 		 */
 		if (this.Glint) {
-			if (typeof this.Glint != "boolean") return new Error(`[${this.name}] [component: Glint]: expected type {boolean} instead found {${typeof this.Glint}}`)
+			if (typeof this.Glint != "boolean") throw new Error(`[${this.name}] [component: Glint]: expected type {boolean} instead found {${typeof this.Glint}}`)
 			this.__components['minecraft:glint'] = this.Glint
 		}
 		/**
 		 * @handleHandEquipped
 		 */
 		if (this.HandEquipped) {
-			if (typeof this.HandEquipped != "boolean") return new Error(`[${this.name}] [component: HandEquipped]: expected type {boolean} instead found {${typeof this.HandEquipped}}`)
+			if (typeof this.HandEquipped != "boolean") throw new Error(`[${this.name}] [component: HandEquipped]: expected type {boolean} instead found {${typeof this.HandEquipped}}`)
 			this.__components['minecraft:hand_equipped'] = this.HandEquipped
 		}
 		/**
 		 * @handleHoverTextColor
 		 */
 		if (this.HoverTextColor) {
-			if (typeof this.HoverTextColor != "string") return new Error(`[${this.name}] [component: HoverTextColor]: expected type {string} instead found {${typeof this.HoverTextColor}}`)
+			if (typeof this.HoverTextColor != "string") throw new Error(`[${this.name}] [component: HoverTextColor]: expected type {string} instead found {${typeof this.HoverTextColor}}`)
 			this.__components['minecraft:hover_text_color'] = this.HoverTextColor;
 		}
 		/**
 		 * @handleInteractButton
 		 */
 		if (this.InteractButton) {
-			if (typeof this.InteractButton != "boolean") return new Error(`[${this.name}] [component: InteractButton]: expected type {boolean} instead found {${typeof this.InteractButton}}`)
+			if (typeof this.InteractButton != "boolean") throw new Error(`[${this.name}] [component: InteractButton]: expected type {boolean} instead found {${typeof this.InteractButton}}`)
 			this.__components['minecraft:interact_button'] = this.InteractButton;
 		}
 		/**
 		 * @handleMaxStackSize
 		 */
 		if (this.MaxStackSize) {
-			if (typeof this.MaxStackSize != "number") return new Error(`[${this.name}] [component: MaxStackSize]: expected type {number} instead found {${typeof this.MaxStackSize}}`)
+			if (typeof this.MaxStackSize != "number") throw new Error(`[${this.name}] [component: MaxStackSize]: expected type {number} instead found {${typeof this.MaxStackSize}}`)
 			this.__components['minecraft:max_stack_size'] = this.MaxStackSize;
 
 		}
@@ -650,7 +660,7 @@ class Item {
 		 * @handleMaxDamage
 		 */
 		if (this.MaxDamage) {
-			if (typeof this.MaxDamage != "number") return new Error(`[${this.name}] [component: MaxDamage]: expected type {number} instead found {${typeof this.MaxDamage}}`)
+			if (typeof this.MaxDamage != "number") throw new Error(`[${this.name}] [component: MaxDamage]: expected type {number} instead found {${typeof this.MaxDamage}}`)
 			this.__components['minecraft:max_damage'] = this.MaxDamage;
 
 		}
@@ -659,4 +669,8 @@ class Item {
 
 }
 
-exports.Item = Item
+module.exports = {
+	Item,
+	Set
+
+}

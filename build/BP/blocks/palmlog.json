@@ -3,7 +3,10 @@
   "minecraft:block": {
     "description": {
       "identifier": "test:palmlog",
-      "menu_category": {}
+      "menu_category": {
+        "category": "construction",
+        "group": "f"
+      }
     },
     "components": {
       "minecraft:display_name": "Palm Log",

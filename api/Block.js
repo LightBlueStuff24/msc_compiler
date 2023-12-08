@@ -1,6 +1,6 @@
 const { isFloat } = require("../Utils.js")
 const config = require("../msc.config.json");
-const {validCategories} = require('./Type.js')
+const {validCategories, validGroups} = require('./Type.js')
 const {BlockEventTriggerHandler} = require('./Handler.js');
 
 class Block {
@@ -76,17 +76,16 @@ class Block {
      */
     if (this.Category) {
       if (typeof this.Category !== "string")  return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
-        if (!validCategories.has(this.Category)) return new Error(`[${this.name}] [component: Category]: expected type {Categorys} instead found {${this.Category}}`);
+      if (!validCategories.has(this.Category.toLowerCase())) throw new Error(`[${this.name}] [component: Category]: expected type "${validCategories.getClosestMatch(this.Category)}" instead found "${this.Category}"`);
           this.__Data["minecraft:block"]["description"]["menu_category"]["category"] = this.Category;
       }
     /**
      * @handleGroup
      */
     if (this.Group) {
-      if (typeof this.Group=="string") {
+      if (typeof this.Group !=="string") return new Error(`[${this.name}] [component: Group]: expected type {string} instead found {${this.Group}}`);
+      if (!validGroups.has(this.Group.toLowerCase())) throw new Error(`[${this.name}] [component: Group]: expected type "${validGroups.getClosestMatch(this.Group)}" instead found "${this.Group}"`);
         this.__Data["minecraft:block"]["description"]["menu_category"]["group"] = this.Group;
-      }
-      else return new Error(`[${this.name}] [component: Group]: expected type {Groups|string} but instead found {${typeof this.Group}}`);
     }
     /**
      * @handleIsHiddenInCommands
