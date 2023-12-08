@@ -7,7 +7,6 @@ const { EntityRegistry } = require('./api/Registries/EntityRegistry');
 const yargs = require("yargs");
 const currentDirectory = process.cwd();
 const configPath = path.join(currentDirectory, '/msc.config.json');
-console.warn(JSON.parse(fs.readFileSync(configPath)))
 const config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath)) : undefined;
 
 async function loadFilesInDir() {

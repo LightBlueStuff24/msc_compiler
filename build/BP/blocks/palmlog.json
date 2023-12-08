@@ -5,14 +5,31 @@
       "identifier": "test:palmlog",
       "menu_category": {
         "category": "construction"
+      },
+      "states": {
+        "test:prop": [
+          1,
+          2,
+          3
+        ]
       }
     },
     "components": {
-      "minecraft:display_name": "Palm Log",
-      "minecraft:material_instances": {
-        "texture": "palm_log"
-      }
+      "minecraft:display_name": "Palm Log"
     },
-    "permutations": []
+    "permutations": [
+      {
+        "condition": "q.block_state('test:prop')==1",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      }
+    ]
   }
 }

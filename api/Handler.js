@@ -75,9 +75,9 @@ exports.ItemEventTriggerHandler=function(o,d,e,t){
 exports.HandlePermCondition=function(v,d,t){
   let res = ""
   let a=v.split(`&`)
-  a.forEach(c=>{
+  a.forEach(async c=>{
     let g=c.split("==")
-    if(!d["minecraft:block"]["States"][g[0]]) return new Error(`[${t.name}] [property: Permutations]: cannot find state ${g[0]}`)
+    if(!d["minecraft:block"]["description"]["states"][`test:${g[0]}`]) return new Error(`[${t.name}] [property: Permutations]: cannot find state ${g[0]}`)
     if(!(res === "")) res+=" && "
     res+=`q.block_state('${config.prefix}:${g[0]}')==${g[1]}`
   })

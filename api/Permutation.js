@@ -1,4 +1,4 @@
-class PermutationComponent {
+class Permutation {
 
     /**
    * @private
@@ -243,6 +243,7 @@ class PermutationComponent {
     if(typeof this.Transformation == "object") {
       let __Transformation = {}
       if(this.Transformation["Translation"]) {
+        __Transformation["translation"] = []
         this.Transformation["Translation"].forEach(value=>{
           if(typeof value == "number") {
             __Transformation["translation"].push(value)
@@ -251,6 +252,7 @@ class PermutationComponent {
         })
       }
       if(this.Transformation["Rotation"]) {
+        __Transformation["rotation"] = []
         this.Transformation["Rotation"].forEach(value=>{
           if(typeof value == "number") {
             __Transformation["rotation"].push(value)
@@ -259,6 +261,7 @@ class PermutationComponent {
         })
       }
       if(this.Transformation["Scale"]) {
+        __Transformation["scale"] = []
         this.Transformation["Scale"].forEach(value=>{
           if(typeof value == "number") {
             __Transformation["scale"].push(value)
@@ -642,8 +645,9 @@ class PermutationComponent {
     }
     else return new Error(`[${this.name}] [component: RandomTicking]: expected {object} instead found {${typeof this.RandomTicking}}`)
   }
-  return JSON.stringify(this.__Data)
+  return  Object.values(this.__Data).values().next().value
+
 }
 }
 
-exports.PermutationComponent = PermutationComponent
+exports.Permutation = PermutationComponent

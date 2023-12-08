@@ -411,35 +411,65 @@ class Block {
        * @handleStates
        */
       if (this.States) {
-        if (typeof this.States != "object") return new Error(`[${this.name}] [property: States]: expected type {object} instead found ${typeof this.States}`);
-        let __States = {}
-        for (let [state, values] of Object.entries(this.States)) {
-          if (typeof state != "string") return new Error(`[${this.name}] [property: States] [name: ${state}]: expected type {string} instead found ${typeof state}`)
-          let stateName = `${config["prefix"]}:${state}`
-          __States[stateName] = [];
-          values.forEach(v => {
-            if (typeof values != ("boolean" || "number")) return new Error(`[${this.name}] [property: States] [name: ${stateName}]: expected type {string[]|number[]|boolean[]} instead found ${typeof v}`)
-            __States[stateName].push(v)
-          })
+        if (typeof this.States !== "object") {
+          return new Error(`[${this.name}] [property: States]: expected type {object} instead found ${typeof this.States}`);
         }
+      
+        let __States = {};
+      
+        for (let [state, values] of Object.entries(this.States)) {
+          if (typeof state !== "string") {
+            return new Error(`[${this.name}] [property: States] [name: ${state}]: expected type {string} instead found ${typeof state}`);
+          }
+      
+          let stateName = `${config["prefix"]}:${state}`;
+          __States[stateName] = [];
+      
+          if (!Array.isArray(values)) {
+            return new Error(`[${this.name}] [property: States] [name: ${stateName}]: expected type {string[]} instead found ${typeof values}`);
+          }
+      
+          values.forEach(v => {
+            if (typeof v !== "boolean" && typeof v !== "number") {
+              return new Error(`[${this.name}] [property: States] [name: ${stateName}]: expected type {string[]|number[]|boolean[]} instead found ${typeof v}`);
+            }
+            __States[stateName].push(v);
+          });
+        }
+      
         this.__Data["minecraft:block"].description.states = __States;
       }
+      
       /**
        * @handlePermutations
        */
       if (this.Permutations) {
-        if (typeof this.Permutations === ("string" || "boolean" || "number" || "Function" || "object")) return new Error(`[${this.name}] [property: Permutations]: expected type {object[]} instead found {${typeof this.Permutations}}`);
-        let __Permutations = []
+        if (typeof this.Permutations !== "object") {
+          return new Error(`[${this.name}] [property: Permutations]: expected type {object} instead found {${typeof this.Permutations}}`);
+        }
+      
+        let __Permutations = [];
+      
         for (let [condition, permData] of Object.entries(this.Permutations)) {
-          let __permuteData = {}
-          if (typeof condition != "string") return new Error(`[${this.name}] [property: Permutations] [perm: ${condition}]: expected type {string} instead found {${typeof condition}}`)
-          __permuteData.condition = HandlePermCondition(condition, this.__Data, this)
-          if (typeof permData != "object") return new Error(`[${this.name}] [property: permutations] [perm_value: ${permData}] expected type {object} instead found {${typeof permData}}`)
+          let __permuteData = {};
+      
+          if (typeof condition !== "string") {
+            return new Error(`[${this.name}] [property: Permutations] [perm: ${condition}]: expected type {string} instead found {${typeof condition}}`);
+          }
+      
+          __permuteData.condition = HandlePermCondition(condition, this.__Data, this);
+      
+          if (typeof permData !== "object") {
+            return new Error(`[${this.name}] [property: Permutations] [perm_value: ${permData}]: expected type {object} instead found {${typeof permData}}`);
+          }
+      
           __permuteData.components = permData;
           __Permutations.push(__permuteData);
         }
+      
         this.__Data["minecraft:block"].permutations = __Permutations;
       }
+      
       return JSON.stringify(this.__Data);
     
   }
