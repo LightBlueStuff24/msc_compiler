@@ -42,10 +42,7 @@ class Block {
    * @type {Flammable}
    */
   static Flammable;
-  static Texture;
-  static RenderMethod;
-  static FaceDimming;
-  static AmbientOcclusion;
+  static Material;
   static LightEmmision;
   static LightDampening;
   static Geometry;
@@ -157,27 +154,32 @@ class Block {
       /**
        * @handleMaterialInstance
        */
-      if (this.Texture || this.RenderMethod || this.FaceDimming || this.AmbientOcclusion) {
-        let __MaterialInstances = {}
-        if (this.Texture) {
-          if (typeof this.Texture != "string") return new Error(`[${this.name}] [component: Texture]: expected {string} instead found {${typeof this.Texture}}`)
-          __MaterialInstances.texture = this.Texture;
+      if (this.Material) {
+        let __Material = {}
+        if(typeof this.Material != "object") return new Error(`[${this.name}] [component: Material]: expected type {Material} instead found {${typeof this.Material}}`)
+        for (let [m,v] of this.Material) {
+          if(typeof v != "object") return new Error(`[${this.name}] [component: Material] [bone: ${m}]: expected type {MaterialInstances} instead found {${typeof v}}`)
+          let __MaterialInstances = {}
+          if (v.Texture) {
+            if (typeof v.Texture != "string") return new Error(`[${this.name}] [component: Material] [bone: ${m}] [child: Texture]: expected {string} instead found {${typeof v.Texture}}`)
+            __MaterialInstances.texture = v.Texture;
+          }
+          if (v.RenderMethod) {
+            if (typeof v.RenderMethod != "string") return new Error(`[${this.name}] [component: Material] [bone: ${m}] [child: RenderMethod]: expected {string} instead found {${typeof v.RenderMethod}}`)
+            if (v.RenderMethod != ("opaque" || "blend" || "alpha_test" || "double_sided")) return new Error(`[${this.name}] [component: Material] [bone: ${m}] [child: RenderMethod]: expected type {RenderMethod} but found {${v.RenderMethod}}`)
+            __MaterialInstances.render_method = v.RenderMethod;
+          }
+          if (v.FaceDimming) {
+            if (typeof v.FaceDimming != "boolean") return new Error(`[${this.name}] [component: Material] [bone: ${m}] [child: FaceDimming]: expected {boolean} instead found {${typeof v.FaceDimming}}`)
+            __MaterialInstances.face_dimming = v.FaceDimming;
+          }
+          if (v.AmbientOcclusion) {
+            if (typeof v.AmbientOcclusion != "boolean") return new Error(`[${this.name}] [component: Material] [bone: ${m}] [child: AmbientOcclusion]: expected {boolean} instead found {${typeof v.AmbientOcclusion}}`)
+            __MaterialInstances.ambient_occlusion = v.AmbientOcclusion;
+          }
+          __Material[m]=__MaterialInstances;
         }
-        if (this.RenderMethod) {
-          if (typeof this.RenderMethod != "string") return new Error(`[${this.name}] [component: RenderMethod]: expected {string} instead found {${typeof this.RenderMethod}}`)
-          if (this.RenderMethod != ("opaque" || "blend" || "alpha_test" || "double_sided")) return new Error(`[${this.name}] [component: RenderMethod]: expected type {RenderMethod} but found {${this.RenderMethod}}`)
-          __MaterialInstances.render_method = this.RenderMethod;
-        }
-        if (this.FaceDimming) {
-          if (typeof this.FaceDimming != "boolean") return new Error(`[${this.name}] [component: FaceDimming]: expected {boolean} instead found {${typeof this.FaceDimming}}`)
-          __MaterialInstances.face_dimming = this.FaceDimming;
-        }
-        if (this.AmbientOcclusion) {
-          if (typeof this.AmbientOcclusion != "boolean") return new Error(`[${this.name}] [component: AmbientOcclusion]: expected {boolean} instead found {${typeof this.AmbientOcclusion}}`)
-          __MaterialInstances.ambient_occlusion = this.AmbientOcclusion;
-
-        }
-        this.__components["minecraft:material_instances"] = __MaterialInstances;
+        this.__components["minecraft:material_instances"]=__Material;
       }
       /**
        * @handleBlockLightEmmision
@@ -387,8 +389,8 @@ class Block {
             __QueuedTicking.condition = this.QueuedTicking.IntervalRange;
           })
         }
-        if(ths.QueuedTicking.Condition||this.QueuedTicking.Event||this.QueuedTicking.Target||this.QueuedTicking.Action) {
-          __QueuedTicking =  BlockEventTriggerHandler(this.QueuedTicking, this.__Data, "QueuedTicking", this);
+        if (ths.QueuedTicking.Condition || this.QueuedTicking.Event || this.QueuedTicking.Target || this.QueuedTicking.Action) {
+          __QueuedTicking = BlockEventTriggerHandler(this.QueuedTicking, this.__Data, "QueuedTicking", this);
         }
         this.__components["minecraft:queued_ticking"] = __QueuedTicking;
       }
@@ -399,8 +401,8 @@ class Block {
         if (typeof this.RandomTicking != "object") return new Error(`[${this.name}] [component: RandomTicking]: expected {object} instead found {${typeof this.RandomTicking}}`)
         if (!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
         let __RandomTicking = { "on_tick": {} }
-        if(ths.RandomTicking.Condition||this.RandomTicking.Event||this.RandomTicking.Target||this.RandomTicking.Action) {
-          __RandomTicking =  BlockEventTriggerHandler(this.RandomTicking, this.__Data, "RandomTicking", this);
+        if (ths.RandomTicking.Condition || this.RandomTicking.Event || this.RandomTicking.Target || this.RandomTicking.Action) {
+          __RandomTicking = BlockEventTriggerHandler(this.RandomTicking, this.__Data, "RandomTicking", this);
         }
         this.__components["minecraft:random_ticking"] = __RandomTicking;
       }
