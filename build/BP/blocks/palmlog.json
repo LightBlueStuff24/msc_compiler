@@ -26,12 +26,16 @@
       {
         "condition": "q.block_state('test:prop')==1",
         "components": {
-          "minecraft:transformation": {
-            "rotation": [
-              0,
-              0,
-              0
-            ]
+          "minecraft:destructible_by_mining": {
+            "seconds_to_destroy": 6
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('test:prop')==2",
+        "components": {
+          "minecraft:destructible_by_mining": {
+            "seconds_to_destroy": 6
           }
         }
       }

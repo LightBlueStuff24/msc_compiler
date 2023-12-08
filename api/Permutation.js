@@ -4,11 +4,9 @@ class Permutation {
    * @private
    */
   static __Data = {
-      "components": {}
     
   };
 
-  static __components = this.__Data['components']
   
      /**
    * @BlockData
@@ -54,19 +52,20 @@ class Permutation {
      */
    if (this.DisplayName) {
     if (typeof this.DisplayName == "string") {
-      this.__components["minecraft:display_name"] = this.DisplayName;
+      this.__Data["minecraft:display_name"] = this.DisplayName;
     }
     else return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
   }
+  
   /**
    * @handleDestroytime
    */
   if (this.DestroyTime) {
     if (typeof this.DestroyTime == "boolean") {
-      this.__components["minecraft:destructible_by_mining"] = this.DestroyTime;
+      this.__Data["minecraft:destructible_by_mining"] = this.DestroyTime;
     }
     else if (typeof this.DestroyTime == "number") {
-      this.__components["minecraft:destructible_by_mining"] = {
+      this.__Data["minecraft:destructible_by_mining"] = {
         "seconds_to_destroy": this.DestroyTime,
       }
     } else return new Error(`[${this.name}] [component: DestroyTime]: expected type {boolean|integer} instead found {${typeof this.DestroyTime}}`)
@@ -76,10 +75,10 @@ class Permutation {
    */
   if (this.ExplosionResistance) {
     if (typeof this.ExplosionResistance == "boolean") {
-      this.__components["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
+      this.__Data["minecraft:destructible_by_explosion"]=this.ExplosionResistance;
     }
     else if (typeof this.ExplosionResistance == "number") {
-      this.__components["minecraft:destructible_by_explosion"] = {
+      this.__Data["minecraft:destructible_by_explosion"] = {
         "explosion_resistance": this.ExplosionResistance,
       };
     } else return new Error(`[${this.name}] [component: ExplosionResistance]: expected type {boolean|integer} instead found {${typeof this.ExplosionResistance}}`)
@@ -90,7 +89,7 @@ class Permutation {
   if (this.Friction) {
     if (typeof this.Friction == "number") {
       if (isFloat(this.Friction)) {
-        this.__components["minecraft:friction"] = this.Friction;
+        this.__Data["minecraft:friction"] = this.Friction;
       }
       else return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
     }
@@ -100,7 +99,7 @@ class Permutation {
    * @handleFlammable
    */
   if (this.CatchChanceModifier || this.DestroyChanceModifier) {
-    let __Flammable = this.__Data["minecraft:block"]["components"]["minecraft:flammable"] = {}
+    let __Flammable = this.__Data["minecraft:block"]["minecraft:flammable"] = {}
     if (this.CatchChanceModifier) {
       if (typeof this.CatchChanceModifier == "number") {
         __Flammable["catch_chance_modifier"] = this.CatchChanceModifier;
@@ -146,14 +145,14 @@ class Permutation {
       }
       else return new Error(`[${this.name}] [component: AmbientOcclusion]: expected {boolean} instead found {${typeof this.AmbientOcclusion}}`)
     }
-    this.__components["minecraft:material_instances"] = __MaterialInstances;
+    this.__Data["minecraft:material_instances"] = __MaterialInstances;
   }
   /**
    * @handleBlockLightEmmision
    */
   if(this.LightEmmision){
     if(typeof this.LightEmmision == "number") {
-      this.__components["minecraft:block_light_emmision"] = this.LightEmmision;
+      this.__Data["minecraft:block_light_emmision"] = this.LightEmmision;
     }
     else return new Error(`[${this.name}] [component: LightEmmision]: expected {number} instead found {${typeof this.LightEmmision}}`)
   }
@@ -162,7 +161,7 @@ class Permutation {
    */
   if(this.LightDampening){
     if(typeof this.LightDampening == "number") {
-      this.__components["minecraft:block_light_dampening"] = this.LightDampening;
+      this.__Data["minecraft:block_light_dampening"] = this.LightDampening;
     }
     else return new Error(`[${this.name}] [component: LightDampening]: expected {number} instead found {${typeof this.LightDampening}}`)
   }
@@ -172,7 +171,7 @@ class Permutation {
   if(this.Geometry || this.BoneVisibility) {
     if(this.Geometry) {
       if(typeof this.Geometry == "string") {
-        this.__components["minecraft:geometry"] = {
+        this.__Data["minecraft:geometry"] = {
           "identifier": this.Geometry
         }
       }
@@ -183,7 +182,7 @@ class Permutation {
       if(typeof this.BoneVisibility == "object") {
         for(const [bone, value] of this.BoneVisibility) {
           if(typeof bone == "string" && typeof value == ("string"||"boolean")) {
-            this.__components["minecraft:geometry"]["bone_visibility"] = { bone: value }
+            this.__Data["minecraft:geometry"]["bone_visibility"] = { bone: value }
           }
           if(typeof bone != "string") return new Error(`[${this.name}] [component: bone_visibility] [child: ${bone}]: expected {string} instead found {${typeof bone}}`)
           if(typeof value != ("string" || "boolean")) return new Error(`[${this.name}] [component: bone_visibility] [child: ${value}]: expected {string} or boolean instead found {${typeof value}}`)
@@ -232,7 +231,7 @@ class Permutation {
         }
         __PlacementFilter["conditions"].push(__condition)
       }
-      this.__components["minecraft:placement_filter"]=__PlacementFilter;
+      this.__Data["minecraft:placement_filter"]=__PlacementFilter;
     }
     else return new Error(`[${this.name}] [component: PlacementFilter]: expected type {object} instead found {${typeof this.PlacementFilter}}`)
   }
@@ -269,7 +268,7 @@ class Permutation {
           else return new Error(`[${this.name}] [component: Transformation] [child: Scale]: expected type {number} instead found {${typeof value}}`)
         })
       }
-      this.__components["minecraft:transformation"] = __Transformation;
+      this.__Data["minecraft:transformation"] = __Transformation;
     }
     else return new Error(`[${this.name}] [component: Transformation]: expected type {object} instead found {${typeof this.Transformation}}`)
   }
@@ -278,7 +277,7 @@ class Permutation {
    */
   if(this.Loot) {
     if(typeof this.Loot == "string") {
-      this.__components["minecraft:loot"] = this.Loot;
+      this.__Data["minecraft:loot"] = this.Loot;
     }
     else return new Error(`[${this.name}] [component: Loot]: expected type {string} instead found {${typeof this.Loot}}`)
   }
@@ -287,11 +286,11 @@ class Permutation {
    */
   if(this.MapColor) {
     if(typeof this.MapColor == "string") {
-      this.__components["minecraft:map_color"] = this.MapColor;
+      this.__Data["minecraft:map_color"] = this.MapColor;
     }
     if(typeof this.MapColor == "object") {
       if(this.MapColor["R"] && this.MapColor["B"] && this.MapColor["G"]) {
-        this.__components["minecraft:map_color"] = [this.MapColor["R"], this.MapColor["B"], this.MapColor["G"]]
+        this.__Data["minecraft:map_color"] = [this.MapColor["R"], this.MapColor["B"], this.MapColor["G"]]
       }
       else return new Error(`[${this.name}] [component: MapColor]: expected MapColor={R: number, B: number, G: number} instead found {${this.MapColor}}`)
     }
@@ -319,7 +318,7 @@ class Permutation {
           else return new Error(`[${this.name}] [component: CollisionBox] [child: Size]: expected type {number} instead found {${typeof s}}`)
         })
       }
-      this.__components["minecraft:collision_box"] = __CollisionBox;
+      this.__Data["minecraft:collision_box"] = __CollisionBox;
     }
     else return new Error(`[${this.name}] [component: CollisionBox]: expected type {object} instead found {${typeof this.CollisionBox}}`)
   }
@@ -345,7 +344,7 @@ class Permutation {
           else return new Error(`[${this.name}] [component: SelectionBox] [child: Size]: expected type {number} instead found {${typeof s}}`)
         })
       }
-      this.__components["minecraft:selection_box"] = __SelectionBox;
+      this.__Data["minecraft:selection_box"] = __SelectionBox;
     }
     else return new Error(`[${this.name}] [component: SelectionBox]: expected type {object} instead found {${typeof this.SelectionBox}}`)
   }
@@ -376,7 +375,7 @@ class Permutation {
         }
         else return new Error(`[${this.name}] [component: OnStepOn] [child: Target]: expected type {string} instead found {${typeof this.OnStepOn["Target"]}}`)
       }
-      this.__components["minecraft:on_step_on"] = __OnStepOn;
+      this.__Data["minecraft:on_step_on"] = __OnStepOn;
     }
     else return new Error(`[${this.name}] [component: OnStepOn]: expected {object} instead found {${typeof this.OnStepOn}}`)
   }
@@ -407,7 +406,7 @@ class Permutation {
         }
         else return new Error(`[${this.name}] [component: OnStepOff] [child: Target]: expected type {string} instead found {${typeof this.OnStepOff["Target"]}}`)
       }
-      this.__components["minecraft:on_step_off"] = __OnStepOff;
+      this.__Data["minecraft:on_step_off"] = __OnStepOff;
     }
     else return new Error(`[${this.name}] [component: OnStepOff]: expected {object} instead found {${typeof this.OnStepOn}}`)
   }
@@ -438,7 +437,7 @@ class Permutation {
         }
         else return new Error(`[${this.name}] [component: OnFallOn] [child: Target]: expected type {string} instead found {${typeof this.OnFallOn["Target"]}}`)
       }
-      this.__components["minecraft:on_fall_on"] = __OnFallOn;
+      this.__Data["minecraft:on_fall_on"] = __OnFallOn;
     }
     else return new Error(`[${this.name}] [component: OnFallOn]: expected {object} instead found {${typeof this.OnFallOn}}`)
   }
@@ -469,7 +468,7 @@ class Permutation {
         }
         else return new Error(`[${this.name}] [component: OnPlayerPlacing] [child: Target]: expected type {string} instead found {${typeof this.OnPlayerPlacing["Target"]}}`)
       }
-      this.__components["minecraft:on_player_placing"] = __OnPlayerPlacing;
+      this.__Data["minecraft:on_player_placing"] = __OnPlayerPlacing;
     }
     else return new Error(`[${this.name}] [component: OnPlayerPlacing]: expected {object} instead found {${typeof this.OnPlayerPlacing}}`)
   }
@@ -500,7 +499,7 @@ class Permutation {
         }
         else return new Error(`[${this.name}] [component: OnPlayerDestroyed] [child: Target]: expected type {string} instead found {${typeof this.OnPlayerDestroyed["Target"]}}`)
       }
-      this.__components["minecraft:on_player_destroyed"] = __OnPlayerDestroyed;
+      this.__Data["minecraft:on_player_destroyed"] = __OnPlayerDestroyed;
     }
     else return new Error(`[${this.name}] [component: OnPlayerDestroyed]: expected {object} instead found {${typeof this.OnPlayerDestroyed}}`)
   }
@@ -531,7 +530,7 @@ class Permutation {
         }
         else return new Error(`[${this.name}] [component: OnPlaced] [child: Target]: expected type {string} instead found {${typeof this.OnPlaced["Target"]}}`)
       }
-      this.__components["minecraft:on_placed"] = __OnPlaced;
+      this.__Data["minecraft:on_placed"] = __OnPlaced;
     }
     else return new Error(`[${this.name}] [component: OnPlaced]: expected {object} instead found {${typeof this.OnPlaced}}`)
   }
@@ -562,7 +561,7 @@ class Permutation {
         }
         else return new Error(`[${this.name}] [component: OnInteract] [child: Target]: expected type {string} instead found {${typeof this.OnInteract["Target"]}}`)
       }
-      this.__components["minecraft:on_interact"] = __OnInteract;
+      this.__Data["minecraft:on_interact"] = __OnInteract;
     }
     else return new Error(`[${this.name}] [component: OnInteract]: expected {object} instead found {${typeof this.OnInteract}}`)
   }
@@ -610,7 +609,7 @@ class Permutation {
         }
         else return new Error(`[${this.name}] [component: QueuedTicking] [child: Target]: expected type {string} instead found {${typeof this.QueuedTicking["Target"]}}`)
       }
-      this.__components["minecraft:queued_ticking"] = __QueuedTicking;
+      this.__Data["minecraft:queued_ticking"] = __QueuedTicking;
     }
     else return new Error(`[${this.name}] [component: QueuedTicking]: expected {object} instead found {${typeof this.QueuedTicking}}`)
   }
@@ -641,12 +640,11 @@ class Permutation {
         }
         else return new Error(`[${this.name}] [component: RandomTicking] [child: Target]: expected type {string} instead found {${typeof this.RandomTicking["Target"]}}`)
       }
-      this.__components["minecraft:random_ticking"] = __RandomTicking;
+      this.__Data["minecraft:random_ticking"] = __RandomTicking;
     }
     else return new Error(`[${this.name}] [component: RandomTicking]: expected {object} instead found {${typeof this.RandomTicking}}`)
   }
-  return  Object.values(this.__Data).values().next().value
-
+  return this.__Data
 }
 }
 

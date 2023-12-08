@@ -16,6 +16,10 @@ class LogRotation2 extends Permutation {
     Rotation: [0, 90, 0]
   }
 }
+
+class DestroyTime extends Permutation {
+  static DestroyTime = 6
+}
 class PalmLog extends Block {
     static States = {
         "prop":[1,2,3]
@@ -28,15 +32,11 @@ class PalmLog extends Block {
   }
   static Category = "construction"
   static Permutations = {
-    "prop==1": DestroyTime.init() 
+    "prop==1": DestroyTime.init(),
+    "prop == 2": DestroyTime.init()
   }
 }
 
-class GlassBottle extends Item {
-    static DisplayName = "Glass Bottle"
-    static Category = "construction"
-}
-ItemRegistry.register(GlassBottle)
 BlockRegistry.register(PalmLog)
 
 /**
@@ -52,12 +52,6 @@ class Log extends Block {
     CatchChanceModifier: 20,
     DestroyChanceModifier: 40
   }
-  static Material = {
-    Texture: "log",
-    RenderMethod: "opaque",
-    FaceDimming: false,
-    AmbientOcclusion: false
-  }
   static OnPlayerPlacing = {
     Event: "rotate",
     Target: "self",
@@ -71,9 +65,9 @@ class Log extends Block {
     "rotation": [0,1,2]
   }
   static Permutations = {
-    "rotation == 0": LogRotation0.init(),
-    "rotation == 1": LogRotation1.init(),
-    "rotation == 2": LogRotation2.init()
+    "rotation ==0": LogRotation0.init(),
+    "rotation ==1": LogRotation1.init(),
+    "rotation ==2": LogRotation2.init()
   }
 }
 
