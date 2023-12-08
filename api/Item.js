@@ -4,9 +4,6 @@ const { ItemEventTriggerHandler } = require("./Handler");
 const Fuse = require('fuse.js');
 const config = require('../msc.config.json');
 
-
-
-
 Set.prototype.getClosestMatch = function (string) {
 	const fuse = new Fuse(Array.from(this), {
 		shouldSort: true,
@@ -15,6 +12,7 @@ Set.prototype.getClosestMatch = function (string) {
 	const result = fuse.search(string);
 	return result.length > 0 ? result[0].item : null;
 };
+
 
 /**
  * @typedef {Object} BlockPlacerComponent

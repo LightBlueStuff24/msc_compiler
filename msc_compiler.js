@@ -5,10 +5,10 @@ const path = require("path");
 const { ItemRegistry } = require("./api/Registries/ItemRegistry");
 const { EntityRegistry } = require('./api/Registries/EntityRegistry');
 const yargs = require("yargs");
+const Fuse = require("fuse.js");
 const currentDirectory = process.cwd();
 const configPath = path.join(currentDirectory, '/msc.config.json');
 const config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath)) : undefined;
-
 async function loadFilesInDir() {
   const directoryPath = path.join(currentDirectory, config.inputDirectory)
   try {

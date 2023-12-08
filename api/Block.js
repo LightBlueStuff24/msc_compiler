@@ -2,6 +2,16 @@ const { isFloat } = require("../Utils.js")
 const config = require("../msc.config.json");
 const { validCategories, validGroups } = require('./Type.js')
 const { BlockEventTriggerHandler, HandlePermCondition } = require('./Handler.js');
+const Fuse = require('fuse.js');
+Set.prototype.getClosestMatch = function (string) {
+	const fuse = new Fuse(Array.from(this), {
+		shouldSort: true,
+		threshold: 0.6,
+	});
+	const result = fuse.search(string);
+	return result.length > 0 ? result[0].item : null;
+};
+
 
 /**
  * @typedef {object} Flammable
