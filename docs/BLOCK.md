@@ -1,20 +1,19 @@
 # MSC Compiler
 ## Block-Components-List:
 
-- [Components:](#components)
-  - [Category](#category)
-  - [Group](#group)
-  - [DisplayName](#displayname)
-  - [DestroyTime](#destroytime)
-  - [ExplosionResistance](#explosionresistance)
-  - [Friction](#friction)
-  - [CatchChanceModifier](#catchchancemodifier)
-  - [DestroyChanceModifier](#destroychancemodifier)
-  - [Material](#material)
-  - [LightEmmision](#lightemmision)
-  - [LightDampening](#lightdampening)
-  - [Geometry](#geometry)
-  - [BoneVisibility](#bonevisibility)
+## Components:
+  - [Category](#Category)
+  - [Group](#Group)
+  - [DisplayName](#DisplayName)
+  - [DestroyTime](#DestroyTime)
+  - [ExplosionResistance](#ExplosionResistance)
+  - [Friction](#Friction)
+  - [Flammable](#Flammable)
+  - [Material](#Material)
+  - [LightEmmision](#LightEmmision)
+  - [LightDampening](#LightDampening)
+  - [Geometry](#Geometry)
+  - [BoneVisibility](#BoneVisibility)
 
 ## Components:
 ## Category
@@ -104,30 +103,21 @@
   static Friction = 0.4
   ```
   - [back to top](#block-components-list)
-## CatchChanceModifier
-  Component: `CatchChanceModifier: number`
+## Flammable
+  Component: `Flammable: FlammableComponent`
   BlockComponent:
   ```json
   "minecraft:flammable": {
-  "catch_chance_modifier": 5
-}
-  ```
-  example usage:
-  ```javascript
-  static CatchChanceModifier = 5
-  ```
-  - [back to top](#block-components-list)
-## DestroyChanceModifier
-  Component: `DestroyChanceModifier: number`
-  BlockComponent:
-  ```json
-  "minecraft:flammable": {
+  "catch_chance_modifier": 5,
   "destroy_chance_modifier": 20
 }
   ```
   example usage:
   ```javascript
-  static DestroyChanceModifier = 20
+  static Flammable = {
+    CatchChanceModifier = 5,
+    DestroyChanceModifier = 20
+  }
   ```
   - [back to top](#block-components-list)
 ## Material
@@ -159,7 +149,7 @@
     }
   }
   ```
-   - [back to top](#block-components-list)
+  - [back to top](#block-components-list)
 ## LightEmmision
   Component: `LightEmmision: number`
   BlockComponent:
