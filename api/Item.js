@@ -7,6 +7,8 @@ const {
 const {
 	ItemEventTriggerHandler
 } = require("./Handler");
+
+const config = require('../msc.config.json')
 /**
  * @typedef {Object} BlockPlacerComponent
  * @property {string} block - The block to be placed
@@ -159,11 +161,11 @@ class Item {
 	 * @private
 	 */
 	static __Data = {
-		"format_version": config["version"],
+		"format_version": config.item["version"],
 		"minecraft:item": {
 			"description": {
 				"identifier": `${config["prefix"]}:${this.name.toLowerCase()}`,
-				"menu_category": {}
+				"category":""
 			},
 			"components": {},
 		},
@@ -378,28 +380,14 @@ class Item {
 	 * @CreatesItemObject
 	 */
 	static init() {
-		this.__Data["minecraft:item"]["description"]["identifier"] = `${c["prefix"]}:${this.name.toLowerCase()}`
+		this.__Data["minecraft:item"]["description"]["identifier"] = `${config["prefix"]}:${this.name.toLowerCase()}`
 		/**
 		 * @handleCategory
 		 */
 		if (this.Category) {
 			if (typeof this.Category != "string") return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
 			if (!validCategories.has(this.Category)) return new Error(`[${this.name}] [component: Category]: expected type {Categorys} instead found {${this.Category}}`);
-			this.__Data["minecraft:block"]["description"]["menu_category"]["category"] = this.Category;
-		}
-		/**
-		 * @handleGroup
-		 */
-		if (this.Group) {
-			if (typeof this.Group != "string") return new Error(`[${this.name}] [component: Group]: expected type {Groups|string} but instead found {${typeof this.Group}}`);
-			this.__Data["minecraft:block"]["description"]["menu_category"]["group"] = this.Group;
-		}
-		/**
-		 * @handleIsHiddenInCommands
-		 */
-		if (this.IsHiddenInCommands) {
-			if (typeof this.IsHiddenInCommands != "boolean") return new Error(`[${this.name}] [component: IsHiddenInCommands]: expected type {boolean} instead found {${typeof this.IsHiddenInCommands}}`)
-			this.__Data["minecraft:block"]["description"]["menu_category"]["is_hidden_in_commands"] = this.IsHiddenInCommands;
+			this.__Data["minecraft:item"]["description"]["category"] = this.Category;
 		}
 		/**
 		 * @handleDisplayName
@@ -670,3 +658,5 @@ class Item {
 	}
 
 }
+
+exports.Item = Item

@@ -1,7 +1,7 @@
 class ItemRegistry {
     static Registries = [];
-    static register(block) {
-      this.Registries.push(block.init())
+    static register(item) {
+      this.Registries.push(item.init())
     }
   }
   
