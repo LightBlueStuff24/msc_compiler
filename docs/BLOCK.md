@@ -196,9 +196,9 @@
   BlockComponent:
   ```json
   "minecraft:geometry": {
-  "identifier": "geometry.my_geometry",
-  "bone_visibility": {
-    "my_bone": true
+    "identifier": "geometry.my_geometry",
+    "bone_visibility": {
+      "my_bone": true
     }
   }
   ```

@@ -3,14 +3,62 @@ A Minecraft Bedrock Addon writer using classes
 
 Example of Creating a Block and Creating another same type of Block:
 ```javascript
+const {BlockRegistry} = require("./msc_compiler/BlockRegistry")
+const {Block} = require("./msc_compiler/api/Block")
+
+class LogRotation0 extends Permutations {
+  static Transformation = {
+    Rotation: [0, 0, 0]
+  }
+}
+class LogRotation1 extends Permutations {
+  static Transformation = {
+    Rotation: [90, 0, 0]
+  }
+}
+class LogRotation2 extends Permutations {
+  static Transformation = {
+    Rotation: [0, 90, 0]
+  }
+}
+
+/**
+ * @class Log
+ * @template Log
+ */
 class Log extends Block {
-  static Category = "nature";
-  static Group = "itemGroup.logs.name";
-  static DisplayName = "Your Block Name";
-  static DestoryTime = 5;
-  static ExplosionResistance = 7;
-  static Texture = "Your texture name";
-  static RenderMethod = "opaque";
+  static Category = "construction";
+  static Group = "itemGroup.name.logs";
+  static DisplayName = "Log";
+  static DestroyTime = 6;
+  static ExplosionResistance = 5;
+  static Flammable = {
+    CatchChanceModifier: 20,
+    DestroyChanceModifier: 40
+  }
+  static Material = {
+    Texture: "log",
+    RenderMethod: "opaque",
+    FaceDimming: false,
+    AmbientOcclusion: false
+  }
+  static OnPlayerPlacing = {
+    Event: "rotate",
+    Target: "self",
+    Action: {
+      SetBlockState: {
+        "rotation": "Math.floor(q.cardinal_face/2)"
+      }
+    }
+  }
+  static States = {
+    "rotation": [0,1,2]
+  }
+  static Permutations = {
+    "rotation == 0": LogRotation0.init(),
+    "rotation == 1": LogRotation1.init(),
+    "rotation == 2": LogRotation2.init()
+  }
 }
 BlockRegistry.register(Log)
 
