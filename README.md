@@ -28,7 +28,7 @@ class LogRotation2 extends Permutations {
  */
 class Log extends Block {
   static Category = "construction";
-  static Group = "itemGroup.logs.name";
+  static Group = "itemGroup.name.logs";
   static DisplayName = "Log";
   static DestroyTime = 6;
   static ExplosionResistance = 5;

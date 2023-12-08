@@ -428,7 +428,7 @@ class Block {
        * @handlePermutations
        */
       if (this.Permutations) {
-        if (typeof this.Permutations === ("string" || "boolean" || "number" || "Function" || "object")) return new Error(`[${this.name}] [property: Permutations]: expected type {object[]} instead found {${typeof this.Permutations}}`);
+        if (!Array.isArray(this.Permutations)) return new Error(`[${this.name}] [property: Permutations]: expected type {object[]} instead found {${typeof this.Permutations}}`);
         let __Permutations = []
         for (let [condition, permData] of Object.entries(this.Permutations)) {
           let __permuteData = {}
