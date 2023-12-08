@@ -205,7 +205,7 @@
   example usage:
   ```javascript
   static BoneVisibility = {
-        MyBone: true
-      }
+    MyBone: true
+  }
   ```
   - [back to top](#block-components-list)
