@@ -63,7 +63,7 @@
   ```
   ```json
   "minecraft:destructible_by_mining": {
-    "seconds_to_destroy": 0.5
+    "seconds_to_destroy": 5
   }
   ```
   example usage:
@@ -71,7 +71,7 @@
   static DestroyTime = false
   ```
   ```javascript
-  static DestroyTime = 0.5
+  static DestroyTime = 5
   ```
   - [back to top](#block-components-list)
 
