@@ -10,10 +10,7 @@
   - [Friction](#friction)
   - [CatchChanceModifier](#catchchancemodifier)
   - [DestroyChanceModifier](#destroychancemodifier)
-  - [Texture](#texture)
-  - [RenderMethod](#rendermethod)
-  - [FaceDimming](#facedimming)
-  - [AmbientOcclusion](#ambientocclusion)
+  - [Material](#material)
   - [LightEmmision](#lightemmision)
   - [LightDampening](#lightdampening)
   - [Geometry](#geometry)
@@ -133,66 +130,39 @@
   static DestroyChanceModifier = 20
   ```
   - [back to top](#block-components-list)
-## Texture
-  Component: `Texture: string`
+## Material
+  Compoenent: `Material: MaterialInstances`
+  - [see type MaterialInstances](./TYPEDEF.md#materialinstances)
   BlockComponent:
   ```json
   "minecraft:material_instances": {
     "*": {
-      "texture": "texture_name"
+      "texture": "your_texture",
+      "render_method": "opaque",
+      "face_dimming": false,
+      "ambient_occlusion": false
     }
   }
   ```
+  - `[Bone: string]: Materal`
+  - [See type Material](./TYPEDEF.md)
+  - `Texture: String`
+  - `RenderMethod: RenderMethodEnum`
+  - [See RenderMethodEnum](./ENUM.md#rendermethodenum)
+  - `FaceDimming: boolean`
+  - `AmbientOcclusion: boolean`
   example usage:
   ```javascript
-  static Texture = "texture_name"
-  ```
-  - [back to top](#block-components-list)
-## RenderMethod
-  Component: `RenderMethod: string`
-  BlockComponent:
-  ```json
-  "minecraft:material_instances": {
+  static Material = {
     "*": {
-      "render_method": "blend"
+      Texture: "your_texture",
+      RenderMethod: "opaque",
+      FaceDimming: false,
+      AmbientOcclusion: false
     }
   }
   ```
-  example usage:
-  ```javascript
-  static RenderMethod = "blend"
-  ```
-  - [back to top](#block-components-list)
-## FaceDimming
-  Component: `FaceDimming: boolean`
-  BlockComponent:
-  ```json
-  "minecraft:material_instances": {
-    "*": {
-      "face_dimming": true
-    }
-  }
-  ```
-  example usage:
-  ```javascript
-  static FaceDimming = true
-  ```
-  - [back to top](#block-components-list)
-## AmbientOcclusion
-  Component: `AmbientOcclusion: boolean`
-  BlockComponent:
-  ```json
-  "minecraft:material_instances": {
-    "*": {
-      "ambient_occlusion": true
-    }
-  }
-  ```
-  example usage:
-  ```javascript
-  static AmbientOcclusion = true
-  ```
-  - [back to top](#block-components-list)
+   - [back to top](#block-components-list)
 ## LightEmmision
   Component: `LightEmmision: number`
   BlockComponent:
