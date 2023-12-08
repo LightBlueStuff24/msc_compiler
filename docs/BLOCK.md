@@ -1,23 +1,24 @@
 # MSC Compiler
 ## Block-Components-List:
 
-- [Components:](#Components)
-  - [Category](#Category)
-  - [Group](#Group)
-  - [DisplayName](#DisplayName)
-  - [DestroyTime](#DestroyTime)
-  - [ExplosionResistance](#ExplosionResistance)
-  - [Friction](#Friction)
-  - [Flammable](#Flammable)
-  - [Material](#Material)
-  - [LightEmmision](#LightEmmision)
-  - [LightDampening](#LightDampening)
-  - [Geometry](#Geometry)
-  - [BoneVisibility](#BoneVisibility)
+- [Components:](#components)
+  - [Category](#category)
+  - [Group](#group)
+  - [DisplayName](#displayname)
+  - [DestroyTime](#destroytime)
+  - [ExplosionResistance](#explosionresistance)
+  - [Friction](#friction)
+  - [Flammable](#flammable)
+  - [Material](#material)
+  - [LightEmmision](#lightemmision)
+  - [LightDampening](#lightdampening)
+  - [Geometry](#geometry)
+  - [BoneVisibility](#bonevisibility)
 
 ## Components:
 ## Category
   Component: `Category: string|CategoryEnum`
+  [see enum](./ENUM.md#categorysenum)
   BlockComponent:
   ```json
   "menu_category": {
@@ -31,6 +32,7 @@
   - [back to top](#block-components-list)
 ## Group
   Component: `Group: string|GroupEnum`
+  [see enum](./ENUM.md#groupsenum)
   BlockComponent:
   ```json
   "menu_category": {
@@ -43,7 +45,7 @@
   ```
   - [back to top](#block-components-list)
 ## DisplayName
-  Component: `DisplayName: string`
+  Component: `DisplayName: string`<br/>
   BlockComponent:
   ```json
   "minecraft:display_name": "My Block Name"
@@ -54,7 +56,7 @@
   ```
   - [back to top](#block-components-list)
 ## DestroyTime
-  Component: `DestroyTime: boolean|number`
+  Component: `DestroyTime: boolean|number`<br/>
   BlockComponent:
   ```json
   "minecraft:destructible_by_mining": false
@@ -74,7 +76,7 @@
   - [back to top](#block-components-list)
 
 ## ExplosionResistance
-  Component: `ExplosionResistance: boolean|number`
+  Component: `ExplosionResistance: boolean|number`<br/>
   BlockComponent:
   ```json
   "minecraft:destructible_by_explosion": false
@@ -93,7 +95,7 @@
   ```
   - [back to top](#block-components-list)
 ## Friction
-  Component: `Friction: float (0.1-1.0)`
+  Component: `Friction: float (0.1-1.0)`<br/>
   BlockComponent:
   ```json
   "minecraft:friction": 0.4
@@ -105,6 +107,7 @@
   - [back to top](#block-components-list)
 ## Flammable
   Component: `Flammable: FlammableComponent`
+  [see type](./TYPEDEF.md#flammablecomponent)
   BlockComponent:
   ```json
   "minecraft:flammable": {
@@ -121,7 +124,8 @@
   ```
   - [back to top](#block-components-list)
 ## Material
-  Compoenent: `Material: MaterialInstances`[see type MaterialInstances](./TYPEDEF.md#materialinstances)<br />
+  Compoenent: `Material: MaterialInstancesComponent`
+[see type](./TYPEDEF.md#materialinstances)<br/>
   BlockComponent:
   ```json
   "minecraft:material_instances": {
@@ -133,9 +137,11 @@
     }
   }
   ```
-  - `[Bone: string]: Materal`[See type Material](./TYPEDEF.md)
+  - `[Bone: string]: Materal`
+     [See type](./TYPEDEF.md)
   - `Texture: String`
-  - `RenderMethod: RenderMethodEnum`[See RenderMethodEnum](./ENUM.md#rendermethodenum)
+  - `RenderMethod: RenderMethodEnum`
+     [See enum](./ENUM.md#rendermethodenum)
   - `FaceDimming: boolean`
   - `AmbientOcclusion: boolean`
   example usage:
@@ -151,7 +157,7 @@
   ```
   - [back to top](#block-components-list)
 ## LightEmmision
-  Component: `LightEmmision: number`
+  Component: `LightEmmision: number`<br/>
   BlockComponent:
   ```json
   "minecraft:light_emission": 10
@@ -162,7 +168,7 @@
   ```
   - [back to top](#block-components-list)
 ## LightDampening
-  Component: `LightDampening: number`
+  Component: `LightDampening: number`<br/>
   BlockComponent:
   ```json
   "minecraft:light_dampening": 7
@@ -173,7 +179,7 @@
   ```
   - [back to top](#block-components-list)
 ## Geometry
-  Component: `Geometry: string`
+  Component: `Geometry: string`<br/>
   BlockComponent:
   ```json
   "minecraft:geometry": {
