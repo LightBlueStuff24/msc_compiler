@@ -4,8 +4,7 @@
     "description": {
       "identifier": "test:palmlog",
       "menu_category": {
-        "category": "construction",
-        "group": "f"
+        "category": "construction"
       }
     },
     "components": {
@@ -13,6 +12,7 @@
       "minecraft:material_instances": {
         "texture": "palm_log"
       }
-    }
+    },
+    "permutations": []
   }
 }

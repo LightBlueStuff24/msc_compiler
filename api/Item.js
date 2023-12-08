@@ -1,16 +1,19 @@
-const {isNegative} = require("../Utils");
-const {validCategories} = require("./CreativeCategory");
-const {ItemEventTriggerHandler} = require("./Handler");
+const { isNegative } = require("../Utils");
+const { validCategories } = require("./CreativeCategory");
+const { ItemEventTriggerHandler } = require("./Handler");
 const Fuse = require('fuse.js');
 const config = require('../msc.config.json');
 
+
+
+
 Set.prototype.getClosestMatch = function (string) {
-    const fuse = new Fuse(Array.from(this), {
-        shouldSort: true,
-        threshold: 0.6,
-    });
-    const result = fuse.search(string);
-    return result.length > 0 ? result[0].item : null;
+	const fuse = new Fuse(Array.from(this), {
+		shouldSort: true,
+		threshold: 0.6,
+	});
+	const result = fuse.search(string);
+	return result.length > 0 ? result[0].item : null;
 };
 
 /**
@@ -390,7 +393,7 @@ class Item {
 		 */
 		if (this.Category) {
 			if (typeof this.Category != "string") throw new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
-			if (!validCategories.has(this.Category.toLowerCase())) throw new Error(`[${this.name}] [component: Category]: expected type "${validCategories.getClosestMatch(this.Category)}" instead found "${this.Category}"`);
+			if (!validCategories.has(this.Category.toLowerCase())) throw new Error(`[${this.name}] [component: Category]: Invalid category "${this.Category}". Did you mean "${validCategories.getClosestMatch(this.Category)}"?`);
 			this.__Data["minecraft:item"]["description"]["category"] = this.Category;
 		}
 		/**

@@ -86,7 +86,7 @@ class Block {
      */
     if (this.Category) {
       if (typeof this.Category != "string") return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
-      if (!validCategories.has(this.Category.toLowerCase())) throw new Error(`[${this.name}] [component: Category]: expected type "${validCategories.getClosestMatch(this.Category)}" instead found "${this.Category}"`);
+      if (!validCategories.has(this.Category.toLowerCase())) throw new Error(`[${this.name}] [component: Category]: Invalid category "${this.Category}". Did you mean "${validCategories.getClosestMatch(this.Category)}"?`);
       this.__Data["minecraft:block"].description.menu_category.category = this.Category;
     }
     /**
@@ -94,7 +94,7 @@ class Block {
      */
     if (this.Group) {
       if (typeof this.Group != "string") return new Error(`[${this.name}] [component: Group]: expected type {string} instead found {${this.Group}}`);
-      if (!validGroups.has(this.Group.toLowerCase())) throw new Error(`[${this.name}] [component: Group]: expected type "${validGroups.getClosestMatch(this.Group)}" instead found "${this.Group}"`);
+      if (!validGroups.has(this.Group.toLowerCase())) throw new Error(`[${this.name}] [component: Group]: Invalid category "${this.Group}". Did you mean "${validGroups.getClosestMatch(this.Group)}"?`);
       this.__Data["minecraft:block"].description.menu_category.group = this.Group;
     }
     /**
@@ -122,6 +122,7 @@ class Block {
         case "number": this.__components["minecraft:destructible_by_mining"] = { explosion_resistance: this.DestroyTime }; break;
         default: return new Error(`[${this.name}] [component: DestroyTime]: expected type {boolean|integer} instead found {${typeof this.DestroyTime}}`)
       }
+    }
       /**
        * @handleExplosionResistance
        */
@@ -438,7 +439,7 @@ class Block {
         this.__Data["minecraft:block"].permutations = __Permutations;
       }
       return JSON.stringify(this.__Data);
-    }
+    
   }
 }
 
