@@ -1,12 +1,6 @@
-const {
-	isNegative
-} = require("../Utils");
-const {
-	validCategories
-} = require("./CreativeCategory");
-const {
-	ItemEventTriggerHandler
-} = require("./Handler");
+const {isNegative} = require("../Utils");
+const {validCategories} = require("./CreativeCategory");
+const {ItemEventTriggerHandler} = require("./Handler");
 const Fuse = require('fuse.js');
 const config = require('../msc.config.json');
 
@@ -67,7 +61,7 @@ Set.prototype.getClosestMatch = function (string) {
 /**
  * @typedef {Object} RepairableComponent
  * @property {string[]} repairItems - List of items that can repair this item.
- * @property {{condition:string,event:string,target:string}} [onRepair] - Event to Trigger when this item is repaired.
+ * @property {{condition:string,event:string,target:string}} [OnRepair] - Event to Trigger when this item is repaired.
  */
 
 /**
@@ -123,7 +117,7 @@ Set.prototype.getClosestMatch = function (string) {
  * /
 /**
  * @typedef {Object} ItemComponents
- * @property {RepairableComponent} - The repariable component
+ * @property {RepairableComponent} [Repairable]- The repariable component
  * @property {boolean} [IsHiddenInCommands=false] - Whether the item is hidden in commands.
  * @property {string} [Category] - The category of the item.
  * @property {string} [Group] - The group of the item.
@@ -449,7 +443,7 @@ class Item {
 		if (this.Digger) {
 			if (typeof this.Digger != "object") throw new Error(`[${this.name}] [component: Digger]: expected type {object} instead found {${typeof this.Digger}}`)
 			this.__components['minecraft:digger'] = {
-				"on_dig": ItemEventTriggerHandler(this.Digger.onDig, this.__Data, "OnDig"),
+				"on_dig": ItemEventTriggerHandler(this.Digger.onDig, this.__Data, "OnDig", this),
 				"use_efficiency": this.Digger.useEfficiency,
 				"destroy_speeds": this.Digger.destroySpeed
 			}
@@ -507,7 +501,7 @@ class Item {
 				"nutrition": this.Food.nutrition,
 				"saturation_modifier": this.Food.saturationModifier,
 				"can_always_eat": this.Food.canAlwaysEat,
-				"on_consume": ItemEventTriggerHandler(this.Food.onConsume, this.__Data, "OnConsume"),
+				"on_consume": ItemEventTriggerHandler(this.Food.onConsume, this.__Data, "OnConsume", this),
 				"using_converts_to": this.Food.onUseConvertTo
 			}
 		}
@@ -527,7 +521,7 @@ class Item {
 			if (typeof this.Repairable != "object") throw new Error(`[${this.name}] [component: Repairable]: expected type {object} instead found {${typeof this.Repairable}}`)
 			this.__components['minecraft:repairable'] = {
 				"repair_items": this.Repairable.repairItems,
-				"on_repair": ItemEventTriggerHandler(this.Repairable.onRepair)
+				"on_repair": ItemEventTriggerHandler(this.Repairable.OnRepair, this.__Data, "OnRepair", this)
 			}
 		}
 		/**
@@ -555,7 +549,7 @@ class Item {
 		 */
 		if (this.Icon) {
 			if (typeof this.Icon != ("string" || "object")) throw new Error(`[${this.name}] [component: Icon]: expected type {object} or {string} instead found {${typeof this.Icon}}`)
-			this.__components['minecraft:icon'] = Icon
+			this.__components['minecraft:icon'] = this.Icon
 		}
 		/**
 		 * @handleShouldDespawn
