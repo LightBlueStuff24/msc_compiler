@@ -8,12 +8,8 @@
   - [DestroyTime](#destroytime)
   - [ExplosionResistance](#explosionresistance)
   - [Friction](#friction)
-  - [CatchChanceModifier](#catchchancemodifier)
-  - [DestroyChanceModifier](#destroychancemodifier)
-  - [Texture](#texture)
-  - [RenderMethod](#rendermethod)
-  - [FaceDimming](#facedimming)
-  - [AmbientOcclusion](#ambientocclusion)
+  - [Flammable](#flammable)
+  - [Material](#material)
   - [LightEmmision](#lightemmision)
   - [LightDampening](#lightdampening)
   - [Geometry](#geometry)
@@ -22,6 +18,7 @@
 ## Components:
 ## Category
   Component: `Category: string|CategoryEnum`
+  [see enum](./ENUM.md#categorysenum)
   BlockComponent:
   ```json
   "menu_category": {
@@ -35,6 +32,7 @@
   - [back to top](#block-components-list)
 ## Group
   Component: `Group: string|GroupEnum`
+  [see enum](./ENUM.md#groupsenum)
   BlockComponent:
   ```json
   "menu_category": {
@@ -47,7 +45,7 @@
   ```
   - [back to top](#block-components-list)
 ## DisplayName
-  Component: `DisplayName: string`
+  Component: `DisplayName: string`<br/>
   BlockComponent:
   ```json
   "minecraft:display_name": "My Block Name"
@@ -58,14 +56,14 @@
   ```
   - [back to top](#block-components-list)
 ## DestroyTime
-  Component: `DestroyTime: boolean|number`
+  Component: `DestroyTime: boolean|number`<br/>
   BlockComponent:
   ```json
   "minecraft:destructible_by_mining": false
   ```
   ```json
   "minecraft:destructible_by_mining": {
-    "seconds_to_destroy": 0.5
+    "seconds_to_destroy": 5
   }
   ```
   example usage:
@@ -73,12 +71,12 @@
   static DestroyTime = false
   ```
   ```javascript
-  static DestroyTime = 0.5
+  static DestroyTime = 5
   ```
   - [back to top](#block-components-list)
 
 ## ExplosionResistance
-  Component: `ExplosionResistance: boolean|number`
+  Component: `ExplosionResistance: boolean|number`<br/>
   BlockComponent:
   ```json
   "minecraft:destructible_by_explosion": false
@@ -97,7 +95,7 @@
   ```
   - [back to top](#block-components-list)
 ## Friction
-  Component: `Friction: float (0.1-1.0)`
+  Component: `Friction: float (0.1-1.0)`<br/>
   BlockComponent:
   ```json
   "minecraft:friction": 0.4
@@ -107,94 +105,59 @@
   static Friction = 0.4
   ```
   - [back to top](#block-components-list)
-## CatchChanceModifier
-  Component: `CatchChanceModifier: number`
+## Flammable
+  Component: `Flammable: FlammableComponent`
+  [see type](./TYPEDEF.md#flammablecomponent)
   BlockComponent:
   ```json
   "minecraft:flammable": {
-  "catch_chance_modifier": 5
-}
-  ```
-  example usage:
-  ```javascript
-  static CatchChanceModifier = 5
-  ```
-  - [back to top](#block-components-list)
-## DestroyChanceModifier
-  Component: `DestroyChanceModifier: number`
-  BlockComponent:
-  ```json
-  "minecraft:flammable": {
-  "destroy_chance_modifier": 20
-}
-  ```
-  example usage:
-  ```javascript
-  static DestroyChanceModifier = 20
-  ```
-  - [back to top](#block-components-list)
-## Texture
-  Component: `Texture: string`
-  BlockComponent:
-  ```json
-  "minecraft:material_instances": {
-    "*": {
-      "texture": "texture_name"
-    }
+    "catch_chance_modifier": 5,
+    "destroy_chance_modifier": 20
   }
   ```
   example usage:
   ```javascript
-  static Texture = "texture_name"
+  static Flammable = {
+    CatchChanceModifier = 5,
+    DestroyChanceModifier = 20
+  }
   ```
   - [back to top](#block-components-list)
-## RenderMethod
-  Component: `RenderMethod: string`
+## Material
+  Compoenent: `Material: MaterialInstancesComponent`
+[see type](./TYPEDEF.md#materialinstances)<br/>
   BlockComponent:
   ```json
   "minecraft:material_instances": {
     "*": {
-      "render_method": "blend"
+      "texture": "your_texture",
+      "render_method": "opaque",
+      "face_dimming": false,
+      "ambient_occlusion": false
     }
   }
   ```
+  - `[Bone: string]: Materal`
+     [See type](./TYPEDEF.md)
+  - `Texture: String`
+  - `RenderMethod: RenderMethodEnum`
+     [See enum](./ENUM.md#rendermethodenum)
+  - `FaceDimming: boolean`
+  - `AmbientOcclusion: boolean`
   example usage:
   ```javascript
-  static RenderMethod = "blend"
-  ```
-  - [back to top](#block-components-list)
-## FaceDimming
-  Component: `FaceDimming: boolean`
-  BlockComponent:
-  ```json
-  "minecraft:material_instances": {
+  static Material = {
     "*": {
-      "face_dimming": true
+      Texture: "your_texture",
+      RenderMethod: "opaque",
+      FaceDimming: false,
+      AmbientOcclusion: false
     }
   }
-  ```
-  example usage:
-  ```javascript
-  static FaceDimming = true
-  ```
-  - [back to top](#block-components-list)
-## AmbientOcclusion
-  Component: `AmbientOcclusion: boolean`
-  BlockComponent:
-  ```json
-  "minecraft:material_instances": {
-    "*": {
-      "ambient_occlusion": true
-    }
-  }
-  ```
-  example usage:
-  ```javascript
-  static AmbientOcclusion = true
   ```
   - [back to top](#block-components-list)
 ## LightEmmision
-  Component: `LightEmmision: number`
+  Component: `LightEmmision: number`<br/>
   BlockComponent:
   ```json
   "minecraft:light_emission": 10
@@ -205,7 +168,7 @@
   ```
   - [back to top](#block-components-list)
 ## LightDampening
-  Component: `LightDampening: number`
+  Component: `LightDampening: number`<br/>
   BlockComponent:
   ```json
   "minecraft:light_dampening": 7
@@ -216,7 +179,7 @@
   ```
   - [back to top](#block-components-list)
 ## Geometry
-  Component: `Geometry: string`
+  Component: `Geometry: string`<br/>
   BlockComponent:
   ```json
   "minecraft:geometry": {
@@ -242,7 +205,7 @@
   example usage:
   ```javascript
   static BoneVisibility = {
-        MyBone: true
-      }
+    MyBone: true
+  }
   ```
   - [back to top](#block-components-list)
