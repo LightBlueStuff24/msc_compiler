@@ -14,7 +14,9 @@ class PalmLog extends Block {
     }
   static DisplayName = "Palm Log"
   static Material = {
-    Texture: "palm_log"
+    "*": {
+      Texture: "palm_log"
+    }
   }
   static Category = "construction"
   static Permutations = {
