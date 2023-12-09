@@ -482,7 +482,17 @@ class Block {
 
     return JSON.stringify(this.__Data);
 
+
   }
 }
 
-exports.Block = Block;
+class BasicBlock extends Block{
+  constructor (name){
+    this.name = name
+  }
+  static DisplayName = this.name
+}
+exports = {
+  Block,
+  BasicBlock
+};

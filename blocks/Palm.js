@@ -1,6 +1,9 @@
 const {BlockRegistry} = require("../api/Registries/BlockRegistry")
 const {Block} = require("../api/Block")
 const {Permutation} = require("../api/Permutation")
+const Fluid = require("../api/Fluid")
+const { FluidRegistry } = require("../api/Registries/FluidRegistry")
+
 class LogRotation0 extends Permutation {
   static Transformation = {
     Rotation: [0, 0, 0]
@@ -72,3 +75,9 @@ class Log extends Block {
 }
 
 BlockRegistry.register(Log)
+
+class Water extends Fluid {
+  static Block = Log
+  static SwimSpeed =3
+}
+FluidRegistry.register(Water)

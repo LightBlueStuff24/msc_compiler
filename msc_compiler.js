@@ -1,20 +1,20 @@
-const { BlockRegistry } = require("./api/Registries/BlockRegistry");
-const fs = require("fs");
-const { promises: fsPromise } = fs;
+const { promises: fsPromise, existsSync, readFileSync, readdir } = require("fs");
 const path = require("path");
+const babel = require('@babel/core');
+const { BlockRegistry } = require("./api/Registries/BlockRegistry");
 const { ItemRegistry } = require("./api/Registries/ItemRegistry");
 const { EntityRegistry } = require('./api/Registries/EntityRegistry');
-const yargs = require("yargs");
-const Fuse = require("fuse.js");
+const { FluidRegistry } = require("./api/Registries/FluidRegistry");
+
 const currentDirectory = process.cwd();
 const configPath = path.join(currentDirectory, '/msc.config.json');
-const config = fs.existsSync(configPath) ? JSON.parse(fs.readFileSync(configPath)) : undefined;
+const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : undefined;
+
 async function loadFilesInDir() {
-  const directoryPath = path.join(currentDirectory, config.inputDirectory)
+  const directoryPath = path.join(currentDirectory, config.inputDirectory);
   try {
     const files = await fsPromise.readdir(directoryPath);
-    const fileLoad = files.map(file => loadFile(path.join(directoryPath, file)));
-    await Promise.all(fileLoad);
+    await Promise.all(files.map(file => loadFile(path.join(directoryPath, file))));
     await buildFiles();
   } catch (err) {
     console.error(`Error reading directory: ${err}`, err.stack);
@@ -25,43 +25,41 @@ async function loadFilesInDir() {
 async function buildFiles() {
   await fsPromise.mkdir('build', { recursive: true });
   await fsPromise.mkdir('build/BP', { recursive: true });
-  if (BlockRegistry.Registries.length > 0) {
-    await fsPromise.mkdir('build/BP/blocks', { recursive: true });
-    BlockRegistry.Registries.forEach(async registry => {
+
+  await buildRegistryFiles('blocks', BlockRegistry.Registries, 'minecraft:block');
+  await buildRegistryFiles('items', ItemRegistry.Registries, 'minecraft:item');
+  await buildRegistryFiles('entities', EntityRegistry.Registries, 'minecraft:entity');
+  await buildFluidFiles();
+}
+
+async function buildRegistryFiles(subfolder, registries, identifierKey) {
+  if (registries.length > 0) {
+    await fsPromise.mkdir(`build/BP/${subfolder}`, { recursive: true });
+    registries.forEach(async registry => {
       const registryParsed = JSON.parse(registry);
-      let filename = registryParsed["minecraft:block"]["description"]["identifier"].split(':')[1];
+      const filename = registryParsed[identifierKey].description.identifier.split(':')[1];
+
       await fsPromise.writeFile(
-        `build/BP/blocks/${filename}.json`,
+        `build/BP/${subfolder}/${filename}.json`,
         JSON.stringify(registryParsed, null, 2)
       );
+
       console.log(`Created ${filename}`);
     });
   }
+}
 
-  if (ItemRegistry.Registries.length > 0) {
-    await fsPromise.mkdir('build/BP/items', { recursive: true })
-    ItemRegistry.Registries.forEach(async registry => {
-      const registryParsed = JSON.parse(registry);
-      let filename = registryParsed["minecraft:item"]["description"]["identifier"].split(':')[1];
+async function buildFluidFiles() {
+  if (FluidRegistry.Registries.length > 0) {
+    await fsPromise.mkdir('build/BP/scripts', { recursive: true });
+    FluidRegistry.Registries.forEach(async (registry, index) => {
+      const filename = registry.name;
       await fsPromise.writeFile(
-        `build/BP/items/${filename}.json`,
-        JSON.stringify(registryParsed, null, 2)
+        `build/BP/scripts/${filename}.js`,
+       registry.script
       );
-      console.log(`Created ${filename}`);
-    })
-  }
-
-  if (EntityRegistry.Registries.length > 0) {
-    await fsPromise.mkdir('build/BP/entities', { recursive: true })
-    EntityRegistry.Registries.forEach(async registry => {
-      const registryParsed = JSON.parse(registry);
-      let filename = registryParsed["minecraft:entity"]["description"]["identifier"].split(':')[1];
-      await fsPromise.writeFile(
-        `build/BP/entities/${filename}.json`,
-        JSON.stringify(registryParsed, null, 2)
-      );
-      console.log(`Created ${filename}`);
-    })
+      console.log(`Created ${filename}.js`);
+    });
   }
 }
 
@@ -74,5 +72,3 @@ function loadFile(filePath) {
 }
 
 loadFilesInDir();
-
-
