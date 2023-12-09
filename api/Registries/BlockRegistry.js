@@ -7,7 +7,6 @@ class BlockRegistry {
    * @param {Block} block 
    */
   static register(block) {
-    console.warn(block.init())
     this.Registries.push(block.init())
   }
 }

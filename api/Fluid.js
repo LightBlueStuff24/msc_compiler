@@ -1,4 +1,4 @@
-const { BasicBlock } = require("./Block.js");
+const { Block } = require("./Block.js");
 const { BlockRegistry } = require("../api/Registries/BlockRegistry.js");
 
 class Fluid {
@@ -21,7 +21,7 @@ class Fluid {
         return (
           parsed["minecraft:block"].components["minecraft:display_name"]
             .trim()
-            .toLowerCase() === this.Block.DisplayName.trim().toLowerCase()
+            .toLowerCase() === this.Block.DisplayName.trim().toLowerCase() ?? "mp"
         );
       });
 
@@ -32,8 +32,21 @@ class Fluid {
       Fluid.#Data.block =
         parsedBlock["minecraft:block"].description.identifier;
     } else {
-      console.warn('g')
-      new BasicBlock("minecraft:water").register();
+      const block = (name) => {
+        class CustomBlock extends Block {
+          constructor() {
+            super();
+            Block.Reset(); // Ensure that the reset logic is implemented correctly
+            Block.DisplayName = name;
+
+          }
+        }
+        new CustomBlock()
+        this.Block = CustomBlock
+        BlockRegistry.register(CustomBlock);
+      };
+
+      block('G'); // Create a new block with the desired name
     }
     
     if (this.FogType) {

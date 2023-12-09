@@ -1,0 +1,44 @@
+{
+  "format_version": "1.20.40",
+  "minecraft:block": {
+    "description": {
+      "identifier": "test:palmlog",
+      "menu_category": {
+        "category": "construction"
+      },
+      "states": {
+        "test:prop": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    "components": {
+      "minecraft:display_name": "Palm Log",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "palm_log"
+        }
+      }
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('test:prop')==1",
+        "components": {
+          "minecraft:destructible_by_mining": {
+            "seconds_to_destroy": 6
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('test:prop')==2",
+        "components": {
+          "minecraft:destructible_by_mining": {
+            "seconds_to_destroy": 6
+          }
+        }
+      }
+    ]
+  }
+}

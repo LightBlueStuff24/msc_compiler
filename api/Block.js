@@ -33,6 +33,19 @@ class Block {
       "components": {}
     }
   };
+
+static Reset(){
+    Block.__Data = {
+      "format_version": config["block"]["version"],
+      "minecraft:block": {
+        "description": {
+          "identifier": "",
+          "menu_category": {}
+        },
+        "components": {}
+      }
+    };
+  }
   /**
    * @private
    */
@@ -484,31 +497,12 @@ class Block {
 
 
   }
-}class BasicBlock extends Block {
 
-  constructor(name) {
-    super();
-    BasicBlock.DisplayName = name;
-  }
-
-  register() {
-    const { BlockRegistry } = require('./Registries/BlockRegistry.js');
-    BlockRegistry.register(this);
-  }
-init(){
-  return BasicBlock.__Data
-}
 }
 
 
 
-class BasicBlock extends Block{
-  constructor (name){
-    this.name = name
-  }
-  static DisplayName = this.name
-}
+
 module.exports = {
-  Block,
-  BasicBlock
+  Block
 };
