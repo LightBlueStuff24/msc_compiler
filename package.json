@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/Sifatplayz/msc_compiler#readme",
   "dependencies": {
-    "@minecraft/server": "^1.7.0",
+    "@minecraft/server": "^1.8.0-beta",
     "@types/node": "^20.10.4",
     "fs": "^0.0.1-security",
     "fuse.js": "^7.0.0",

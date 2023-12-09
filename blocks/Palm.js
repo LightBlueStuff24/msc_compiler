@@ -44,7 +44,6 @@ BlockRegistry.register(PalmLog)
 
 /**
  * @class Log
- * @template Log
  */
 class Log extends Block {
   static Category = "construction";
@@ -77,7 +76,6 @@ class Log extends Block {
 BlockRegistry.register(Log)
 
 class Water extends Fluid {
-  static Block = Log
   static SwimSpeed =3
 }
 FluidRegistry.register(Water)

@@ -1,4 +1,4 @@
-const { Block } = require("./Block.js");
+const { BasicBlock } = require("./Block.js");
 const { BlockRegistry } = require("../api/Registries/BlockRegistry.js");
 
 class Fluid {
@@ -31,6 +31,9 @@ class Fluid {
       const parsedBlock = JSON.parse(foundBlock)
       Fluid.#Data.block =
         parsedBlock["minecraft:block"].description.identifier;
+    } else {
+      console.warn('g')
+      new BasicBlock("minecraft:water").register();
     }
     
     if (this.FogType) {

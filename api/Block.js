@@ -484,15 +484,25 @@ class Block {
 
 
   }
+}class BasicBlock extends Block {
+
+  constructor(name) {
+    super();
+    BasicBlock.DisplayName = name;
+  }
+
+  register() {
+    const { BlockRegistry } = require('./Registries/BlockRegistry.js');
+    BlockRegistry.register(this);
+  }
+init(){
+  return BasicBlock.__Data
+}
 }
 
-class BasicBlock extends Block{
-  constructor (name){
-    this.name = name
-  }
-  static DisplayName = this.name
-}
-exports = {
+
+
+module.exports = {
   Block,
   BasicBlock
 };
