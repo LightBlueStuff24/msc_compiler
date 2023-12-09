@@ -29,9 +29,5 @@
     "vm2": "^3.9.19",
     "yargs": "^17.7.2"
   },
-  "type": "commonjs",
-  "devDependencies": {
-    "@babel/core": "^7.23.5",
-    "@babel/preset-env": "^7.23.5"
-  }
+  "type": "commonjs"
 }

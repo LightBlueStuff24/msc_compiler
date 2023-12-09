@@ -502,6 +502,12 @@ init(){
 
 
 
+class BasicBlock extends Block{
+  constructor (name){
+    this.name = name
+  }
+  static DisplayName = this.name
+}
 module.exports = {
   Block,
   BasicBlock

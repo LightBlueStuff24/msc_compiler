@@ -121,4 +121,4 @@ system.runInterval(() => {
 }
 }
 
-module.exports = Fluid;
+exports.Fluid = Fluid;
