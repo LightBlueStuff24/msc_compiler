@@ -1,6 +1,5 @@
 const { promises: fsPromise, existsSync, readFileSync, readdir } = require("fs");
 const path = require("path");
-const babel = require('@babel/core');
 const { BlockRegistry } = require("./api/Registries/BlockRegistry");
 const { ItemRegistry } = require("./api/Registries/ItemRegistry");
 const { EntityRegistry } = require('./api/Registries/EntityRegistry');

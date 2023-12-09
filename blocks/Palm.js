@@ -1,7 +1,7 @@
 const {BlockRegistry} = require("../api/Registries/BlockRegistry")
 const {Block} = require("../api/Block")
 const {Permutation} = require("../api/Permutation")
-const Fluid = require("../api/Fluid")
+const {Fluid} = require("../api/Fluid")
 const { FluidRegistry } = require("../api/Registries/FluidRegistry")
 
 class LogRotation0 extends Permutation {

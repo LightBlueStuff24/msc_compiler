@@ -492,7 +492,7 @@ class BasicBlock extends Block{
   }
   static DisplayName = this.name
 }
-exports = {
+module.exports = {
   Block,
   BasicBlock
 };
