@@ -110,7 +110,7 @@
 				},
 				"speed": 6,
 				"on_dig": {
-                    "event": "on_dig"
+       "event": "on_dig"
         }
 			}
 		]
@@ -120,8 +120,17 @@
   ```javascript
   static Digger = {
     onDig: 
-    useEfficiency:
-    destroySpeed:
+    useEfficiency: true,
+    destroySpeed: [
+    {
+      block: {
+        tags: "q.any_tag('stone', "metal)"
+      },
+      speed: 6,
+      ondig: {
+        Event: "on_dig"
+      }
+    ]
   }
   ```
   - [back to top](#item-documentation)
