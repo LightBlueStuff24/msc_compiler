@@ -16,7 +16,7 @@
   - [BoneVisibility](#bonevisibility)
   - [Loot](#loot)
   - [MapColor](#mapcolor)
-  - `PlacementFilter: object`
+  - [PlacementFilter](#placementfilter)
   - [Transformation](#transformation)
   - [CollisionBox](#collisionbox)
   - [SelectionBox](#selectionbox)
@@ -243,6 +243,34 @@
   static MapColor = [255, 255, 255]
   ```
   - [back to top](#block-components-list)
+## PlacementFilter
+  Component: `PlacementFilter: object`<br/>
+  BlockComponent:
+  ```json
+  "minecraft:placement_filter": {
+  "conditions": [
+    {
+      "allowed_faces": ["up", "down", "east", "west", "north", "south"],
+      "block_filter": [
+          "namespace:name",
+          { "tags": "q.has_any_tag('tag')" }
+        ]
+      }
+    ]
+  }
+  ```
+  example usage:
+  ```javascript
+  static PlacementFilter = {
+  AllowedFaces: ["up", "down", "east", "west", "north", "south"],
+  BlockFilter: [
+      "namespace:name",
+      {tags: "q.has_any_tag('tag')"}
+    ]
+  }
+  ```
+  - [back to top](#block-components-list)
+
 ## Transformation
   Component: `Transformation: object`<br/>
   BlockComponent:
