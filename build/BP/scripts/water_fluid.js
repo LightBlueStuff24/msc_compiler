@@ -1,7 +1,7 @@
 
 import { system, world, Vector, Player } from "@minecraft/server";
 
-const fluids = ["test:log"];
+const fluids = ["test:block"];
 
 Player.prototype.applyImpulse = function (vector) {
   const horizontal = Math.sqrt(vector.x * vector.x + vector.z * vector.z) * 2.0;

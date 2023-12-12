@@ -22,6 +22,7 @@
   "dependencies": {
     "@minecraft/server": "^1.8.0-beta",
     "@types/node": "^20.10.4",
+    "bun": "^1.0.16",
     "fs": "^0.0.1-security",
     "fuse.js": "^7.0.0",
     "hidefile": "^3.0.0",

@@ -1,4 +1,4 @@
-const { Block } = require("./Block.js");
+const {Block } = require("./Block.js");
 const { BlockRegistry } = require("../api/Registries/BlockRegistry.js");
 
 class Fluid {
@@ -12,6 +12,14 @@ class Fluid {
   static FogType;
   static SwimSpeed;
 
+
+  static createBlock(name){
+    new Block({DisplayName:name})
+    this.Block = Block
+        Fluid.#Data.block =
+        JSON.parse(Block.init())["minecraft:block"].description.identifier;
+        BlockRegistry.register(Block);
+  }
   static init() {
     if (this.Block) {
       const blockSet = new Set(BlockRegistry.Registries);
@@ -32,21 +40,7 @@ class Fluid {
       Fluid.#Data.block =
         parsedBlock["minecraft:block"].description.identifier;
     } else {
-      const block = (name) => {
-        class CustomBlock extends Block {
-          constructor() {
-            super();
-            Block.Reset(); // Ensure that the reset logic is implemented correctly
-            Block.DisplayName = name;
-
-          }
-        }
-        new CustomBlock()
-        this.Block = CustomBlock
-        BlockRegistry.register(CustomBlock);
-      };
-
-      block('G'); // Create a new block with the desired name
+      this.createBlock(this.name)
     }
     
     if (this.FogType) {
@@ -129,7 +123,7 @@ system.runInterval(() => {
     }
   }
 });
-`,name:`${this.Block.DisplayName.toLowerCase()}_fluid`
+`,name:`${this.name.toLowerCase()}_fluid`
   }
 }
 }

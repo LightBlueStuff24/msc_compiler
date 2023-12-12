@@ -34,18 +34,34 @@ class Block {
     }
   };
 
-static Reset(){
-    Block.__Data = {
-      "format_version": config["block"]["version"],
-      "minecraft:block": {
-        "description": {
-          "identifier": "",
-          "menu_category": {}
-        },
-        "components": {}
+  
+  static Reset() {
+    // Reset only static properties that are directly added to the Block class
+    return new Promise((resolve)=>{
+    for (const key in Block) {
+      if (Block.hasOwnProperty(key) && key !== '__Data' && key !== 'Reset' && key !== '__components') {
+        Block[key] = null;
       }
-    };
+      if (key === '__Data'){
+
+        Block.__Data = {
+          "format_version": config["block"]["version"],
+          "minecraft:block": {
+            "description": {
+              "identifier": "",
+              "menu_category": {}
+            },
+            "components": {}
+          }
+        };
+      }
+    }
+    resolve('Sucess')
+  })
   }
+
+  
+
   /**
    * @private
    */
@@ -101,6 +117,12 @@ static Reset(){
    */
   static init() {
     this.__Data["minecraft:block"]["description"]["identifier"] = `${config["prefix"]}:${this.name.toLowerCase()}`
+    switch (Block){
+      case 'DisplayName':
+    console.warn('Yes')
+        break;
+    }
+    console.warn(Object.values(Block))
     /**
      * @handleCategory
      */
@@ -499,7 +521,6 @@ static Reset(){
   }
 
 }
-
 
 
 

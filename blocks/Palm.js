@@ -75,7 +75,14 @@ class Log extends Block {
 
 BlockRegistry.register(Log)
 
-class Water extends Fluid {
-  static SwimSpeed =3
+
+class Blocky extends Block {
+  static DisplayName = 'This is a block'
 }
+
+class Water extends Fluid {
+  static SwimSpeed =3;
+  
+}
+BlockRegistry.register(Blocky)
 FluidRegistry.register(Water)

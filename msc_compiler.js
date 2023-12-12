@@ -24,7 +24,6 @@ async function loadFilesInDir() {
 async function buildFiles() {
   await fsPromise.mkdir('build', { recursive: true });
   await fsPromise.mkdir('build/BP', { recursive: true });
-
   await buildRegistryFiles('blocks', BlockRegistry.Registries, 'minecraft:block');
   await buildRegistryFiles('items', ItemRegistry.Registries, 'minecraft:item');
   await buildRegistryFiles('entities', EntityRegistry.Registries, 'minecraft:entity');

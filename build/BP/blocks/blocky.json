@@ -2,7 +2,7 @@
   "format_version": "1.20.40",
   "minecraft:block": {
     "description": {
-      "identifier": "test:block",
+      "identifier": "test:blocky",
       "menu_category": {
         "category": "construction"
       },
