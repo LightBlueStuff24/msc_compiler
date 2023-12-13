@@ -1,4 +1,4 @@
-const config = require("../config.json")
+const config = require("../../msc.config.json")
 
 class ShapedRecipe {
   static __Data = {

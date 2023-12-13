@@ -2,7 +2,7 @@
  * A enum of Category types
  * @enum {string}
  */
-const Categorys = {
+const Categories = {
   Construction: "construction",
   Items: "items",
   Equipments: "Equipments",
@@ -24,7 +24,10 @@ const Groups = {
 
 const validCategories = new Set(['construction','items','equipments','nature','none'])
 const validGroups = new Set(['itemGroup.planks.name','itemGroup.slabs.name','itemGroup.stairs.name','itemGroup.fences.name','itemGroup.fence_gates.name','itemGroup.walls.name'])
-exports.validCategories = validCategories
-exports.validGroups = validGroups
-exports.Categorys = Categorys;
-exports.Groups = Groups;
+module.exports = {
+  validCategories,
+  validGroups,
+  Categories,
+  Groups
+}
+

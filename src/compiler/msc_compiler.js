@@ -1,20 +1,23 @@
-const { promises: fsPromise, existsSync, readFileSync, readdir } = require("fs");
+const { promises: fsPromise, existsSync, readFileSync } = require("fs");
 const path = require("path");
-const { BlockRegistry } = require("./api/Registries/BlockRegistry");
-const { ItemRegistry } = require("./api/Registries/ItemRegistry");
-const { EntityRegistry } = require('./api/Registries/EntityRegistry');
-const { FluidRegistry } = require("./api/Registries/FluidRegistry");
+const { BlockRegistry } = require("../assets/Registries/BlockRegistry");
+const { ItemRegistry } = require("../assets/Registries/ItemRegistry");
+const { EntityRegistry } = require('../assets/Registries/EntityRegistry');
+const { FluidRegistry } = require("../assets/Registries/FluidRegistry");
 
 const currentDirectory = process.cwd();
 const configPath = path.join(currentDirectory, '/msc.config.json');
 const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : undefined;
 
 async function loadFilesInDir() {
+  const startTime = performance.now()
   const directoryPath = path.join(currentDirectory, config.inputDirectory);
   try {
     const files = await fsPromise.readdir(directoryPath);
     await Promise.all(files.map(file => loadFile(path.join(directoryPath, file))));
     await buildFiles();
+    const endTime = performance.now()
+    console.log(`Completed in ${Math.floor(Math.round(endTime-startTime))/1000} s`)
   } catch (err) {
     console.error(`Error reading directory: ${err}`, err.stack);
     process.exit(1);

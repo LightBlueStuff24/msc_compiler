@@ -1,5 +1,5 @@
 const {Block } = require("./Block.js");
-const { BlockRegistry } = require("../api/Registries/BlockRegistry.js");
+const { BlockRegistry } = require("./Registries/BlockRegistry.js");
 
 class Fluid {
   static #Data = {

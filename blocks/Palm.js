@@ -1,8 +1,8 @@
-const {BlockRegistry} = require("../api/Registries/BlockRegistry")
-const {Block} = require("../api/Block")
-const {Permutation} = require("../api/Permutation")
-const {Fluid} = require("../api/Fluid")
-const { FluidRegistry } = require("../api/Registries/FluidRegistry")
+const {BlockRegistry} = require("../src/assets/Registries/BlockRegistry")
+const {Block} = require("../src/assets/Block")
+const {Permutation} = require("../src/assets/Permutation")
+const {Fluid} = require("../src/assets/Fluid")
+const { FluidRegistry } = require("../src/assets/Registries/FluidRegistry")
 
 class LogRotation0 extends Permutation {
   static Transformation = {

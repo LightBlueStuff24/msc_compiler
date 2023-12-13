@@ -4,8 +4,11 @@
   "description": "A Bedrock Add-on writer api using Javascript",
   "main": "msc_compiler.js",
   "scripts": {
-    "test": "echo \"test\""
+    "test": "echo \"test\"",
+    "preinstall": "curl -fsSL https://bun.sh/install | bash",
+    "postinstall": "source /home/user/.bashrc bun --help"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sifatplayz/msc_compiler.git"

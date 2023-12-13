@@ -1,6 +1,6 @@
-const { isNegative } = require("../Utils");
+const { isNegative } = require("../../Utils");
 const { validCategories } = require("./CreativeCategory");
-const { ItemEventTriggerHandler } = require("./Handler");
+const { ItemEventTriggerHandler } = require("../assetHandler");
 const Fuse = require('fuse.js');
 const config = require('../msc.config.json');
 
