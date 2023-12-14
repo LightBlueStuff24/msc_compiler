@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "CommonJS",
+        "module": "Node16",
         "moduleResolution": "node",
         "jsx": "react",
         "allowImportingTsExtensions": true,

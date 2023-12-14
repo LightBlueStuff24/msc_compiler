@@ -8,7 +8,6 @@
     "preinstall": "curl -fsSL https://bun.sh/install | bash",
     "postinstall": "source /home/user/.bashrc bun --help"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sifatplayz/msc_compiler.git"
@@ -26,10 +25,13 @@
     "@minecraft/server": "^1.8.0-beta",
     "@types/node": "^20.10.4",
     "bun": "^1.0.16",
+    "caman": "^4.1.2",
     "fs": "^0.0.1-security",
     "fuse.js": "^7.0.0",
     "hidefile": "^3.0.0",
+    "jimp": "^0.22.10",
     "path": "^0.12.7",
+    "sharp": "^0.33.0",
     "vm2": "^3.9.19",
     "yargs": "^17.7.2"
   },

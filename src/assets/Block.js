@@ -37,27 +37,7 @@ class Block {
   
   static Reset() {
     // Reset only static properties that are directly added to the Block class
-    return new Promise((resolve)=>{
-    for (const key in Block) {
-      if (Block.hasOwnProperty(key) && key !== '__Data' && key !== 'Reset' && key !== '__components') {
-        Block[key] = null;
-      }
-      if (key === '__Data'){
-
-        Block.__Data = {
-          "format_version": config["block"]["version"],
-          "minecraft:block": {
-            "description": {
-              "identifier": "",
-              "menu_category": {}
-            },
-            "components": {}
-          }
-        };
-      }
-    }
-    resolve('Sucess')
-  })
+    
   }
 
   
@@ -522,7 +502,17 @@ class Block {
 
 }
 
+class BasicBlock extends Block {
 
+  constructor(data){
+    for (const key in Block) {
+      if (Block.hasOwnProperty(key)) {
+        Block[key] = null;
+      
+  }
+}
+  }
+}
 
 module.exports = {
   Block
