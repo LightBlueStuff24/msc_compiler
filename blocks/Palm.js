@@ -45,7 +45,7 @@ BlockRegistry.register(PalmLog)
 /**
  * @class Log
  */
-class Log extends Block {
+export class Log extends Block {
   static Category = "construction";
   static DisplayName = "Log";
   static DestroyTime = 6;

@@ -1,5 +1,5 @@
 const { isFloat } = require("../../Utils.js")
-const config = require("../msc.config.json");
+const config = require("../../msc.config.json");
 const { validCategories, validGroups } = require('./validation.js')
 const { BlockEventTriggerHandler, HandlePermCondition } = require('../assetHandler');
 const Fuse = require('fuse.js');
@@ -102,7 +102,6 @@ class Block {
     console.warn('Yes')
         break;
     }
-    console.warn(Object.values(Block))
     /**
      * @handleCategory
      */
