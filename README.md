@@ -80,5 +80,5 @@ BlockRegistry.register(NewLog)
 
 - Specify your pack type e.g. only `behavior pack` or only `Resource pack` or Both by setting it's value to true in `behavior_pack: boolean (default: true)` and `resource_pack: boolean (default: true)` in `msc.config.js`
 ## Documentations
-- [Blocks Documentation](./docs/BLOCK.md)
-- [Items Documentation](./docs/ITEM.md)
+- [Blocks Documentation](./src/documentations/BLOCK.md)
+- [Items Documentation](./src/documentations/ITEM.md)
