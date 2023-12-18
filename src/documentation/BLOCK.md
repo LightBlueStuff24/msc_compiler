@@ -248,10 +248,10 @@
   BlockComponent:
   ```json
   "minecraft:placement_filter": {
-  "conditions": [
-    {
-      "allowed_faces": ["up", "down", "east", "west", "north", "south"],
-      "block_filter": [
+    "conditions": [
+      {
+        "allowed_faces": ["up", "down", "east", "west", "north", "south"],
+        "block_filter": [
           "namespace:name",
           { "tags": "q.has_any_tag('tag')" }
         ]
@@ -262,8 +262,8 @@
   example usage:
   ```javascript
   static PlacementFilter = {
-  AllowedFaces: ["up", "down", "east", "west", "north", "south"],
-  BlockFilter: [
+    AllowedFaces: ["up", "down", "east", "west", "north", "south"],
+    BlockFilter: [
       "namespace:name",
       {tags: "q.has_any_tag('tag')"}
     ]
