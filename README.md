@@ -32,15 +32,16 @@ class Log extends Block {
   static DisplayName = "Log";
   static DestroyTime = 6;
   static ExplosionResistance = 5;
-  static Flammable = {
-    CatchChanceModifier: 20,
-    DestroyChanceModifier: 40
-  }
+  // Flammable[0] = CatchChanceModifier
+  // Flammable[1] = DestroyChanceModifier
+  static Flammable = [5, 20]
   static Material = {
-    Texture: "log",
-    RenderMethod: "opaque",
-    FaceDimming: false,
-    AmbientOcclusion: false
+    "*": {
+      Texture: "log",
+      RenderMethod: "opaque",
+      FaceDimming: false,
+      AmbientOcclusion: false
+    }
   }
   static OnPlayerPlacing = {
     Event: "rotate",
