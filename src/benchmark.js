@@ -1,4 +1,4 @@
-import { Log } from '../blocks/Palm';
+import { Log } from './fileWriter/blocks/Palm';
 const fsPromises = require('fs').promises;
 const { performance } = require('perf_hooks');
 

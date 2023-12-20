@@ -1,8 +1,8 @@
-const {BlockRegistry} = require("../src/assets/Registries/BlockRegistry")
-const {Block} = require("../src/assets/Block")
-const {Permutation} = require("../src/assets/Permutation")
-const {Fluid} = require("../src/assets/Fluid")
-const { FluidRegistry } = require("../src/assets/Registries/FluidRegistry")
+const { BlockRegistry } = require("../../assets/Registries/BlockRegistry")
+const { Block } = require("../../assets/Block")
+const { Permutation } = require("../../assets/Permutation")
+const { Fluid } = require("../../assets/Fluid")
+const { FluidRegistry } = require("../../assets/Registries/FluidRegistry")
 
 class LogRotation0 extends Permutation {
   static Transformation = {
@@ -24,9 +24,9 @@ class DestroyTime extends Permutation {
   static DestroyTime = 6
 }
 class PalmLog extends Block {
-    static States = {
-        "prop":[1,2,3]
-    }
+  static States = {
+    "prop": [1, 2, 3]
+  }
   static DisplayName = "Palm Log"
   static Material = {
     "*": {
@@ -40,12 +40,11 @@ class PalmLog extends Block {
   }
 }
 
-BlockRegistry.register(PalmLog)
 
 /**
  * @class Log
  */
-export class Log extends Block {
+class Log extends Block {
   static Category = "construction";
   static DisplayName = "Log";
   static DestroyTime = 6;
@@ -64,7 +63,7 @@ export class Log extends Block {
     }
   }
   static States = {
-    "rotation": [0,1,2]
+    "rotation": [0, 1, 2]
   }
   static Permutations = {
     "rotation ==0": LogRotation0.init(),
@@ -73,16 +72,13 @@ export class Log extends Block {
   }
 }
 
-BlockRegistry.register(Log)
+
 
 
 class Blocky extends Block {
   static DisplayName = 'This is a block'
 }
 
-class Water extends Fluid {
-  static SwimSpeed =3;
-  
-}
-BlockRegistry.register(Blocky)
-FluidRegistry.register(Water)
+
+BlockRegistry.register([Log, Blocky, PalmLog])
+

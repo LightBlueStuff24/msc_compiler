@@ -5,7 +5,7 @@ class Fluid {
   static #Data = {
     block: "",
     swimSpeed: 1.5,
-    fogType: "",
+    fogType:"",
   };
 
   static Block;
@@ -14,7 +14,6 @@ class Fluid {
 
 
   static createBlock(name){
-    new Block({DisplayName:name})
     this.Block = Block
         Fluid.#Data.block =
         JSON.parse(Block.init())["minecraft:block"].description.identifier;
@@ -70,7 +69,7 @@ Player.prototype.applyImpulse = function (vector) {
 
 system.runInterval(() => {
   const players = world.getPlayers();
-  const swimSpeed = ${Fluid.#Data.swimSpeed} * 0.1;
+  const swimSpeed = ${Fluid.#Data.swimSpeed} * 0.1000;
   for (const player of players) {
     // Fluid effects
     if (

@@ -1,3 +1,4 @@
+
 const { isFloat } = require("../../Utils.js")
 const config = require("../../msc.config.json");
 const { validCategories, validGroups } = require('./validation.js')
@@ -35,13 +36,8 @@ class Block {
   };
 
   
-  static Reset() {
-    // Reset only static properties that are directly added to the Block class
-    
-  }
 
   
-
   /**
    * @private
    */
@@ -96,18 +92,30 @@ class Block {
    * @CreatesBlockObject
    */
   static init() {
-    this.__Data["minecraft:block"]["description"]["identifier"] = `${config["prefix"]}:${this.name.toLowerCase()}`
-    switch (Block){
-      case 'DisplayName':
-    console.warn('Yes')
-        break;
+
+    this.__Data = {
+      "format_version": config["block"]["version"],
+      "minecraft:block": {
+        "description": {
+          "identifier": "",
+          "menu_category": {}
+        },
+        "components": {}
+      }
+    };  
+  
+    for (const key in Block) {
+      if (Block.hasOwnProperty(key) && key !== 'prototype' && key !== '__Data' && key !== '#Reset' && key !== 'init' && key !== '__components' && key !== 'prototype' && key !== "name" && !Block[key]) {
+        Block[key] = null;
+      }
     }
+    this.__Data["minecraft:block"]["description"]["identifier"] = `${config["prefix"]}:${this.name.toLowerCase()}`
     /**
      * @handleCategory
      */
     if (this.Category) {
       if (typeof this.Category != "string") return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
-      if (!validCategories.has(this.Category.toLowerCase())) throw new Error(`[${this.name}] [component: Category]: Invalid category "${this.Category}". Did you mean "${validCategories.getClosestMatch(this.Category)}"?`);
+      if (!validCategories.has(this.Category.toLowerCase())) throw new Error(`[${this.name}] [component: Category]: Invalid category "${this.Category}". ${validCategories.getClosestMatch(this.Category) === null ? `Unknown Category Found`: `Did you mean ${validCategories.getClosestMatch(this.Category)}`}`);
       this.__Data["minecraft:block"].description.menu_category.category = this.Category;
     }
     /**
@@ -115,7 +123,7 @@ class Block {
      */
     if (this.Group) {
       if (typeof this.Group != "string") return new Error(`[${this.name}] [component: Group]: expected type {string} instead found {${this.Group}}`);
-      if (!validGroups.has(this.Group.toLowerCase())) throw new Error(`[${this.name}] [component: Group]: Invalid category "${this.Group}". Did you mean "${validGroups.getClosestMatch(this.Group)}"?`);
+      if (!validGroups.has(this.Group.toLowerCase())) throw new Error(`[${this.name}] [component: Group]: Invalid category "${this.Group}". ${validGroups.getClosestMatch(this.Group) === null ? `Unknown Group Found`:`Did you mean "${validGroups.getClosestMatch(this.Group)}"`}`);
       this.__Data["minecraft:block"].description.menu_category.group = this.Group;
     }
     /**
@@ -493,13 +501,15 @@ class Block {
 
       this.__Data["minecraft:block"].permutations = __Permutations;
     }
+    console.warn(this.__Data)
 
     return JSON.stringify(this.__Data);
-
-
+ 
   }
 
 }
+
+
 
 class BasicBlock extends Block {
 
@@ -516,3 +526,5 @@ class BasicBlock extends Block {
 module.exports = {
   Block
 };
+
+const delay = seconds => {return new Promise(resolve=>{ setTimeout(resolve,seconds * 1000)})}

@@ -4,10 +4,18 @@ class BlockRegistry {
   static Registries = [];
   /**
    * 
-   * @param {Block} block 
+   * @param {Block | Array<Block> } block 
    */
   static register(block) {
-    this.Registries.push(block.init())
+    if (typeof block === 'object') {
+      if (Array.isArray(block)) {
+        block.forEach(blocks => {
+          this.Registries.push(blocks.init())
+        })
+      } else {
+        this.Registries.push(block.init())
+      }
+    }
   }
 }
 

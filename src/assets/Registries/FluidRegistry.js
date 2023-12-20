@@ -1,7 +1,48 @@
+const {Fluid} = require("../Fluid");
+
+/**
+ * Provides and manages registration of fluids
+ */
 class FluidRegistry {
     static Registries = [];
+    /**
+     * Registers a fluid to the registry
+     * @param {Fluid} fluid 
+     */
     static register(fluid) {
-      this.Registries.push(fluid.init())
+      if (typeof fluid === 'object') {
+        if (Array.isArray(fluid)) {
+          fluid.forEach(fluids => {
+            this.Registries.push(fluids.init())
+          })
+        } else {
+          this.Registries.push(fluid.init())
+        }
+      }
+    }
+/**
+ * Unregisters a fluid from the registry
+ * @param {Fluid} fluid 
+ */
+    static unRegister(fluid){
+    this.Registries = this.Registries.filter(fluid=>{
+      fluid !== fluid.init()
+    })
+    }
+/**
+ * Clears all entries in the registry
+ */
+    static clearRegistry(){
+      this.Registries = []
+    }
+
+    /**
+     * Returns the fluids registered. 
+     * This only returns the json code of the fluid
+     * @returns {string}
+     */
+    static getFluidsRegistered(){
+      return this.Registries
     }
   }
   

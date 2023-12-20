@@ -6,9 +6,8 @@ const { EntityRegistry } = require('../assets/Registries/EntityRegistry');
 const { FluidRegistry } = require("../assets/Registries/FluidRegistry");
 
 const currentDirectory = process.cwd();
-const configPath = path.join(currentDirectory, '/msc.config.json');
+const configPath = '../../msc.config.json';
 const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : undefined;
-
 async function loadFilesInDir() {
   const startTime = performance.now()
   const directoryPath = path.join(currentDirectory, config.inputDirectory);
@@ -17,7 +16,7 @@ async function loadFilesInDir() {
     await Promise.all(files.map(file => loadFile(path.join(directoryPath, file))));
     await buildFiles();
     const endTime = performance.now()
-    console.log(`Completed in ${Math.floor(Math.round(endTime-startTime))/1000} s`)
+    console.log(`Completed in ${Math.floor(Math.round(endTime - startTime)) / 1000} s`)
   } catch (err) {
     console.error(`Error reading directory: ${err}`, err.stack);
     process.exit(1);
@@ -57,7 +56,7 @@ async function buildFluidFiles() {
       const filename = registry.name;
       await fsPromise.writeFile(
         `build/BP/scripts/${filename}.js`,
-       registry.script
+        registry.script
       );
       console.log(`Created ${filename}.js`);
     });
