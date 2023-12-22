@@ -1,31 +1,28 @@
-
 const { isFloat } = require("../../Utils.js")
 const config = require("../../msc.config.json");
-const { validCategories, validGroups } = require('./validation.js')
-const { BlockEventTriggerHandler, HandlePermCondition } = require('../assetHandler');
+const { isValidCategory, isValidGroup } = require('./validation.js')
+const { BlockEventTriggerHandler, HandlePermCondition } = require('../assetHandler.js');
+const { ME } = require("../errorHandler.js")
+//const { BlockLootTable } = require("./LootTable.js")
 const Fuse = require('fuse.js');
-Set.prototype.getClosestMatch = function (string) {
-	const fuse = new Fuse(Array.from(this), {
-		shouldSort: true,
-		threshold: 0.6,
-	});
-	const result = fuse.search(string);
-	return result.length > 0 ? result[0].item : null;
-};
-
-
 /**
- * @typedef {object} Flammable
- * @property {number} CatchChanceModifier
- * @property {number} DestroyChanceModifier
+ * @Function getClosestMatch
  */
-
+Set.prototype.getClosestMatch = function (string) {
+  const fuse = new Fuse(Array.from(this), {
+    shouldSort: true,
+    threshold: 0.6,
+  });
+  const result = fuse.search(string);
+  return result.length > 0 ? result[0].item : null;
+};
 class Block {
   /**
+   * 
    * @private
    */
   static __Data = {
-    "format_version": config["block"]["version"],
+    "format_version": config.block.version,
     "minecraft:block": {
       "description": {
         "identifier": "",
@@ -35,56 +32,128 @@ class Block {
     }
   };
 
-  
 
-  
+  static reset() {
+    // Reset only static properties that are directly added to the Block class
+    return new Promise((resolve) => {
+      for (const key in Block) {
+        if (Block.hasOwnProperty(key) && key !== '__Data' && key !== 'Reset' && key !== '__components') { Block[key] = null; }
+        if (key === '__Data') {
+          Block.__Data = {
+            "format_version": config.block.version,
+            "minecraft:block": {
+              "description": {
+                "identifier": "",
+                "menu_category": {}
+              },
+              "components": {}
+            }
+          };
+        }
+      }
+      resolve('Sucess')
+    })
+  }
   /**
+   * Components of Block.
+   * @type {BlockComponents}
    * @private
    */
-  static __components = this.__Data["minecraft:block"]["components"];
+  static __components = this.__Data["minecraft:block"].components;
   /**
-   * @BlockData
+   * Defines the format version of the Block.
+   * @type {string}
    */
-
+  static Version;
+  /**
+   * Defines the namespaces of the Block.
+   * @type {string}
+   */
+  static Namespace;
+  /**
+   * Redefines the Identifier for the Block.
+   * @type {string}
+   */
+  static Identifier;
+  /**
+   * Defines the Category for the Block to be in creative menu.
+   * @type {string}
+   */
   static Category;
+  /**
+   * Defines the Group for the Block to be in creative menu.
+   * @type {string}
+   */
   static Group;
+  /**
+   * Defines if the Block will be showen in command/chat or not.
+   * @type {boolean} 
+   */
   static IsHiddenInCommands;
+  /**
+   * Block's "minecraft:display_name" component.
+   * @type {string}
+   */
   static DisplayName;
+  /**
+   * Block's "minecraft:destructible_by_mining" component
+   * @type {boolean|number}
+   */
   static DestroyTime;
+  /** @type {boolean|number} */
   static ExplosionResistance;
+  /** @type {number} */
   static Friction;
-  /**
-   * @type {Flammable}
-   */
+  /** @type {FlammableComponent} */
   static Flammable;
-  static Material;
+  /** @type {MaterialInstancesComponent} */
+  static MaterialInstances;
+  /** @type {number} */
   static LightEmmision;
+  /** @type {number} */
   static LightDampening;
+  /** @type {string} */
   static Geometry;
+  /** @type {BoneVisibilityComponent} */
   static BoneVisibility;
+  /** @type {PlacementFilterComponent} */
   static PlacementFilter;
+  /** @type {TransformationComponent} */
   static Transformation;
+  /** @type {string} */
   static Loot;
+  /** @type {MapColorComponent} */
   static MapColor;
+  /** @type {CollisionBoxComponent} */
   static CollisionBox;
+  /** @type {SelectionBoxComponent} */
   static SelectionBox;
-
-  /**
-   * @BlockEventTriggers
-   */
+  /** @type {CraftingTableComponent} */
+  static CraftingTable;
+  /** @type {OnStepOnComponent}*/
   static OnStepOn;
+  /** @type {OnStepOffComponent} */
   static OnStepOff;
+  /** @type {OnInteractComponent}*/
   static OnInteract;
+  /** @type {OnFallOnComponent} */
   static OnFallOn;
+  /** @type {OnPlayerPlacingComponent} */
   static OnPlayerPlacing;
+  /** @type {OnPlacedComponent} */
   static OnPlaced;
+  /** @type {OnPlayerDestroyedComponent} */
   static OnPlayerDestroyed;
+  /** @type {QueuedTickingComponent} */
   static QueuedTicking;
+  /** @type {RandomTickingComponent} */
   static RandomTicking;
   /**
    * @BlockStatesAndPermutationss
    */
+  /** @type {{[name:string]: number[]|string[]|boolean[]}} */
   static States;
+  /** @type {Permutations[]} */
   static Permutations;
 
 
@@ -92,439 +161,315 @@ class Block {
    * @CreatesBlockObject
    */
   static init() {
+    this.__Data["minecraft:block"].description.identifier = `${config.prefix}:${this.name.toLowerCase()}`
+    for (const [cdata, cvalue] of Object.entries(this)) {
+      switch (cdata) {
+        // Ignoring private properties
+        case "__Data": break;
+        case "__components": break;
+        case "reset": break;
+        case "init": break;
 
-    this.__Data = {
-      "format_version": config["block"]["version"],
-      "minecraft:block": {
-        "description": {
-          "identifier": "",
-          "menu_category": {}
-        },
-        "components": {}
-      }
-    };  
-  
-    for (const key in Block) {
-      if (Block.hasOwnProperty(key) && key !== 'prototype' && key !== '__Data' && key !== '#Reset' && key !== 'init' && key !== '__components' && key !== 'prototype' && key !== "name" && !Block[key]) {
-        Block[key] = null;
-      }
-    }
-    this.__Data["minecraft:block"]["description"]["identifier"] = `${config["prefix"]}:${this.name.toLowerCase()}`
-    /**
-     * @handleCategory
-     */
-    if (this.Category) {
-      if (typeof this.Category != "string") return new Error(`[${this.name}] [component: Category]: expected type {string} instead found {${this.Category}}`);
-      if (!validCategories.has(this.Category.toLowerCase())) throw new Error(`[${this.name}] [component: Category]: Invalid category "${this.Category}". ${validCategories.getClosestMatch(this.Category) === null ? `Unknown Category Found`: `Did you mean ${validCategories.getClosestMatch(this.Category)}`}`);
-      this.__Data["minecraft:block"].description.menu_category.category = this.Category;
-    }
-    /**
-     * @handleGroup
-     */
-    if (this.Group) {
-      if (typeof this.Group != "string") return new Error(`[${this.name}] [component: Group]: expected type {string} instead found {${this.Group}}`);
-      if (!validGroups.has(this.Group.toLowerCase())) throw new Error(`[${this.name}] [component: Group]: Invalid category "${this.Group}". ${validGroups.getClosestMatch(this.Group) === null ? `Unknown Group Found`:`Did you mean "${validGroups.getClosestMatch(this.Group)}"`}`);
-      this.__Data["minecraft:block"].description.menu_category.group = this.Group;
-    }
-    /**
-     * @handleIsHiddenInCommands
-     */
-    if (this.IsHiddenInCommands) {
-      if (typeof this.IsHiddenInCommands != "boolean") return new Error(`[${this.name}] [component: IsHiddenInCommands]: expected type {boolean} instead found {${typeof this.IsHiddenInCommands}}`)
-      this.__Data["minecraft:block"].description.menu_category.is_hidden_in_commands = this.IsHiddenInCommands;
-    }
-    /**
-     * @handleDisplayName
-     */
-    if (this.DisplayName) {
-      if (typeof this.DisplayName == "string") {
-        this.__components["minecraft:display_name"] = this.DisplayName;
-      }
-      else return new Error(`[${this.name}] [component: DisplayName]: expected type {string} instead found {${this.DisplayName}}`);
-    }
-    /**
-     * @handleDestroytime
-     */
-    if (this.DestroyTime) {
-      switch (typeof this.DestroyTime) {
-        case "boolean": this.__components["minecraft:destructible_by_mining"] = this.DestroyTime; break;
-        case "number": this.__components["minecraft:destructible_by_mining"] = { explosion_resistance: this.DestroyTime }; break;
-        default: return new Error(`[${this.name}] [component: DestroyTime]: expected type {boolean|integer} instead found {${typeof this.DestroyTime}}`)
-      }
-    }
-    /**
-     * @handleExplosionResistance
-     */
-    if (this.ExplosionResistance) {
-      switch (typeof this.ExplosionResistance) {
-        case "boolean": this.__components["minecraft:destructible_by_explosion"] = this.ExplosionResistance; break;
-        case "number": this.__components["minecraft:destructible_by_explosion"] = { explosion_resistance: this.ExplosionResistance }; break;
-        default: return new Error(`[${this.name}] [component: ExplosionResistance]: expected type {boolean|integer} instead found {${typeof this.ExplosionResistance}}`)
-      }
-    }
-    /**
-     * @handleFriction
-     */
-    if (this.Friction) {
-      if (typeof this.Friction != "number") return new Error(`[${this.name}] [component: friction]: expected {number} instead found {${typeof this.Friction}}`)
-      if (!isFloat(this.Friction)) return new Error(`[${this.name}] [component: friction]: expected {float} instead found {integer} `)
-      this.__components["minecraft:friction"] = this.Friction;
-    }
-    /**
-     * @handleFlammable
-     */
-    if (this.Flammable) {
-      let __Flammable = this.__Data["minecraft:block"]["components"]["minecraft:flammable"] = {}
-      if (this.Flammable.CatchChanceModifier) {
-        if (typeof this.Flammable.CatchChanceModifier != "number") return new Error(`[${this.name}] [component: CatchChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
-        __Flammable.catch_chance_modifier = this.Flammable.CatchChanceModifier;
-      }
-      if (this.Flammable.DestroyChanceModifier) {
-        if (typeof this.Flammable.DestroyChanceModifier != "number") return new Error(`[${this.name}] [component: DestroyChanceModifier]: expected {number} instead found {${typeof this.CatchChanceModifier}}`)
-        __Flammable.destory_chance_modifier = this.Flammable.DestroyChanceModifier;
-      }
-    }
-    /**
-     * @handleMaterialInstance
-     */
-    if (this.Material) {
-      let __Material = {}
-      if (typeof this.Material != "object") return new Error(`[${this.name}] [component: Material]: expected type {Material} instead found {${typeof this.Material}}`)
-      for (let [m, v] of Object.entries(this.Material)) {
-        if (typeof v != "object") return new Error(`[${this.name}] [component: Material] [bone: ${m}]: expected type {MaterialInstances} instead found {${typeof v}}`)
-        let __MaterialInstances = {}
-        if (v.Texture) {
-          if (typeof v.Texture != "string") return new Error(`[${this.name}] [component: Material] [bone: ${m}] [child: Texture]: expected {string} instead found {${typeof v.Texture}}`)
-          __MaterialInstances.texture = v.Texture;
-        }
-        if (v.RenderMethod) {
-          if (typeof v.RenderMethod != "string") return new Error(`[${this.name}] [component: Material] [bone: ${m}] [child: RenderMethod]: expected {string} instead found {${typeof v.RenderMethod}}`)
-          if (v.RenderMethod != ("opaque" || "blend" || "alpha_test" || "double_sided")) return new Error(`[${this.name}] [component: Material] [bone: ${m}] [child: RenderMethod]: expected type {RenderMethod} but found {${v.RenderMethod}}`)
-          __MaterialInstances.render_method = v.RenderMethod;
-        }
-        if (v.FaceDimming) {
-          if (typeof v.FaceDimming != "boolean") return new Error(`[${this.name}] [component: Material] [bone: ${m}] [child: FaceDimming]: expected {boolean} instead found {${typeof v.FaceDimming}}`)
-          __MaterialInstances.face_dimming = v.FaceDimming;
-        }
-        if (v.AmbientOcclusion) {
-          if (typeof v.AmbientOcclusion != "boolean") return new Error(`[${this.name}] [component: Material] [bone: ${m}] [child: AmbientOcclusion]: expected {boolean} instead found {${typeof v.AmbientOcclusion}}`)
-          __MaterialInstances.ambient_occlusion = v.AmbientOcclusion;
-        }
-        __Material[m] = __MaterialInstances;
-      }
-      this.__components["minecraft:material_instances"] = __Material;
-    }
-    /**
-     * @handleBlockLightEmmision
-     */
-    if (this.LightEmmision) {
-      if (typeof this.LightEmmision != "number") return new Error(`[${this.name}] [component: LightEmmision]: expected {number} instead found {${typeof this.LightEmmision}}`)
-      this.__components["minecraft:block_light_emmision"] = this.LightEmmision;
-    }
-    /**
-     * @handleBlockLightDampening
-     */
-    if (this.LightDampening) {
-      if (typeof this.LightDampening != "number") return new Error(`[${this.name}] [component: LightDampening]: expected {number} instead found {${typeof this.LightDampening}}`)
-      this.__components["minecraft:block_light_dampening"] = this.LightDampening;
-    }
-    /**
-     * @handleGeometry
-     */
-    if (this.Geometry || this.BoneVisibility) {
-      if (this.Geometry) {
-        if (typeof this.Geometry != "string") return new Error(`[${this.name}] [component: Geometry]: expected {string} instead found {${typeof this.Geometry}}`)
-        this.__components["minecraft:geometry"] = {
-          "identifier": this.Geometry
-        }
-      }
-      if (this.BoneVisibility) {
-        if (!this.Geometry) return new Error(`[${this.name}] [component: BoneVisibility]: using BoneVisibility needs a geometry component.`)
-        if (typeof this.BoneVisibility != "object") return new Error(`[${this.name}] [component: BoneVisibility]: expected {object} instead found {${typeof this.BoneVisibility}}`)
-        for (const [bone, value] of this.BoneVisibility) {
-          if (typeof bone == "string" && typeof value == ("string" || "boolean")) {
-            this.__components["minecraft:geometry"]["bone_visibility"] = { bone: value }
-          }
-          if (typeof bone != "string") return new Error(`[${this.name}] [component: bone_visibility] [child: ${bone}]: expected {string} instead found {${typeof bone}}`)
-          if (typeof value != ("string" || "boolean")) return new Error(`[${this.name}] [component: bone_visibility] [child: ${value}]: expected {string} or boolean instead found {${typeof value}}`)
-        }
-      }
-    }
-    /**
-     * @handlePlacementFilter
-     */
-    if (this.PlacementFilter) {
-      if (typeof this.PlacementFilter != "object") return new Error(`[${this.name}] [component: PlacementFilter]: expected type {object} instead found {${typeof this.PlacementFilter}}`)
-      let __PlacementFilter = { conditions: [] }
-      for (const condition of this.PlacementFilter.conditions) {
-        let __condition = {}
-        if (condition.AllowedFaces) {
-          __condition.allowed_faces = []
-          condition.AllowedFaces.forEach(face => {
-            if (typeof face != "string") return new Error(`[${this.name}] [component: PlacementFilter] [child: AllowedFaces]: expected {string} instead found {${typeof face}}`)
-            if (!(["up", "down", "north", "south", "east", "west"].includes(face))) return new Error(`[${this.name}] [component: PlacementFilter] [child: AllowedFaces]: expected type {Faces} instead found {${face}}`)
-            __condition.allowed_faces.push(face)
-          });
-        }
-        if (condition.BlockFilter) {
-          __condition.block_filter = []
-          condition.BlockFilter.forEach(block => {
-            switch (typeof block) {
-              case 'string': __condition.block_filter.push(block); break;
-              case 'object':
-                for (let o of block) {
-                  if (!o.tags) return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter]: expected property {tags}`);
-                  if (typeof o.tags != "string") return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter]: expected type {string} instead found {${typeof o.tags}})`)
-                  __condition.block_filter.push(o)
-                }
-                break;
-              default: return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter]: expected type {Blocks|string} instead found ${typeof block}`)
-            }
+        // Handling Components
+        case "Version": {
+          if (typeof cvalue != "string") return ME(this, cvalue, [cdata], "string");
+          this.__Data.format_version = cvalue;
+        }; break;
+        case "Namespace": {
+          if (typeof cvalue != "string") return ME(this, cvalue, [cdata], "string");
+          this.__Data["minecraft:block"].description.identifier.split(":")[0].replace(config.prefix, cvalue).join("")
+        }; break;
+        case "Identifier": {
+          if (typeof cvalue != "string") return ME(this, cvalue, [cdata], "string");
+          this.__Data["minecraft:block"].description.identifier.split(":")[1].replace(this.name.toLowerCase(), cvalue).join("")
+        }; break;
+        case "Category": {
+          if (typeof cvalue != "string") return ME(this, cvalue, [cdata], "string")
+          if (!isValidCategory(cvalue)) return new Error(`[${this.name}] [component: Category]: ${cvalue} is not a valid Category. please check CategoriesAndGroups.md to see all the valid categories.\n`)
+          this.__Data["minecraft:block"].description.menu_category.category = cvalue;
+        }; break;
+        case "Group": {
+          if (typeof cvalue != "string") return ME(this, cvalue, [cdata], "string")
+          if (!isValidGroup(cvalue)) return new Error(`[${this.name}] [component: Group]: ${cvalue} is not a valid Group. please check CategoriesAndGroups.md to see all the valid groups.\n`)
+          this.__Data["minecraft:block"].description.menu_category.group = cvalue;
+        }; break;
+        case "IsHiddenInCommands": {
+          if (typeof cvalue != "boolean") return ME(this, cvalue, [cdata], "boolean")
+          this.__Data["minecraft:block"].description.menu_category.is_hidden_inCommands = cvalue;
+        }; break;
+        case "DisplayName": {
+          if (typeof cvalue != "string") return ME(this, cvalue, [cdata], "string");
+          this.__components["minecraft:display_name"] = cvalue;
+        }; break;
+        case "Friction": {
+          if (!(typeof cvalue == "number" && isFloat(cvalue))) return ME(this, cvalue, [cdata], "float")
+          if (!(0.0 <= cvalue && 1.0 >= cvalue)) return new Error(`[${this.name}] [component: Friction]: expected the value to be in range of 0.0 to 1.0\n`);
+          this.__components["minecraft:friction"] = cvalue;
+        }; break;
+        case "LightEmmision": {
+          if (typeof cvalue != "number") return ME(this, cvalue, [cdata], "number")
+          this.__components["minecraft:light_emmision"] = cvalue;
+        }; break;
+        case "LightDampening": {
+          if (typeof cvalue != "number") return ME(this, cvalue, [cdata], "number")
+          this.__components["minecraft:light_dampening"] = cvalue;
+        }; break;
+        case "Tags": {
+          if(!Array.isArray(cvalue)) return ME(this, cvalue, [cdata], "string[]")
+          cvalue.map((t,i)=>{
+            if(typeof t != "string") return ME(this, t, [cdata, i], "string")
+            this.__components[`tag:${t}`] = {}
           })
-        }
-        __PlacementFilterconditions.push(__condition)
-      }
-      this.__components["minecraft:placement_filter"] = __PlacementFilter;
-    }
-    /**
-     * @handleTransformation
-     */
-    if (this.Transformation) {
-      if (typeof this.Transformation != "object") return new Error(`[${this.name}] [component: Transformation]: expected type {object} instead found {${typeof this.Transformation}}`)
-      let __Transformation = {}
-      if (this.Transformation.Translation) {
-        this.TransformationTranslation.forEach(v => {
-          if (typeof v != "number") return new Error(`[${this.name}] [component: Transformation] [child: Translation]: expected type {number} instead found {${typeof v}}`)
-          __Transformation.translation.push(v)
-        })
-      }
-      if (this.Transformation.Rotation) {
-        this.Transformation.Rotation.forEach(v => {
-          if (typeof v != "number") return new Error(`[${this.name}] [component: Transformation] [child: Rotation]: expected type {number} instead found {${typeof v}}`)
-          __Transformation.rotation.push(v)
-        })
-      }
-      if (this.Transformation.Scale) {
-        this.Transformation.Scale.forEach(value => {
-          if (typeof value != "number") return new Error(`[${this.name}] [component: Transformation] [child: Scale]: expected type {number} instead found {${typeof v}}`)
-          __Transformation.scale.push(value)
-        })
-      }
-      this.__components["minecraft:transformation"] = __Transformation;
-    }
-    /**
-     * @handleLoot
-     */
-    if (this.Loot) {
-      if (typeof this.Loot != "string") return new Error(`[${this.name}] [component: Loot]: expected type {string} instead found {${typeof this.Loot}}`)
-      this.__components["minecraft:loot"] = this.Loot;
-    }
-    /**
-     * @handleMapColor
-     */
-    if (this.MapColor) {
-      switch (typeof this.MapColor) {
-        case "string":
-          this.__components["minecraft:map_color"] = this.MapColor;
-          break;
-        case "object":
-          if (!(this.MapColor["R"] && this.MapColor["B"] && this.MapColor["G"])) return new Error(`[${this.name}] [component: MapColor]: expected MapColor={R: number, B: number, G: number} instead found {${this.MapColor}}`)
-          this.__components["minecraft:map_color"] = [this.MapColor["R"], this.MapColor["B"], this.MapColor["G"]]
-          break;
-        default:
-          return new Error(`[${this.name}] [component: MapColor]: expected type {string|object} instead found {${typeof this.MapColor}}`)
-      }
-    }
-    /**
-     * @handleCollisionBox
-     */
-    if (this.CollisionBox) {
-      if (typeof this.CollisionBox != "object") return new Error(`[${this.name}] [component: CollisionBox]: expected type {object} instead found {${typeof this.CollisionBox}}`)
-      let __CollisionBox = {}
-      if (this.CollisionBox["Origin"]) {
-        this.CollisionBox["Origin"].forEach(o => {
-          if (typeof o != "number") return new Error(`[${this.name}] [component: CollisionBox] [child: Origin]: expected type {number} instead found {${typeof o}}`)
-          __CollisionBox["origin"].push(o)
-        })
-      }
-      if (this.CollisionBox["Size"]) {
-        this.CollisionBox["Size"].forEach(s => {
-          if (typeof s != "number") return new Error(`[${this.name}] [component: CollisionBox] [child: Size]: expected type {number} instead found {${typeof s}}`)
-          __CollisionBox["size"].push(s)
-        })
-      }
-      this.__components["minecraft:collision_box"] = __CollisionBox;
-    }
-    /**
-     * @handleSelectionBox
-     */
-    if (this.SelectionBox) {
-      if (typeof this.SelectionBox != "object") return new Error(`[${this.name}] [component: SelectionBox]: expected type {object} instead found {${typeof this.SelectionBox}}`)
-      let __SelectionBox = {}
-      if (this.SelectionBox["Origin"]) {
-        this.SelectionBox["Origin"].forEach(o => {
-          if (typeof o != "number") return new Error(`[${this.name}] [component: SelectionBox] [child: Origin]: expected type {number} instead found {${typeof s}}`)
-          __SelectionBox["origin"].push(o)
-        })
-      }
-      if (this.SelectionBox["Size"]) {
-        this.SelectionBox["Size"].forEach(s => {
-          if (typeof s == "number") return new Error(`[${this.name}] [component: SelectionBox] [child: Size]: expected type {number} instead found {${typeof s}}`)
-          __SelectionBox["size"].push(s)
-        })
-      }
-      this.__components["minecraft:selection_box"] = __SelectionBox;
-    }
-
-    /**
-     * @handleOnStepOn
-     */
-    if (this.OnStepOn) { this.__components["minecraft:on_step_on"] = BlockEventTriggerHandler(this.OnStepOn, this.__Data, "OnStepOn", this) }
-    /**
-     * @handleOnStepOff
-     */
-    if (this.OnStepOff) { this.__components["minecraft:on_step_off"] = BlockEventTriggerHandler(this.OnStepOff, this.__Data, "OnStepOff", this) }
-    /**
-     * @handleOnFallOn
-     */
-    if (this.OnFallOn) { this.__components["minecraft:on_fall_on"] = BlockEventTriggerHandler(this.OnFallOn, this.__Data, "OnFallOn", this) }
-    /**
-     * @handleOnPlayerPlacing
-     */
-    if (this.OnPlayerPlacing) { this.__components["minecraft:on_player_placing"] = BlockEventTriggerHandler(this.OnPlayerPlacing, this.__Data, "OnPlayerPlacing", this) }
-    /**
-     * @handleOnPlayerDestroyeded
-     */
-    if (this.OnPlayerDestroyed) { this.__components["minecraft:on_player_destroyed"] = BlockEventTriggerHandler(this.OnPlayerDestroyed, this.__Data, "OnPlayerDestroyed", this); }
-    /**
-     * @handleOnPlaced
-     */
-    if (this.OnPlaced) { this.__components["minecraft:on_placed"] = BlockEventTriggerHandler(this.OnPlaced, this.__Data, "OnPlaced", this); }
-    /**
-     * @handleOnInteract
-     */
-    if (this.OnInteract) { this.__components["minecraft:on_interact"] = BlockEventTriggerHandler(this.OnInteract, this.__Data, "OnInteract", this); }
-    /**
-     * @handleQueuedTicking
-     */
-    if (this.QueuedTicking) {
-      if (typeof this.QueuedTicking != "object") return new Error(`[${this.name}] [component: QueuedTicking]: expected {object} instead found {${typeof this.QueuedTicking}}`);
-      if (!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
-      let __QueuedTicking = { "on_tick": {} }
-      if (this.QueuedTicking.Looping) {
-        if (typeof this.QueuedTicking.Looping != "boolean") return new Error(`[${this.name}] [component: QueuedTicking] [child: Looping]: expected type {boolean} instead found {${typeof this.QueuedTicking["Looping"]}}`)
-        __QueuedTicking.looping = this.QueuedTicking.Looping;
-      }
-      if (this.QueuedTicking.IntervalRange) {
-        if (typeof this.QueuedTicking.IntervalRange === ("string" || "object" || "boolean" || "number" || "Function")) return new Error(`[${this.name}] [component: QueuedTicking] [child: IntervalRange]: expected type {number[]} instead found {${typeof this.QueuedTicking["Condition"]}}`)
-        this.QueuedTicking.IntervalRange.forEach(r => {
-          if (typeof r != "number") return new Error(`[${this.name}] [component: QueuedTicking] [child: IntervalRange]: expected type {number} instead found {${typeof this.QueuedTicking["IntervalRange"]}}`)
-          __QueuedTicking.condition = this.QueuedTicking.IntervalRange;
-        })
-      }
-      if (ths.QueuedTicking.Condition || this.QueuedTicking.Event || this.QueuedTicking.Target || this.QueuedTicking.Action) {
-        __QueuedTicking = BlockEventTriggerHandler(this.QueuedTicking, this.__Data, "QueuedTicking", this);
-      }
-      this.__components["minecraft:queued_ticking"] = __QueuedTicking;
-    }
-    /**
-     * @handleRandomTicking
-     */
-    if (this.RandomTicking) {
-      if (typeof this.RandomTicking != "object") return new Error(`[${this.name}] [component: RandomTicking]: expected {object} instead found {${typeof this.RandomTicking}}`)
-      if (!this.__Data["minecraft:block"]["events"]) this.__Data["minecraft:block"]["events"] = {}
-      let __RandomTicking = { "on_tick": {} }
-      if (ths.RandomTicking.Condition || this.RandomTicking.Event || this.RandomTicking.Target || this.RandomTicking.Action) {
-        __RandomTicking = BlockEventTriggerHandler(this.RandomTicking, this.__Data, "RandomTicking", this);
-      }
-      this.__components["minecraft:random_ticking"] = __RandomTicking;
-    }
-    /**
-     * @handleStates
-     */
-    if (this.States) {
-      if (typeof this.States !== "object") {
-        return new Error(`[${this.name}] [property: States]: expected type {object} instead found ${typeof this.States}`);
-      }
-
-      let __States = {};
-
-      for (let [state, values] of Object.entries(this.States)) {
-        if (typeof state !== "string") {
-          return new Error(`[${this.name}] [property: States] [name: ${state}]: expected type {string} instead found ${typeof state}`);
-        }
-
-        let stateName = `${config["prefix"]}:${state}`;
-        __States[stateName] = [];
-
-        if (!Array.isArray(values)) {
-          return new Error(`[${this.name}] [property: States] [name: ${stateName}]: expected type {string[]} instead found ${typeof values}`);
-        }
-
-        values.forEach(v => {
-          if (typeof v !== "boolean" && typeof v !== "number") {
-            return new Error(`[${this.name}] [property: States] [name: ${stateName}]: expected type {string[]|number[]|boolean[]} instead found ${typeof v}`);
+        }; break;
+        case "Geometry": {
+          if(typeof cvalue != "string") return Me(this, cvalue, [cdata], "string")
+          this.__components["minecraft:geometry"] = {
+            identifier: cvalue
           }
-          __States[stateName].push(v);
-        });
+        }; break;
+        case "BoneVisibility": {
+          if(typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          this.__components["minecraft:geometry"].bone_visibility = {}
+          for(let [k, v] of Object.entries(cvalue)) {
+            if(typeof k != "string") return ME(this, k, [cdata, k], "string")
+            if(!Array.isArray(v)) return ME(this, v, [cdata, k, v], "string[]|number[]|boolean[]")
+            this.__components["minecraft:geometry"].bone_visibility[k] = v;
+          }
+        }; break;
+        case "MapColor": {
+          if (typeof cvalue == "string") {
+            this.__components["minecraft:map_color"] = cvalue;
+          }
+          if (Array.isArray(cvalue)) {
+            let mapcolor = []
+            cvalue.map(c => {
+              if (c < 0 && c > 255) return new Error(`[${this.name}] [component: MapColor]: expected number to be between 0-255 instead found ${c}`)
+              mapcolor.push(c)
+            })
+            this.__components["minecraft:map_color"] = mapcolor;
+          }
+          else return ME(this, cvalue, [cdata], "string|number[]")
+        }; break;
+        case "DestroyTime": {
+          if (typeof cvalue == "number") {
+            this.__components["minecraft:destructible_by_mining"] = { seconds_to_destroy: cvalue };
+          }
+          else if (typeof cvalue == "boolean") {
+            this.__components["minecraft:destructible_by_mining"] = cvalue;
+          }
+          else return ME(this, cvalue, [cdata], "boolean|number");
+        }; break;
+        case "ExplosionResistance": {
+          if (typeof cvalue == "number") {
+            this.__components["minecraft:explosion_resistance"] = { explosion_resistance: cvalue }
+          }
+          else if (typeof cvalue == "boolean") {
+            this.__components["minecraft:explosion_resistance"] = cvalue;
+          }
+          else return ME(this, cvalue, [cdata], "boolean|number");
+        }; break;
+        case "Flammable": {
+          if (typeof cvalue == "boolean") {
+            this.__components["minecraft:flammable"] = cvalue;
+          }
+          if (Array.isArray(cvalue)) return ME(this, cvalue, [cdata], "boolean|number[]")
+          if (!(typeof cvalue[0] == "number" || cvalue[0] == null)) return ME(this, cvalue, [cdata, "CatchChance"], "number|null");
+          if (!(typeof cvalue[1] == "number" || cvalue[1] == null)) return ME(this, cvalue, [cdata, "DestroyChance"], "number|null");
+          if (cvalue[1] == null) {
+            this.__components["minecraft:flammable"] = { catch_chance_modifier: cvalue[0] }
+          }
+          if (cvalue[0] == null) {
+            this.__components["minecraft:flammable"] = { destroy_chance_modifier: cvalue[1] }
+          }
+          if (typeof cvalue[0] == "number" && typeof cvalue[1] == "number") {
+            this.__components["minecraft:flammable"] = {
+              catch_chance_modifier: cvalue[0],
+              destroy_chance_modifier: cvalue[1]
+            }
+          }
+        }; break;
+        case "MaterialInstances": {
+          if (typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          let __MaterialInstancesInstances = {}
+          for (let [k, v] of Object.entries(cvalue)) {
+            let __MaterialInstances = {}
+            if (typeof v != "object") return ME(this, v, [cdata, k], "object")
+            if (v.Texture) {
+              if (typeof v.Texture != "string") return ME(this, v, [cdata, k, "Texture"], "string")
+              __MaterialInstances.texture = v.Texture;
+            }
+            if (v.RenderMethod) {
+              if (typeof v.RenderMethod != "string") return ME(this, v, [cdata, k, "RenderMethod"], "string")
+              if (!isRenderMethod(v.RenderMethod)) return new Error(`[${this.name}] [component: ${cdata}] [child: ${k}] [subChild: RenderMethod]: expected (opaque|blend|alpha_test|double_sided)`)
+              __MaterialInstances.render_method = v.RenderMethod;
+            }
+            if (v.FaceDimming) {
+              if (typeof v != "boolean") return ME(this, v, [cdata, k, "FaceDimming"], "boolean")
+              __MaterialInstances.face_dimming = v.FaceDimming;
+            }
+            if (v.AmbientOcclusion) {
+              if (typeof v != "boolean") return ME(this, v, [cdata, k, "AmbientOcclusion"], "boolean")
+              __MaterialInstances.ambient_occlusion = v.AmbientOcclusion;
+            }
+            __MaterialInstancesInstances[__MaterialInstances]
+          }
+          this.__components["minecraft:material_instances"] = __MaterialInstancesInstances;
+        }; break;
+        case "PlacementFilter": {
+          if (typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          let placementfilter = {}
+          if (cvalue.AllowedFaces) {
+            if (!Array.isArray(cvalue.AllowedFaces)) return ME(this, cvalue.AllowedFaces, [cdata, "AllowedFaces"], "string[]")
+            placementfilter.allowed_faces = []
+            cvalue.AllowedFaces.map((f, i) => {
+              if (typeof f != "string") return ME(this, f, [cdata, "AllowedFaces"], "string[]")
+              if (!isValidBlockFace(f)) return new Error(`[${this.name}] [component: PlacementFilter] [child: AllowedFaces] [subChild: ${i}]: expected (up|down|east|west|north|south) instead found ${f}.\n`)
+              placementfilter.allowed_faces.push(f)
+            })
+          }
+          if (cvalue.BlockFilter) {
+            if (!Array.isArray(cvalue.BlockFilter)) return ME(this, cvalue.BlockFilter, [cdata, "BlockFilter"], "string[]|object[]")
+            placementfilter.block_filter = []
+            cvalue.BlockFilter.map((b, i) => {
+              if (typeof b == "string") { placementfilter.block_filter.push(b) }
+              else if (typeof b == "object") {
+                if (!b.tags) return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter] [subChild: ${i}] expected property 'tags'`)
+                let pfobj = { tags: b.tags }
+                placementfilter.block_filter.push(pfobj)
+              }
+              else return ME(this, b, [cdata, "BlockFilter", b], "string|object")
+            })
+          }
+        }; break;
+        case "Transformation": {
+          if(typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          let transformation = {}
+          if(cvalue.Translation) {
+            if(!Array.isArray(cvalue.Translation)) return ME(this, cvalue.Translation, [cdata, "Translation"], "number[]")
+            transformation.translation = []
+            cvalue.Translation.map(x=>{
+              if(typeof x != "number") return ME(this, x, [cdata, "Translation", x], "number")
+              transformation.translation.push(x)
+            })
+          }
+          if(cvalue.Rotation) {
+            if(!Array.isArray(cvalue.Rotation)) return ME(this, cvalue.Rotation, [cdata, "Rotation"], "number[]")
+            transformation.rotation = []
+            cvalue.Rotation.map(x=>{
+              if(typeof x != "number") return ME(this, x, [cdata, "Rotation", x], "number")
+              transformation.rotation.push(x)
+            })
+          }
+          if(cvalue.Scale) {
+            if(!Array.isArray(cvalue.Scale)) return ME(this, cvalue.Scale, [cdata, "Scale"], "number[]")
+            transformation.scale = []
+            cvalue.Scale.map(x=>{
+              if(typeof x != "number") return ME(this, x, [cdata, "Scale", x], "number")
+              transformation.scale.push(x)
+            })
+          }
+          this.__components["minecraft:transformation"] = transformation;
+        }; break;
+        case "CollisionBox": {
+          if(typeof cvalue == "boolean") { this.__components["minecraft:_box"] = cvalue; }
+          else if(typeof cvalue == "object") {
+            let collisionbox = {};
+            if(cvalue.Origin) {
+              if(!Array.isArray(cvalue.Origin)) return ME(this, cvalue.Origin, [cdata, "Origin"], "number[]")
+              let origin = []
+              cvalue.Origin.map(x=>{
+                if(typeof x != "number") return ME(this, x, [cdata, "Origin", x], "number")
+                origin.push(x)
+              })
+              collisionbox.origin = origin;
+            }
+            if(cvalue.Size) {
+              if(!Array.isArray(cvalue.Size)) return ME(this, cvalue.Size, [cdata, "Size"], "number[]")
+              let size = []
+              cvalue.Size.map(x=>{
+                if(typeof x != "number") return ME(this, x, [cdata, "Size", x], "number")
+                size.push(x)
+              })
+              collisionbox.size = size;
+            }
+            this.__components["minecraft:collision_box"] = collisionbox;
+          }
+          else  return ME(this, cvalue, [cdata], "boolean|object")
+        }; break;
+        case "SelectionBox": {
+          if(typeof cvalue == "boolean") { this.__components["minecraft:_box"] = cvalue; }
+          else if(typeof cvalue == "object") {
+            let selectionbox = {};
+            if(cvalue.Origin) {
+              if(!Array.isArray(cvalue.Origin)) return ME(this, cvalue.Origin, [cdata, "Origin"], "number[]")
+              let origin = []
+              cvalue.Origin.map(x=>{
+                if(typeof x != "number") return ME(this, x, [cdata, "Origin", x], "number")
+                origin.push(x)
+              })
+              selectionbox.origin = origin;
+            }
+            if(cvalue.Size) {
+              if(!Array.isArray(cvalue.Size)) return ME(this, cvalue.Size, [cdata, "Size"], "number[]")
+              let size = []
+              cvalue.Size.map(x=>{
+                if(typeof x != "number") return ME(this, x, [cdata, "Size", x], "number")
+                size.push(x)
+              })
+              selectionbox.size = size;
+            }
+            this.__components["minecraft:selection_box"] = selectionbox;
+          }
+          else return ME(this, cvalue, [cdata], "object")
+        }; break;
+        case "CraftingTable": {
+          if(typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          this.__components["minecraft:crafting_table"] = {}
+          if(cvalue.TableName) {
+            if(typeof cvalue.TableName != "string") return ME(this, cvalue.TableName, [cdata, "TableName"], "string")
+            this.__components["minecraft:crafting_table"].table_name = cvalue.TableName
+          }
+          if(cvalue.CraftingTags) {
+            if(!Array.isArray(cvalue.CraftingTags)) return ME(this, cvalue.CraftingTags, [cdata, "CraftingTags"], "string[]")
+            this.__components["minecraft:crafting_table"].crafting_tags = []
+            cvalue.CraftingTags.map(x=>{
+              if(typeof x != "string") return ME(this, x, [cdata, "CraftingTags", x], "string")
+              this.__components["minecraft:crafting_table"].crafting_tags.push(x)
+            })
+          }
+        }; break;
+        case "OnStepOn": this.__components["minecraft:on_step_on"] = BlockEventTriggerHandler(this.OnStepOn,[cdata], this); break;
+        case "OnStepOff": this.__components["minecraft:on_step_off"] = BlockEventTriggerHandler(this.OnStepOff, [cdata], this); break;
+        case "OnFallOn": this.__components["minecraft:on_fall_on"] = BlockEventTriggerHandler(this.OnFallOn, [cdata], this); break;
+        case "OnInteract": this.__components["minecraft:on_interact"] = BlockEventTriggerHandler(this.OnInteract, [cdata], this); break;
+        case "OnPlaced": this.__components["minecraft:on_placed"] = BlockEventTriggerHandler(this.OnPlaced, [cdata], this); break;
+        case "OnPlayerPlacing": this.__components["minecraft:on_player_placed"] = BlockEventTriggerHandler(this.OnPlayerPlacing, [cdata], this); break;
+        case "OnPlayerDestroyed": this.__components["minecraft:on_player_destroyed"] = BlockEventTriggerHandler(this.OnPlayerDestroyed, [cdata], this); break;
+        case "QueuedTicking": {
+          this.__components["minecraft:queued_ticking"] = {}
+          this.__components["minecraft:queued_ticking"].on_tick = BlockEventTriggerHandler(this.QueuedTicking, [cdata], this)
+          if(typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          if(cvalue.Looping) {
+            if(typeof cvalue.Looping != "boolean") return ME(this, cvalue.Looping, [cdata, "Looping"], "boolean")
+            this.__components["minecraft:queued_ticking"].looping = cvalue;
+          }
+          if(cvalue.IntervalRange) {
+            if(!Array.isArray(cvalue.IntervalRange)) return ME(this, cvalue.IntervalRange, [cdata, "IntervalRange"], "number[]")
+            let ir = this.__components["minecraft:queued_ticking"].interval_range = []
+            cvalue.IntervalRange.map(x=>{
+              if(typeof x != "number") return ME(this, x, [cdata, "IntervalRange"], "number")
+              ir.push(x)
+            })
+          }
+        }; break;
+        case "RandomTicking": {
+          if(typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+        }; break;
       }
-
-      this.__Data["minecraft:block"].description.states = __States;
     }
-
-    /**
-     * @handlePermutations
-     */
-    if (this.Permutations) {
-      if (typeof this.Permutations !== "object") {
-        return new Error(`[${this.name}] [property: Permutations]: expected type {object} instead found {${typeof this.Permutations}}`);
-      }
-
-      let __Permutations = [];
-
-      for (let [condition, permData] of Object.entries(this.Permutations)) {
-        let __permuteData = {};
-
-        if (typeof condition !== "string") {
-          return new Error(`[${this.name}] [property: Permutations] [perm: ${condition}]: expected type {string} instead found {${typeof condition}}`);
-        }
-
-        __permuteData.condition = HandlePermCondition(condition, this.__Data, this);
-
-        if (typeof permData !== "object") {
-          return new Error(`[${this.name}] [property: Permutations] [perm_value: ${permData}]: expected type {object} instead found {${typeof permData}}`);
-        }
-
-        __permuteData.components = permData;
-        __Permutations.push(__permuteData);
-      }
-
-      this.__Data["minecraft:block"].permutations = __Permutations;
-    }
-    console.warn(this.__Data)
-
     return JSON.stringify(this.__Data);
- 
-  }
-
-}
-
-
-
-class BasicBlock extends Block {
-
-  constructor(data){
-    for (const key in Block) {
-      if (Block.hasOwnProperty(key)) {
-        Block[key] = null;
-      
   }
 }
-  }
-}
-
 module.exports = {
   Block
 };
-
-const delay = seconds => {return new Promise(resolve=>{ setTimeout(resolve,seconds * 1000)})}
