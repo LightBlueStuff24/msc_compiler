@@ -38,20 +38,11 @@ class Block {
     return new Promise((resolve) => {
       for (const key in Block) {
         if (Block.hasOwnProperty(key) && key !== '__Data' && key !== 'Reset' && key !== '__components') { Block[key] = null; }
-        if (key === '__Data') {
-          Block.__Data = {
-            "format_version": config.block.version,
-            "minecraft:block": {
-              "description": {
-                "identifier": "",
-                "menu_category": {}
-              },
-              "components": {}
-            }
-          };
+        if (key === '__components') {
+          Block.__components = {}
         }
       }
-      resolve('Sucess')
+      resolve()
     })
   }
   /**
