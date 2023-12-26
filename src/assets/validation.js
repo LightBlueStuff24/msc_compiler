@@ -1,8 +1,27 @@
 /**
- * A enum of Category types
- * @enum {string}
+ * @typedef {Object} CategoryType
+ * @property {string} Construction
+ * @property {string} Items
+ * @property {string} Equipments
+ * @property {string} Nature
+ * @property {string} None
  */
-export const Categories = {
+
+/**
+ * @typedef {Object} GroupType
+ * @property {string} Planks
+ * @property {string} Slabs
+ * @property {string} Stairs
+ * @property {string} Fences
+ * @property {string} FenceGates
+ * @property {string} Walls
+ */
+
+/**
+ * A enum of Category types
+ * @enum {CategoryType}
+ */
+ const Categories = {
   Construction: "construction",
   Items: "items",
   Equipments: "Equipments",
@@ -11,9 +30,9 @@ export const Categories = {
 }
 /**
  * A enum of Group types
- * @enum {string}
+ * @enum {GroupType}
  */
-export const Groups = {
+ const Groups = {
   Planks: "itemGroup.planks.name",
   Slabs: "itemGroup.slabs.name",
   Stairs: "itemGroup.stairs.name",
@@ -112,5 +131,12 @@ function isValidCategory(category) {
 function isValidGroup(group) {
   return group.includes(validGroups) ?? false
 }
+module.exports = {
+isValidCategory,
+isValidGroup,
+Groups,
+Categories
+}
 exports.isValidCategory = isValidCategory
 exports.isValidGroup = isValidGroup
+
