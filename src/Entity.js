@@ -171,7 +171,7 @@ class Entity {
     static WalkAnimationSpeed;
     static WantsJockey;
     static init() {
-        this.#__Data["minecraft:entity"].description.identifier = ``
+        this.#__Data["minecraft:entity"].description.identifier = `${config.prefix}:${this.name}`
         for (const [cdata,cvalue] of Object.entries(this)){
             switch (cdata){
             case "Properties":

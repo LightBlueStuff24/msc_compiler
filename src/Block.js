@@ -6,7 +6,9 @@ const { ME } = require("../errorHandler.js")
 //const { BlockLootTable } = require("./LootTable.js")
 const Fuse = require('fuse.js');
 /**
- * @Function getClosestMatch
+ * @memberof Set
+ * @instance
+ * @method getClosestMatch
  */
 Set.prototype.getClosestMatch = function (string) {
   const fuse = new Fuse(Array.from(this), {
