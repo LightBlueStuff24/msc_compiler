@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Sifatplayz/msc_compiler#readme",
   "dependencies": {
+    "@jimp/types": "^0.22.10",
     "@minecraft/server": "^1.8.0-beta",
     "@types/node": "^20.10.4",
     "bun": "^1.0.16",

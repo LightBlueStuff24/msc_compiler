@@ -1,9 +1,6 @@
 const { promises: fsPromise, existsSync, readFileSync } = require("fs");
 const path = require("path");
-const { BlockRegistry } = require("../assets/Registries/BlockRegistry");
-const { ItemRegistry } = require("../assets/Registries/ItemRegistry");
-const { EntityRegistry } = require('../assets/Registries/EntityRegistry');
-const { FluidRegistry } = require("../assets/Registries/FluidRegistry");
+const {EntityRegistry,FluidRegistry,ItemRegistry,BlockRegistry,RecipeRegistry} = require('../Registries/export')
 
 const currentDirectory = process.cwd();
 const configPath = '../../msc.config.json';
@@ -13,6 +10,7 @@ async function loadFilesInDir() {
   const directoryPath = path.join(currentDirectory, config.inputDirectory);
   try {
     const files = await fsPromise.readdir(directoryPath);
+    // Loads all js files in the directory: 
     await Promise.all(files.map(file => loadFile(path.join(directoryPath, file))));
     await buildFiles();
     const endTime = performance.now()
@@ -54,14 +52,12 @@ async function buildFluidFiles() {
     await fsPromise.mkdir('build/BP/scripts', { recursive: true });
     FluidRegistry.Registries.forEach(async (registry, index) => {
       const filename = registry.name;
-      await fsPromise.writeFile(
-        `build/BP/scripts/${filename}.js`,
-        registry.script
-      );
-      console.log(`Created ${filename}.js`);
+      
     });
+      console.log(`Created ${filename}.js`);
+    };
   }
-}
+
 
 function loadFile(filePath) {
   return new Promise((resolve, reject) => {
