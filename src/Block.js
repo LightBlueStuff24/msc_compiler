@@ -1,3 +1,4 @@
+const { Permutation } = require("./Permutation.js");
 const { isFloat } = require("../../Utils.js")
 const config = require("../../msc.config.json");
 const { isValidCategory, isValidGroup } = require('./validation.js')
@@ -39,10 +40,10 @@ class Block {
     // Reset only static properties that are directly added to the Block class
     return new Promise((resolve) => {
       for (const key in Block) {
-        if (Block.hasOwnProperty(key) && key !== '__Data' && key !== 'Reset' && key !== '__components') { Block[key] = null; }
-        if (key === '__components') {
-          Block.__components = {}
-        }
+        if (Block.hasOwnProperty(key) && key !== '__Data' && key !== 'Reset' && key !== '__components' && typeof Block[key] !== 'function') { Block[key] = null; }
+      }
+      if (key === '__components') {
+        Block.__components = {}
       }
       resolve()
     })
@@ -146,14 +147,16 @@ class Block {
    */
   /** @type {{[name:string]: number[]|string[]|boolean[]}} */
   static States;
-  /** @type {Permutations[]} */
+  /** @type {Permutation[]} */
   static Permutations;
-
 
   /**
    * @CreatesBlockObject
    */
   static init() {
+    if (this === Block){
+      this.reset()
+    }
     this.__Data["minecraft:block"].description.identifier = `${config.prefix}:${this.name.toLowerCase()}`
     for (const [cdata, cvalue] of Object.entries(this)) {
       switch (cdata) {

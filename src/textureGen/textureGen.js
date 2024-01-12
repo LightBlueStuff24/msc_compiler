@@ -1,7 +1,8 @@
+
+   
 const Jimp = require('jimp');
 const { promisify } = require('util');
 const fs = require('fs');
-
 const writeFileAsync = promisify(fs.writeFile);
 
 class TextureGenerator {
@@ -32,8 +33,32 @@ class TextureGenerator {
 
         return baseImage.getBufferAsync(Jimp.MIME_JPEG);
     }
+    async generateFluidBucket(fluidTexture, fillRegion) {
+        const bucketImage = await Jimp.read('../asset/bucket_empty.png');
+        const fluidImage = await Jimp.read(fluidTexture);
+    
+        const fillX = fillRegion[0];
+        const fillY = fillRegion[1];
+        const fillWidth = fillRegion[2] - fillRegion[0];
+        const fillHeight = fillRegion[3] - fillRegion[1];
+        const fillArea = bucketImage.clone().crop(fillX, fillY, fillWidth, fillHeight);
+        const secondFillArea = bucketImage.clone().crop(3, 4, 10, 1);
+        fluidImage.scan(0, 0, fluidImage.getWidth(), fluidImage.getHeight(), function (x, y) {
+            const { r, g, b } = Jimp.intToRGBA(this.getPixelColor(x, y));
+            const brightness = (r + g + b) / 3;
+            const alpha = Jimp.intToRGBA(fillArea.getPixelColor(x - fillX, y - fillY)).a;
+            const adjustedAlpha = brightness > 80 ? alpha : 255 - alpha;
+            fillArea.setPixelColor(Jimp.rgbaToInt(r, g, b, adjustedAlpha), x - fillX, y - fillY);
+            secondFillArea.setPixelColor(Jimp.rgbaToInt(r, g, b, adjustedAlpha), x - fillX, y - fillY);
+        }); 
+        bucketImage.blit(fillArea, fillX, fillY, 0, 0, fillWidth, fillHeight);
+        bucketImage.blit(secondFillArea, 3, 4, 0, 0, 10, 1);
+    
+        return await bucketImage.getBufferAsync(Jimp.MIME_PNG);
+    }
+    
+    
 }
-
 
 async function generateVariations() {
     const textureGenerator = new TextureGenerator('dow.png');
@@ -46,10 +71,9 @@ async function generateVariations() {
     }
 }
 
-generateVariations()
-    .then(() => {
-        console.log('Variations generated and saved successfully.');
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+(async () => {
+    const textureGenerator = new TextureGenerator();
+    const buffer = await textureGenerator.generateFluidBucket('./water_still.png', [5, 3, 11, 6]);
+    await writeFileAsync(`${process.cwd()}/variation_bucket.png`, buffer);
+})();
+
