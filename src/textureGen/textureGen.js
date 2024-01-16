@@ -44,7 +44,7 @@ class TextureGenerator {
         const fillY = fillRegion[1];
         const fillWidth = fillRegion[2] - fillRegion[0];
         const fillHeight = fillRegion[3] - fillRegion[1];
-        bucketImage.blit(fluidImage, fillX, fillY);
+        bucketImage.blit(fluidImage, fillX, fillY,0,0,);
         bucketImage.write('./e.png')
     }
 
