@@ -1,4 +1,6 @@
+const {ME} = require("./errorHandler")
 const config = require("../../msc.config.json")
+
 
 class ShapedRecipe {
   static __Data = {
@@ -12,24 +14,34 @@ class ShapedRecipe {
       "keys": {},
     }
   }
+  static Group;
   static Tags;
   static Pattern;
   static Keys;
   static Unlocks;
   static Results;
   static Priority = -1;
+
   /**
    * @CreatesShapedRecipeObject
    */
   static init() {
-    this.__Data["minecraft:recipe_shaped"]["description"]["identifier"]=`${config["prefix"]}:${this.name.toLowerCase()}`
+    this.__Data["minecraft:recipe_shaped"]["description"]["identifier"]=
+    `${config["prefix"]}:${this.name.toLowerCase()}`;
+    /**
+     * @handleGroup
+     */
+    if(this.Group) {
+      if(typeof this.Group != "string") return ME()
+      this.__Data["minecraft:recipe_shaped"].group = this.Group;
+    }
     /**
      * @handleTags
      */
     if(this.Tags) {
-      if(typeof this.Tags == ("string"||"boolean"||"number"||"object"||"Function")) return new Error(`[${this.name}] [propetry: Tags]: expected type {string[]} instead found {${typeof this.Tags}}`)
+      if(!Array.isArray(this.Tags)) return ME()
       this.Tags.forEach((p, i)=>{
-        if(typeof p != "string") return new Error(`[${this.name}] [propetry: Tags] [index: ${i}]: expected type {string} instead found {${typeof p}}`)
+        if(typeof p != "string") return ME()
         this.__Data["minecraft:recipe_shaped"]["tags"].push(p);
       })
     }
@@ -37,9 +49,9 @@ class ShapedRecipe {
      * @handlePattern
      */
     if(this.Pattern) {
-      if(typeof this.Pattern == ("string"||"boolean"||"number"||"object"||"Function")) return new Error(`[${this.name}] [propetry: Pattern]: expected type {string[]} instead found {${typeof this.Pattern}}`)
+      if(!Array.isArray(this.Pattern)) return ME()
       this.Pattern.forEach((p, i)=>{
-        if(typeof p == "string") return new Error(`[${this.name}] [propetry: Pattern] [index: ${i}]: expected type {string} instead found {${typeof p}}`)
+        if(typeof p == "string") return ME()
         this.__Data["minecraft:recipe_shaped"]["pattern"].push(p);
       })
     }
@@ -47,43 +59,66 @@ class ShapedRecipe {
      * @handdleKeys
      */
     if(this.Keys) {
-      if(typeof this.Keys != "object") return new Error(`[${this.name}] [propetry: Keys]: expected type {object} instead found {${typeof this.Keys}}`)
+      if(typeof this.Keys != "object") return ME()
       for(const [key, value] of Object.entries(this.Keys)) {
-        if(typeof key != "string") return new Error(`[${this.name}] [propetry: Keys] [child: ${key}]: expected type {string} instead found {${typeof key}}`)
-        if(typeof value !=  "string") return new Error(`[${this.name}] [propetry: Keys] [child: ${key}] [value: ${value}]: expected type {string} instead found {${typeof value}}`)
-        this.__Data["minecraft:recipe_shaped"]["keys"][key] = value;
+        if(typeof key != "string") return ME()
+        if(typeof value != "object") return ME()
+        let k = {}
+        if(!value.item) return ME()
+        if(typeof value.item != "string") return ME()
+        k.item = value.item;
+        if(value.data) {
+          if(typeof value.data != "number") return ME()
+          k.data = value.data;
+        }
+        if(value.count) {
+          if(typeof value.count != "number") return ME()
+            k.count = value.count;
+        }
+        this.__Data["minecraft:recipe_shaped"].keys[key] = k;
       }
     }
     /**
      * @handleUnlocks
      */
     if(this.Unlocks) {
-      if(typeof this.Unlocks == ("string"||"boolean"||"number"||"object"||"Function")) return new Error(`[${this.name}] [propetry: Unlocks]: expected type {string[]} instead found {${typeof this.Unlocks}}`)
-      this.__Data["minecraft:recipe_shaped"]["unlocks"]=[]
-      this.Unlocks.forEach((u, i)=>{
-        if(typeof u != "string") return new Error(`[${this.name}] [propetry: Unlocks] index: ${i}]: expected type {string} instead found {${typeof u}}`)
-        this.__Data["minecraft:recipe_shaped"]["unlocks"].push({"item": u})
-      })
+      if(!Array.isArray(this.Unlocks)) return ME()
+      for(let [k,v] of Object.entries(this.Unlocks))
+      {
+        let unlock = {}
+        if(typeof k != "string") return ME()
+        if(typeof v != "object") return ME()
+        if(v.item) {
+          if(typeof v.item != "string") return ME()
+          unlock.item = v.item;
+        }
+        if(v.context) {
+          if(typeof v.context != "string") return ME()
+          if(!v.context.includes(RecipeContexts)) return ME()
+          unlock.context = v.context;
+        }
+        this.__Data["minecraft:recipe_shaped"].Unlocks.push(unlock)
+      }
     }
     /**
      * @handleResults
      */
     if(this.Results) {
-      if(typeof this.Results == ("string"||"boolean"||"number"||"object"||"Function")) return new Error(`[${this.name}] [propetry: Results]: expected type {string[]} instead found {${typeof this.Results}}`)
-      this.__Data["minecraft:recipe_shaped"]["results"]=[]
+      if(!Array.isArray(this.Results)) return ME()
+      this.__Data["minecraft:recipe_shaped"].results=[]
       this.Results.forEach((u, i)=>{
-        if(typeof u != "object") return new Error(`[${this.name}] [propetry: Results] [[index: ${i}]: expected type {object} instead found {${typeof u}}`)
-        if(typeof u["Item"] != "string") return new Error(`[${this.name}] [propetry: Results] [index: ${i}] [child: Item]: expected type {string} instead found {${typeof u["Item"]}}`)
-        if(!u["Count"]) u["Count"] = 1;
-        if(typeof u["Count"] != "number") return new Error(`[${this.name}] [propetry: Results] [index: ${i}] [child: Count]: expected type {number} instead found {${typeof u["Count"]}}`)
-        this.__Data["minecraft:recipe_shaped"]["results"].push({"item": u["Item"], "count": u["Count"]})
+        if(typeof u != "object") return ME()
+        if(typeof u.Item != "string") return ME()
+        if(!u.Count) u.Count = 1;
+        if(typeof u.Count != "number") return ME() 
+        this.__Data["minecraft:recipe_shaped"].results.push({item: u.Item, count: u.Count})
       })
     }
     /**
      * @handlePriority
      */
     if(this.Priority) {
-      if(typeof this.Priority != "number") return new Error(`[${this.name}] [propetry: Priority]: expected type {number} instead found {${typeof this.Priority}}`)
+      if(typeof this.Priority != "number") return ME()
       this.__Data["minecraft:recipe_shaped"]["priority"] = this.Priority;
     }
     
@@ -91,4 +126,26 @@ class ShapedRecipe {
   }
 }
 
+class ShapelessRecie {}
+
+class FurnaceRecipe {}
+
+class CampfireRecipe {}
+
+class SomkerRecipe {}
+
+class BlastFurnaceRecipe {}
+
+class BrewingRecipe {}
+
+
+
 exports.ShapedRecipe = ShapedRecipe;
+exports.ShapelessRecie = ShapelessRecie;
+exports.FurnaceRecipe = FurnaceRecipe;
+exports.CampfireRecipe = CampfireRecipe;
+exports.SomkerRecipe = SomkerRecipe;
+exports.BlastFurnaceRecipe = BlastFurnaceRecipe;
+exports.BrewingRecipe = BrewingRecipe;
+
+
