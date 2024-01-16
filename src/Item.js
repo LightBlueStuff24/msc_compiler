@@ -1,18 +1,7 @@
-const { isNegative } = require("../../Utils");
-const { validCategories } = require("./CreativeCategory");
-const { ItemEventTriggerHandler } = require("../assetHandler");
-const Fuse = require('fuse.js');
+const { validCategories } = require("./validationList");
+const { ItemEventTriggerHandler, isNegative, SetMixin } = require("./utilities/exports_util");
 const config = require('../msc.config.json');
-
-Set.prototype.getClosestMatch = function (string) {
-	const fuse = new Fuse(Array.from(this), {
-		shouldSort: true,
-		threshold: 0.6,
-	});
-	const result = fuse.search(string);
-	return result.length > 0 ? result[0].item : null;
-};
-
+Object.assign(Set.prototype, SetMixin)
 
 /**
  * @typedef {Object} BlockPlacerComponent
@@ -328,6 +317,8 @@ class Item {
 	 */
 	static Projectile;
 
+	static Identifier;
+
 	/**
 	 * Record component for the item.
 	 * @type {RecordComponent}
@@ -386,6 +377,7 @@ class Item {
 	 */
 	static init() {
 		this.__Data["minecraft:item"]["description"]["identifier"] = `${config["prefix"]}:${this.name.toLowerCase()}`
+		this.Identifier = `${config["prefix"]}:${this.name.toLowerCase()}`
 		/**
 		 * @handleCategory
 		 */

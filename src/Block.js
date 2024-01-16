@@ -1,24 +1,9 @@
-const { Permutation } = require("./Permutation.js");
-const { isFloat } = require("../../Utils.js")
+const { Components } = require("./Component.js");
 const config = require("../../msc.config.json");
-const { isValidCategory, isValidGroup } = require('./validation.js')
-const { BlockEventTriggerHandler, HandlePermCondition } = require('../assetHandler.js');
-const { ME } = require("../errorHandler.js")
+const { isValidCategory, isValidGroup } = require('./validationList.js')
+const { BlockEventTriggerHandler,ME,isFloat,SetMixin} = require('./utilities/exports_util.js');
 //const { BlockLootTable } = require("./LootTable.js")
-const Fuse = require('fuse.js');
-/**
- * @memberof Set
- * @instance
- * @method getClosestMatch
- */
-Set.prototype.getClosestMatch = function (string) {
-  const fuse = new Fuse(Array.from(this), {
-    shouldSort: true,
-    threshold: 0.6,
-  });
-  const result = fuse.search(string);
-  return result.length > 0 ? result[0].item : null;
-};
+Object.assign(Set.prototype,SetMixin)
 class Block {
   /**
    * 
@@ -147,7 +132,7 @@ class Block {
    */
   /** @type {{[name:string]: number[]|string[]|boolean[]}} */
   static States;
-  /** @type {Permutation[]} */
+  /** @type {Components[]} */
   static Permutations;
 
   /**
@@ -158,7 +143,8 @@ class Block {
       this.reset()
     }
     this.__Data["minecraft:block"].description.identifier = `${config.prefix}:${this.name.toLowerCase()}`
-    for (const [cdata, cvalue] of Object.entries(this)) {
+    //Filters out the keys that have no value
+    for (const [cdata, cvalue] of Object.entries(this).filter(([key,val])=>val != undefined)) {
       switch (cdata) {
         // Ignoring private properties
         case "__Data": break;
@@ -199,7 +185,7 @@ class Block {
         }; break;
         case "Friction": {
           if (!(typeof cvalue == "number" && isFloat(cvalue))) return ME(this, cvalue, [cdata], "float")
-          if (!(0.0 <= cvalue && 1.0 >= cvalue)) return new Error(`[${this.name}] [component: Friction]: expected the value to be in range of 0.0 to 1.0\n`);
+          if (!(0.0 <= cvalue && 1.0 >= cvalue)) return new Error(`[${this.name}] [component: Friction]: Expected the value to be in range of 0.0 to 1.0\n`);
           this.__components["minecraft:friction"] = cvalue;
         }; break;
         case "LightEmmision": {
@@ -239,7 +225,7 @@ class Block {
           if (Array.isArray(cvalue)) {
             let mapcolor = []
             cvalue.map(c => {
-              if (c < 0 && c > 255) return new Error(`[${this.name}] [component: MapColor]: expected number to be between 0-255 instead found ${c}`)
+              if (c < 0 && c > 255) return new Error(`[${this.name}] [component: MapColor]: Expected number to be between 0-255 instead found ${c}`)
               mapcolor.push(c)
             })
             this.__components["minecraft:map_color"] = mapcolor;
@@ -296,7 +282,7 @@ class Block {
             }
             if (v.RenderMethod) {
               if (typeof v.RenderMethod != "string") return ME(this, v, [cdata, k, "RenderMethod"], "string")
-              if (!isRenderMethod(v.RenderMethod)) return new Error(`[${this.name}] [component: ${cdata}] [child: ${k}] [subChild: RenderMethod]: expected (opaque|blend|alpha_test|double_sided)`)
+              if (!isRenderMethod(v.RenderMethod)) return new Error(`[${this.name}] [component: ${cdata}] [child: ${k}] [subChild: RenderMethod]: Expected (opaque|blend|alpha_test|double_sided)`)
               __MaterialInstances.render_method = v.RenderMethod;
             }
             if (v.FaceDimming) {
@@ -319,7 +305,7 @@ class Block {
             placementfilter.allowed_faces = []
             cvalue.AllowedFaces.map((f, i) => {
               if (typeof f != "string") return ME(this, f, [cdata, "AllowedFaces"], "string[]")
-              if (!isValidBlockFace(f)) return new Error(`[${this.name}] [component: PlacementFilter] [child: AllowedFaces] [subChild: ${i}]: expected (up|down|east|west|north|south) instead found ${f}.\n`)
+              if (!isValidBlockFace(f)) return new Error(`[${this.name}] [component: PlacementFilter] [child: AllowedFaces] [subChild: ${i}]: Expected (up|down|east|west|north|south) instead found ${f}.\n`)
               placementfilter.allowed_faces.push(f)
             })
           }
@@ -329,7 +315,7 @@ class Block {
             cvalue.BlockFilter.map((b, i) => {
               if (typeof b == "string") { placementfilter.block_filter.push(b) }
               else if (typeof b == "object") {
-                if (!b.tags) return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter] [subChild: ${i}] expected property 'tags'`)
+                if (!b.tags) return new Error(`[${this.name}] [component: PlacementFilter] [child: BlockFilter] [subChild: ${i}] Expected property 'tags'`)
                 let pfobj = { tags: b.tags }
                 placementfilter.block_filter.push(pfobj)
               }
