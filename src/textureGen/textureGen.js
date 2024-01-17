@@ -38,8 +38,6 @@ class TextureGenerator {
         const maskImage = await Jimp.read('../assets/textures/bucket_mask.png')
         const fluidImage = await Jimp.read(fluidTexture);
         fluidImage.mask(maskImage,0,0)
-        
-        d
         const fillX = fillRegion[0];
         const fillY = fillRegion[1];
         const fillWidth = fillRegion[2] - fillRegion[0];
