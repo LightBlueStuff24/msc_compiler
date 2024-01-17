@@ -35,18 +35,43 @@ class TextureGenerator {
     }
     async generateFluidBucket(fluidTexture, fillRegion) {
         const bucketImage = await Jimp.read('../assets/textures/bucket_empty.png');
-        const maskImage = await Jimp.read('../assets/textures/bucket_mask.png')
         const fluidImage = await Jimp.read(fluidTexture);
-        fluidImage.mask(maskImage,0,0)
-        
         
         const fillX = fillRegion[0];
         const fillY = fillRegion[1];
         const fillWidth = fillRegion[2] - fillRegion[0];
         const fillHeight = fillRegion[3] - fillRegion[1];
-        bucketImage.blit(fluidImage, fillX, fillY,0,0,);
+        const fillArea = bucketImage.clone().crop(fillX, fillY, fillWidth, fillHeight);
+        const secondFillArea = bucketImage.clone().crop(3, 4, 10, 1);
+        fluidImage.scan(0, 0, fluidImage.getWidth(), fluidImage.getHeight(), function (x, y) {
+            const { r, g, b } = Jimp.intToRGBA(this.getPixelColor(x, y));
+            const [centerX, centerY] = [fillWidth / 2, fillHeight / 2]
+            const distance = Math.sqrt(((x - centerX) ** 2) + ((y - centerY) ** 2))
+            const brightness = (distance / Math.max(centerX, centerY)) * 255;
+            const alpha = Jimp.intToRGBA(fillArea.getPixelColor(x, y)).a;
+            const adjustedAlpha = brightness > 36 ? alpha : 255 - alpha;
+            fillArea.setPixelColor(Jimp.rgbaToInt(r, g, b, adjustedAlpha), x, y);
+            secondFillArea.setPixelColor(Jimp.rgbaToInt(r, g, b, adjustedAlpha), x, y);
+        });
+        bucketImage.blit(fillArea, fillX, fillY, 0, 0, fillWidth, fillHeight);
+        bucketImage.blit(secondFillArea, 3, 4, 0, 0, 10, 1);
         bucketImage.write('./e.png')
     }
+    
+    async generateFlowingFluid(fluidTexture){
+        const fluidImage = await Jimp.read(fluidTexture)
+        const firstMask =await Jimp.read('../assets/textures/greyscale_fluid.png');
+        const maskImg = await Jimp.read('../assets/textures/greyscale_fluid_flow.png');
+        const {height,width} = maskImg.bitmap
+        const {height:maskH,width:maskW} = firstMask.bitmap
+        fluidImage.resize(maskW,maskH,Jimp.RESIZE_HERMITE)
+        firstMask.composite( fluidImage,0,0)
+        firstMask.write('./ts.png')
+        firstMask.resize(width,height,Jimp.RESIZE_HERMITE);
+        firstMask.composite(maskImg,0,0)
+        firstMask.write('./t.png')
+    }
+
 
 
 }
@@ -64,3 +89,4 @@ async function generateVariations() {
 }
 const textureGenerator = new TextureGenerator();
 textureGenerator.generateFluidBucket('./water_still.png',[5,3,11,6])
+textureGenerator.generateFlowingFluid('./ardite_ore.png')
