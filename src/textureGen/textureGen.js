@@ -36,7 +36,6 @@ class TextureGenerator {
     async generateFluidBucket(fluidTexture, fillRegion) {
         const bucketImage = await Jimp.read('../assets/textures/bucket_empty.png');
         const fluidImage = await Jimp.read(fluidTexture);
-        fluidImage.mask(maskImg)
         const fillX = fillRegion[0];
         const fillY = fillRegion[1];
         const fillWidth = fillRegion[2] - fillRegion[0];
@@ -65,11 +64,11 @@ class TextureGenerator {
         const {height,width} = maskImg.bitmap
         const {height:maskH,width:maskW} = firstMask.bitmap
         fluidImage.resize(maskW,maskH,Jimp.RESIZE_HERMITE)
-        firstMask.composite( fluidImage,0,0)
-        firstMask.write('./ts.png')
-        firstMask.resize(width,height,Jimp.RESIZE_HERMITE);
-        firstMask.composite(maskImg,0,0)
-        firstMask.write('./t.png')
+        fluidImage.mask(firstMask,0,0)
+        fluidImage.write('./ts.png')
+        fluidImage.resize(width,height);
+        fluidImage.mask(maskImg,0,0)
+        fluidImage.write('./t.png')
     }
 
 
