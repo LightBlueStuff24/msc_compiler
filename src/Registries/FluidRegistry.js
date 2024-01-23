@@ -1,4 +1,4 @@
-const {Fluid} = require("../Fluid");
+
 
 /**
  * Provides and manages registration of fluids
@@ -13,10 +13,10 @@ class FluidRegistry {
       if (typeof fluid === 'object') {
         if (Array.isArray(fluid)) {
           fluid.forEach(fluids => {
-            this.Registries.push(fluids.init())
+            this.Registries.push(fluids)
           })
         } else {
-          this.Registries.push(fluid.init())
+          this.Registries.push(fluid)
         }
       }
     }

@@ -1,45 +1,25 @@
-const { BlockRegistry } = require("../../assets/Registries/BlockRegistry")
-const { Block } = require("../../assets/Block")
-const { Permutation } = require("../../assets/Permutation")
-const { Fluid } = require("../../assets/Fluid")
-const { FluidRegistry } = require("../../assets/Registries/FluidRegistry")
-
-class LogRotation0 extends Permutation {
+const { BlockRegistry } = require("../../Registries/BlockRegistry")
+const { Block } = require("../../Block")
+const { Components} = require("../../Component")
+class LogRotation0 extends Components {
   static Transformation = {
     Rotation: [0, 0, 0]
   }
 }
-class LogRotation1 extends Permutation {
+class LogRotation1 extends Components {
   static Transformation = {
     Rotation: [90, 0, 0]
   }
 }
-class LogRotation2 extends Permutation {
+class LogRotation2 extends Components {
   static Transformation = {
     Rotation: [0, 90, 0]
   }
 }
 
-class DestroyTime extends Permutation {
+class DestroyTime extends Components {
   static DestroyTime = 6
 }
-class PalmLog extends Block {
-  static States = {
-    "prop": [1, 2, 3]
-  }
-  static DisplayName = "Palm Log"
-  static Material = {
-    "*": {
-      Texture: "palm_log"
-    }
-  }
-  static Category = "construction"
-  static Permutations = {
-    "prop==1": DestroyTime.init(),
-    "prop == 2": DestroyTime.init()
-  }
-}
-
 
 /**
  * @class Log
@@ -72,6 +52,26 @@ class Log extends Block {
   }
 }
 
+class PalmLog extends Block {
+  static States = {
+    "prop": [1, 2, 3]
+  }
+  static DisplayName = "Palm Log"
+  static Material = {
+    "*": {
+      Texture: "palm_log"
+    }
+  }
+  static Category = "construction"
+  static Permutations = {
+    "prop==1": DestroyTime.init(),
+    "prop == 2": DestroyTime.init()
+  }
+}
+
+
+
+
 
 
 
@@ -80,5 +80,5 @@ class Blocky extends Block {
 }
 
 
-BlockRegistry.register([Log, Blocky, PalmLog])
+BlockRegistry.register([Log, PalmLog,Blocky])
 

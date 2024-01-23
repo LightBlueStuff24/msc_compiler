@@ -1,3 +1,6 @@
+const path = require('path');
+const fs = require('fs'); const { statSync } = require('fs');
+
 const isStringArray = (a)=> {
   if (!Array.isArray(a)) return false;
   return a.every(element => typeof element === 'string')
@@ -6,6 +9,21 @@ const isStringArray = (a)=> {
 const isObjectArray = (a)=> {
   if (!Array.isArray(a)) return false;
   return a.every(element => typeof element === 'object')
+}
+
+
+function walkDirectory(pat) {
+  const files = []
+  fs.readdirSync(pat).forEach(file => {
+      const filePath  = path.join(pat, file)
+      const stat = statSync(filePath)
+      if (stat.isFile()) {
+          files.push(filePath)
+      } else if (stat.isDirectory()) {
+          files.push(...walkDirectory(filePath))
+      }
+  })
+  return files
 }
 
 /**
@@ -41,5 +59,6 @@ module.exports = {
   isFloat,isInt,
   isAlpha,isNegative,
   isObjectArray,
-  getLabel
+  getLabel,
+  walkDirectory
 }

@@ -1,11 +1,8 @@
-import { EntityRegistry } from "./Registries/EntityRegistry.js";
-
-const { ItemRegistry } = require("./Registries/ItemRegistry.js");
-const { SetMixin, StringMixin } = require("./utilities/exports_util.js");
+const { EntityRegistry,ItemRegistry } = require("./Registries/export.js");
+const { SetMixin, StringMixin,ME,isStringArray,isObjectArray } = require("./utilities/exports_util.js");
 const { validEntities, validateFormat, validateTypes, validItems, validateKeys } = require("./validationList.js");
 const { Components } = require("./Component.js");
-const { ME, isStringArray, isObjectArray } = require("./utilities/helpers.js")
-const config = require("../../msc.config.json");
+const config = require("../msc.config.json");
 //Adds mixins for Set and String Constructor
 Object.assign(Set.prototype, SetMixin)
 Object.assign(String.prototype, StringMixin)

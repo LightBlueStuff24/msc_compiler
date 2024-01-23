@@ -1,10 +1,10 @@
 const {ME} = require("./errorHandler")
-const config = require("../../msc.config.json")
+const config = require("../msc.config.json")
 
 
 class ShapedRecipe {
   static __Data = {
-    "format_version": config.recipe.version,
+    "format_version": config["recipe"]["version"],
     "minecraft:recipe_shaped": {
       "description": {
         "identifier": ""
@@ -40,7 +40,7 @@ class ShapedRecipe {
      */
     if(this.Tags) {
       if(!Array.isArray(this.Tags)) return ME()
-      this.Tags.map((p, i)=>{
+      this.Tags.forEach((p, i)=>{
         if(typeof p != "string") return ME()
         this.__Data["minecraft:recipe_shaped"]["tags"].push(p);
       })
@@ -83,7 +83,6 @@ class ShapedRecipe {
      */
     if(this.Unlocks) {
       if(!Array.isArray(this.Unlocks)) return ME()
-      this.__Data["minecraft:recipe_shaped"].unlocks = []
       for(let [k,v] of Object.entries(this.Unlocks))
       {
         let unlock = {}
@@ -98,7 +97,7 @@ class ShapedRecipe {
           if(!v.context.includes(RecipeContexts)) return ME()
           unlock.context = v.context;
         }
-        this.__Data["minecraft:recipe_shaped"].unlocks.push(unlock)
+        this.__Data["minecraft:recipe_shaped"].Unlocks.push(unlock)
       }
     }
     /**
@@ -127,103 +126,7 @@ class ShapedRecipe {
   }
 }
 
-class ShapelessRecie {
-  static __Data = {
-    "format_version": config.recipe.version,
-    "minecraft:recipe_shapeless": {
-      "description": {
-        "identifier": "",
-      },
-      "tags": [],
-      "ingredients": [],
-      "results": {}
-    }
-  }
-  static Group;
-  static Tags;
-  static Ingredients;
-  static Unlocks;
-  static Results;
-
-  static init() {
-    /**
-     * @handleGroup
-     */
-    if(this.Group) {
-      if(typeof this.Group != "string") return ME()
-      this.__Data["minecraft:recipe_shapeless"].group = this.Group;
-    }
-    /**
-     * @handleTags
-     */
-    if(this.Tags) {
-      if(!Array.isArray(this.Tags)) return ME()
-      this.Tags.map((x, i) => {
-        if(typeof x != "string") return ME()
-        this.__Data["minecraft:recipe_shapeless"].tags.push(x)
-      })
-    }
-    /**
-     * 
-     */
-    if(this.Unlocks) {
-      if(!Array.isArray(this.Unlocks)) return ME()
-      this.__Data["minecraft:recipe_shapeless"].unlocks = []
-      for(let [k,v] of Object.entries(this.Unlocks))
-      {
-        let unlock = {}
-        if(typeof k != "string") return ME()
-        if(typeof v != "object") return ME()
-        if(v.item) {
-          if(typeof v.item != "string") return ME()
-          unlock.item = v.item;
-        }
-        if(v.context) {
-          if(typeof v.context != "string") return ME()
-          if(!v.context.includes(RecipeContexts)) return ME()
-          unlock.context = v.context;
-        }
-        this.__Data["minecraft:recipe_shapeless"].unlocks.push(unlock)
-      }
-    }
-    /**
-     * @handleIngredients
-     */
-    if(this.Ingredients) {
-      if(!Array.isArray(this.Ingredients)) return ME()
-      this.Ingredients.map((x, i) => {
-        let ingre = {}
-        if(!x.item) return ME()
-        if(typeof x.item != "string") return ME()
-        ingre.item = x.item;
-        if(x.data) {
-          if(typeof x.data != "number") return ME()
-          ingre.data = x.data;
-        }
-        if(x.count) {
-          if(typeof x.count != "number") return ME()
-          ingre.count = x.count;
-        }
-        this.__Data["minecraft:recipe_shapeless"].ingredients.push(ingre)
-      })
-    }
-    /**
-     * @handleResults
-     */
-    if(this.Results) {
-      if(!Array.isArray(this.Results)) return ME()
-      this.__Data["minecraft:recipe_shapeless"].results=[]
-      this.Results.forEach((u, i)=>{
-        if(typeof u != "object") return ME()
-        if(typeof u.Item != "string") return ME()
-        if(!u.Count) u.Count = 1;
-        if(typeof u.Count != "number") return ME() 
-        this.__Data["minecraft:recipe_shapeless"].results.push({item: u.Item, count: u.Count})
-      })
-    }
-    return this.__Data;
-  }
-}
+class ShapelessRecie {}
 
 class FurnaceRecipe {}
 

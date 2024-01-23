@@ -1,15 +1,13 @@
 class EntityRegistry {
   static Registries = [];
   static register(entity) {
-    if (typeof entity === 'object') {
       if (Array.isArray(entity)) {
         entity.forEach(entities => {
-          this.Registries.push(entities.init())
+          this.Registries.push(entities)
         })
       } else {
-        this.Registries.push(entity.init())
+        this.Registries.push(entity)
       }
-    }
   }
 
   /**

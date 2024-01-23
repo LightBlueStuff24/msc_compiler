@@ -3,7 +3,9 @@
   "minecraft:block": {
     "description": {
       "identifier": "test:log",
-      "menu_category": {}
+      "menu_category": {
+        "category": "construction"
+      }
     },
     "components": {}
   }
