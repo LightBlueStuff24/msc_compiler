@@ -1,8 +1,7 @@
-const { validateTypes } = require("../validationList.js")
-const { ME } = require("./exports_util.js")
-const config = require("../msc.config.json")
+const config = require("../../msc.config.json")
 // TODO:: UPDATE THIS!!
 exports.ItemEventTriggerHandler = function (o, d, e, t) {
+  const { validateTypes } = require("../validation.js")
   let { Condition, Event, Target } = o
   validateTypes(['string'], [o], [e], t)
   if (!d["minecraft:item"]["events"]) d["minecraft:item"]["events"] = {}
@@ -24,9 +23,11 @@ exports.ItemEventTriggerHandler = function (o, d, e, t) {
 
 
 exports.BlockEventTriggerHandler = function (o, e, t) {
-  if (typeof o !==  'object') throw ME(t,o,[e],'object')
+  const { ME } = require("./helpers.js")
+  if (typeof o !== 'object') throw ME(t, o, [e], 'object')
+  const { validateTypes } = require("../validation.js")
   validateTypes(['string'], [o], [e], t)
-  let { Condition, Event, Target } = o
+  let { Condition, Event, Target,Action } = o
   let d = t.__Data;
   if (!d["minecraft:block"]["events"]) d["minecraft:block"]["events"] = {}
   let __ETdata = {}
@@ -67,16 +68,36 @@ exports.HandlePermCondition = function (v, d, t) {
       throw new Error(`[${t.name}] [property: Permutations]: cannot find state ${g[0]}`);
     }
     if (!(res === "")) res += " && ";
-    res += `q.block_state('${config.prefix}:${g[0]}')==${g[1]}`;
+    res += `q.block_state('${config.globalNamespace}:${g[0]}')==${g[1]}`;
   });
 
   return res;
 };
 
-exports.HandleAction = function (t, o, e, n) {
+ function HandleAction (t, o, e, n) {
   let __data = {}
 }
 
-exports.HandleFilter = function (t,o){
-  
+exports
+function HandleFilter(t, o, c) {
+  const { validateKeys } = require("../validation.js")
+  let __data = {}
+  validateKeys(['AnyOf', 'AllOf', 'NoneOf', 'TestSubject', 'OperatorSign', 'TestCondition', 'Domain'], o, t, c)
+  const { AnyOf, AllOf, NoneOf, TestSubject, OperatorSign, TestCondition, Domain } = o;
+
+  if (AnyOf) {
+    if (!Array.isArray(AnyOf)) throw new Error(`[${t.name}] ${com} [property:AnyOf]: Expected object[] instead found ${typeof AnyOf}`);
+    __data['any_of'] = AnyOf.map(obj => HandleFilter(t, obj, c))
+  }
+
+  if (AllOf) {
+    if (!Array.isArray(AllOf)) throw new Error(`[${t.name}] ${com} [property:AllOf]: Expected object[] instead found ${typeof AllOf}`);
+    __data['all_of'] = AllOf.map(obj => HandleFilter(t, obj, c))
+  }
+
+  if (NoneOf) {
+    if (!Array.isArray(NoneOf)) throw new Error(`[${t.name}] ${com} [property:NoneOf]: Expected object[] instead found ${typeof NoneOf}`);
+    __data['none_of'] = NoneOf.map(obj => HandleFilter(t, obj, c))
+  }
+
 }

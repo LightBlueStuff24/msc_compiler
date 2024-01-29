@@ -1,16 +1,17 @@
 const { Components } = require("./Component.js");
 const config = require("../../msc.config.json");
-const { isValidCategory, isValidGroup } = require('./validationList.js')
-const { BlockEventTriggerHandler,ME,isFloat,SetMixin} = require('./utilities/exports_util.js');
+const { isValidCategory, isValidGroup } = require('../validation.js')
+const { BlockEventTriggerHandler, ME, isFloat, SetMixin } = require('../utilities/exports_util.js');
 //const { BlockLootTable } = require("./LootTable.js")
-Object.assign(Set.prototype,SetMixin)
+Object.assign(Set.prototype, SetMixin);
+
 class Block {
   /**
    * 
    * @private
    */
   static __Data = {
-    "format_version": config.block.version,
+    "format_version": config.formatVersions.find(obj=>obj.name === 'block').version,
     "minecraft:block": {
       "description": {
         "identifier": "",
@@ -21,17 +22,27 @@ class Block {
   };
 
 
-  static reset() {
-    // Reset only static properties that are directly added to the Block class
-    return new Promise((resolve) => {
-      for (const key in Block) {
-        if (Block.hasOwnProperty(key) && key !== '__Data' && key !== 'Reset' && key !== '__components' && typeof Block[key] !== 'function') { Block[key] = null; }
+  static lastState = {};
+
+  static async reset() {
+    this.__Data["minecraft:block"]["components"] = {}
+    
+      // Delete properties from the class that were in lastState but not in the current state
+      if (Object.keys(Block.lastState).length > 0) {
+        for (const key in Block.lastState) {
+          if (key === '__components' || key === '__Data' || key === 'reset' || typeof this[key] === 'function') continue;
+          if (!this[key]) {
+            delete this[key];
+          }
+        }
+        
       }
-      if (key === '__components') {
-        Block.__components = {}
-      }
-      resolve()
-    })
+      // Update lastState with the current state
+      Block.lastState = Object.fromEntries(
+        Object.entries(this)
+          .filter(([key, value]) => key !== 'lastState' && key !== '__Data' && key !== 'reset' && key !== '__components' && value !== null && value !== undefined)
+      );
+      console.warn(this.__components)
   }
   /**
    * Components of Block.
@@ -45,12 +56,12 @@ class Block {
    */
   static Version;
   /**
-   * Defines the namespaces of the Block.
+   * (Optional) Defines the namespaces of the Block.
    * @type {string}
    */
   static Namespace;
   /**
-   * Redefines the Identifier for the Block.
+   * (Optional) Defines the Identifier for the Block.
    * @type {string}
    */
   static Identifier;
@@ -139,12 +150,12 @@ class Block {
    * @CreatesBlockObject
    */
   static init() {
-    if (this === Block){
-      this.reset()
-    }
-    this.__Data["minecraft:block"].description.identifier = `${config.prefix}:${this.name.toLowerCase()}`
+this.reset().then(()=>{
+  console.warn(this)
+    this.__Data["minecraft:block"].description.identifier =  `${config.globalNamespace}:${this.name.toLowerCase()}`
     //Filters out the keys that have no value
-    for (const [cdata, cvalue] of Object.entries(this).filter(([key,val])=>val != undefined)) {
+    for (const [cdata, cvalue] of Object.entries(this).filter(([key, val]) => val !== undefined)) {
+      console.warn(this.name,cdata)
       switch (cdata) {
         // Ignoring private properties
         case "__Data": break;
@@ -159,11 +170,11 @@ class Block {
         }; break;
         case "Namespace": {
           if (typeof cvalue != "string") return ME(this, cvalue, [cdata], "string");
-          this.__Data["minecraft:block"].description.identifier.split(":")[0].replace(config.prefix, cvalue).join("")
+          this.__Data["minecraft:block"].description.identifier.split(":")[0].replace(config.globalNamespace, cvalue)
         }; break;
         case "Identifier": {
           if (typeof cvalue != "string") return ME(this, cvalue, [cdata], "string");
-          this.__Data["minecraft:block"].description.identifier.split(":")[1].replace(this.name.toLowerCase(), cvalue).join("")
+          this.__Data["minecraft:block"].description.identifier.split(":")[1].replace(this.name.toLowerCase(), cvalue)
         }; break;
         case "Category": {
           if (typeof cvalue != "string") return ME(this, cvalue, [cdata], "string")
@@ -197,24 +208,24 @@ class Block {
           this.__components["minecraft:light_dampening"] = cvalue;
         }; break;
         case "Tags": {
-          if(!Array.isArray(cvalue)) return ME(this, cvalue, [cdata], "string[]")
-          cvalue.map((t,i)=>{
-            if(typeof t != "string") return ME(this, t, [cdata, i], "string")
+          if (!Array.isArray(cvalue)) return ME(this, cvalue, [cdata], "string[]")
+          cvalue.map((t, i) => {
+            if (typeof t != "string") return ME(this, t, [cdata, i], "string")
             this.__components[`tag:${t}`] = {}
           })
         }; break;
         case "Geometry": {
-          if(typeof cvalue != "string") return Me(this, cvalue, [cdata], "string")
+          if (typeof cvalue != "string") return Me(this, cvalue, [cdata], "string")
           this.__components["minecraft:geometry"] = {
             identifier: cvalue
           }
         }; break;
         case "BoneVisibility": {
-          if(typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          if (typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
           this.__components["minecraft:geometry"].bone_visibility = {}
-          for(let [k, v] of Object.entries(cvalue)) {
-            if(typeof k != "string") return ME(this, k, [cdata, k], "string")
-            if(!Array.isArray(v)) return ME(this, v, [cdata, k, v], "string[]|number[]|boolean[]")
+          for (let [k, v] of Object.entries(cvalue)) {
+            if (typeof k != "string") return ME(this, k, [cdata, k], "string")
+            if (!Array.isArray(v)) return ME(this, v, [cdata, k, v], "string[]|number[]|boolean[]")
             this.__components["minecraft:geometry"].bone_visibility[k] = v;
           }
         }; break;
@@ -324,78 +335,78 @@ class Block {
           }
         }; break;
         case "Transformation": {
-          if(typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          if (typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
           let transformation = {}
-          if(cvalue.Translation) {
-            if(!Array.isArray(cvalue.Translation)) return ME(this, cvalue.Translation, [cdata, "Translation"], "number[]")
+          if (cvalue.Translation) {
+            if (!Array.isArray(cvalue.Translation)) return ME(this, cvalue.Translation, [cdata, "Translation"], "number[]")
             transformation.translation = []
-            cvalue.Translation.map(x=>{
-              if(typeof x != "number") return ME(this, x, [cdata, "Translation", x], "number")
+            cvalue.Translation.map(x => {
+              if (typeof x != "number") return ME(this, x, [cdata, "Translation", x], "number")
               transformation.translation.push(x)
             })
           }
-          if(cvalue.Rotation) {
-            if(!Array.isArray(cvalue.Rotation)) return ME(this, cvalue.Rotation, [cdata, "Rotation"], "number[]")
+          if (cvalue.Rotation) {
+            if (!Array.isArray(cvalue.Rotation)) return ME(this, cvalue.Rotation, [cdata, "Rotation"], "number[]")
             transformation.rotation = []
-            cvalue.Rotation.map(x=>{
-              if(typeof x != "number") return ME(this, x, [cdata, "Rotation", x], "number")
+            cvalue.Rotation.map(x => {
+              if (typeof x != "number") return ME(this, x, [cdata, "Rotation", x], "number")
               transformation.rotation.push(x)
             })
           }
-          if(cvalue.Scale) {
-            if(!Array.isArray(cvalue.Scale)) return ME(this, cvalue.Scale, [cdata, "Scale"], "number[]")
+          if (cvalue.Scale) {
+            if (!Array.isArray(cvalue.Scale)) return ME(this, cvalue.Scale, [cdata, "Scale"], "number[]")
             transformation.scale = []
-            cvalue.Scale.map(x=>{
-              if(typeof x != "number") return ME(this, x, [cdata, "Scale", x], "number")
+            cvalue.Scale.map(x => {
+              if (typeof x != "number") return ME(this, x, [cdata, "Scale", x], "number")
               transformation.scale.push(x)
             })
           }
           this.__components["minecraft:transformation"] = transformation;
         }; break;
         case "CollisionBox": {
-          if(typeof cvalue == "boolean") { this.__components["minecraft:_box"] = cvalue; }
-          else if(typeof cvalue == "object") {
+          if (typeof cvalue == "boolean") { this.__components["minecraft:_box"] = cvalue; }
+          else if (typeof cvalue == "object") {
             let collisionbox = {};
-            if(cvalue.Origin) {
-              if(!Array.isArray(cvalue.Origin)) return ME(this, cvalue.Origin, [cdata, "Origin"], "number[]")
+            if (cvalue.Origin) {
+              if (!Array.isArray(cvalue.Origin)) return ME(this, cvalue.Origin, [cdata, "Origin"], "number[]")
               let origin = []
-              cvalue.Origin.map(x=>{
-                if(typeof x != "number") return ME(this, x, [cdata, "Origin", x], "number")
+              cvalue.Origin.map(x => {
+                if (typeof x != "number") return ME(this, x, [cdata, "Origin", x], "number")
                 origin.push(x)
               })
               collisionbox.origin = origin;
             }
-            if(cvalue.Size) {
-              if(!Array.isArray(cvalue.Size)) return ME(this, cvalue.Size, [cdata, "Size"], "number[]")
+            if (cvalue.Size) {
+              if (!Array.isArray(cvalue.Size)) return ME(this, cvalue.Size, [cdata, "Size"], "number[]")
               let size = []
-              cvalue.Size.map(x=>{
-                if(typeof x != "number") return ME(this, x, [cdata, "Size", x], "number")
+              cvalue.Size.map(x => {
+                if (typeof x != "number") return ME(this, x, [cdata, "Size", x], "number")
                 size.push(x)
               })
               collisionbox.size = size;
             }
             this.__components["minecraft:collision_box"] = collisionbox;
           }
-          else  return ME(this, cvalue, [cdata], "boolean|object")
+          else return ME(this, cvalue, [cdata], "boolean|object")
         }; break;
         case "SelectionBox": {
-          if(typeof cvalue == "boolean") { this.__components["minecraft:_box"] = cvalue; }
-          else if(typeof cvalue == "object") {
+          if (typeof cvalue == "boolean") { this.__components["minecraft:_box"] = cvalue; }
+          else if (typeof cvalue == "object") {
             let selectionbox = {};
-            if(cvalue.Origin) {
-              if(!Array.isArray(cvalue.Origin)) return ME(this, cvalue.Origin, [cdata, "Origin"], "number[]")
+            if (cvalue.Origin) {
+              if (!Array.isArray(cvalue.Origin)) return ME(this, cvalue.Origin, [cdata, "Origin"], "number[]")
               let origin = []
-              cvalue.Origin.map(x=>{
-                if(typeof x != "number") return ME(this, x, [cdata, "Origin", x], "number")
+              cvalue.Origin.map(x => {
+                if (typeof x != "number") return ME(this, x, [cdata, "Origin", x], "number")
                 origin.push(x)
               })
               selectionbox.origin = origin;
             }
-            if(cvalue.Size) {
-              if(!Array.isArray(cvalue.Size)) return ME(this, cvalue.Size, [cdata, "Size"], "number[]")
+            if (cvalue.Size) {
+              if (!Array.isArray(cvalue.Size)) return ME(this, cvalue.Size, [cdata, "Size"], "number[]")
               let size = []
-              cvalue.Size.map(x=>{
-                if(typeof x != "number") return ME(this, x, [cdata, "Size", x], "number")
+              cvalue.Size.map(x => {
+                if (typeof x != "number") return ME(this, x, [cdata, "Size", x], "number")
                 size.push(x)
               })
               selectionbox.size = size;
@@ -405,22 +416,22 @@ class Block {
           else return ME(this, cvalue, [cdata], "object")
         }; break;
         case "CraftingTable": {
-          if(typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          if (typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
           this.__components["minecraft:crafting_table"] = {}
-          if(cvalue.TableName) {
-            if(typeof cvalue.TableName != "string") return ME(this, cvalue.TableName, [cdata, "TableName"], "string")
+          if (cvalue.TableName) {
+            if (typeof cvalue.TableName != "string") return ME(this, cvalue.TableName, [cdata, "TableName"], "string")
             this.__components["minecraft:crafting_table"].table_name = cvalue.TableName
           }
-          if(cvalue.CraftingTags) {
-            if(!Array.isArray(cvalue.CraftingTags)) return ME(this, cvalue.CraftingTags, [cdata, "CraftingTags"], "string[]")
+          if (cvalue.CraftingTags) {
+            if (!Array.isArray(cvalue.CraftingTags)) return ME(this, cvalue.CraftingTags, [cdata, "CraftingTags"], "string[]")
             this.__components["minecraft:crafting_table"].crafting_tags = []
-            cvalue.CraftingTags.map(x=>{
-              if(typeof x != "string") return ME(this, x, [cdata, "CraftingTags", x], "string")
+            cvalue.CraftingTags.map(x => {
+              if (typeof x != "string") return ME(this, x, [cdata, "CraftingTags", x], "string")
               this.__components["minecraft:crafting_table"].crafting_tags.push(x)
             })
           }
         }; break;
-        case "OnStepOn": this.__components["minecraft:on_step_on"] = BlockEventTriggerHandler(this.OnStepOn,[cdata], this); break;
+        case "OnStepOn": this.__components["minecraft:on_step_on"] = BlockEventTriggerHandler(this.OnStepOn, [cdata], this); break;
         case "OnStepOff": this.__components["minecraft:on_step_off"] = BlockEventTriggerHandler(this.OnStepOff, [cdata], this); break;
         case "OnFallOn": this.__components["minecraft:on_fall_on"] = BlockEventTriggerHandler(this.OnFallOn, [cdata], this); break;
         case "OnInteract": this.__components["minecraft:on_interact"] = BlockEventTriggerHandler(this.OnInteract, [cdata], this); break;
@@ -430,26 +441,27 @@ class Block {
         case "QueuedTicking": {
           this.__components["minecraft:queued_ticking"] = {}
           this.__components["minecraft:queued_ticking"].on_tick = BlockEventTriggerHandler(this.QueuedTicking, [cdata], this)
-          if(typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
-          if(cvalue.Looping) {
-            if(typeof cvalue.Looping != "boolean") return ME(this, cvalue.Looping, [cdata, "Looping"], "boolean")
+          if (typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          if (cvalue.Looping) {
+            if (typeof cvalue.Looping != "boolean") return ME(this, cvalue.Looping, [cdata, "Looping"], "boolean")
             this.__components["minecraft:queued_ticking"].looping = cvalue;
           }
-          if(cvalue.IntervalRange) {
-            if(!Array.isArray(cvalue.IntervalRange)) return ME(this, cvalue.IntervalRange, [cdata, "IntervalRange"], "number[]")
+          if (cvalue.IntervalRange) {
+            if (!Array.isArray(cvalue.IntervalRange)) return ME(this, cvalue.IntervalRange, [cdata, "IntervalRange"], "number[]")
             let ir = this.__components["minecraft:queued_ticking"].interval_range = []
-            cvalue.IntervalRange.map(x=>{
-              if(typeof x != "number") return ME(this, x, [cdata, "IntervalRange"], "number")
+            cvalue.IntervalRange.map(x => {
+              if (typeof x != "number") return ME(this, x, [cdata, "IntervalRange"], "number")
               ir.push(x)
             })
           }
         }; break;
         case "RandomTicking": {
-          if(typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
+          if (typeof cvalue != "object") return ME(this, cvalue, [cdata], "object")
         }; break;
       }
     }
-    return JSON.stringify(this.__Data);
+    })
+    return JSON.stringify(this.__Data, null, 2);
   }
 }
 module.exports = {

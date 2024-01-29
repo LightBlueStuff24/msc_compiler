@@ -1,0 +1,105 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "project": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the project"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the project"
+          }
+        }
+      },
+      "scriptModules": {
+        "description": "List of script modules being used",
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "@minecraft/server",
+                "@minecraft/server-ui",
+                "@minecraft/server-gametest",
+                "@minecraft/server-net",
+                "@minecraft/server-admin",
+                "@minecraft/server-editor"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "version": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string",
+                  "enum": [
+                    "@minecraft/server",
+                    "@minecraft/server-ui",
+                    "@minecraft/server-gametest",
+                    "@minecraft/server-net",
+                    "@minecraft/server-admin",
+                    "@minecraft/server-editor"
+                  ]
+                }
+              },
+              "required": ["version", "name"],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "maxItems": 6
+      },
+      "globalNamespace": {
+        "description": "Default namespace for Msc to use when creating a build",
+        "type": "string"
+      },
+      "formatVersions": {
+        "type": "array",
+        "description": "Specifies which format versions Msc should use when creating a build",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "enum": ["block", "item", "entity", "recipe"],
+              "description": "Name of format version"
+            },
+            "version": {
+              "type": "string",
+              "description": "Version to use for this format version"
+            }
+          },
+          "required": ["name", "version"],
+          "additionalProperties": false
+        }
+      },
+      "scriptEntry": {
+        "type": "string",
+        "description": "Entry file for script"
+      },
+
+      "minEngineVersion":{
+        "type":"array",
+        "items": {
+            "type":"number"
+        },
+        "maxItems": 3,
+        "Description": "If provided, this information will be used during the generation of the manifest. Otherwise, Msc will default to using the current Minecraft version."
+      }
+    },
+    "required": ["project", "globalNamespace", "formatVersions","minEngineVersion"],
+    "if": {
+      "properties": { "scriptModules": { "not": { "type": "null" } } }
+    },
+    "then": { "required": ["scriptEntry"] },
+    "else": { "not": { "required": ["scriptEntry"] } },
+    "additionalProperties": false
+  }
+  

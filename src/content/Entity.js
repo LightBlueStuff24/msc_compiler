@@ -1,10 +1,7 @@
-import { EntityRegistry } from "./Registries/EntityRegistry.js";
-
-const { ItemRegistry } = require("./Registries/ItemRegistry.js");
-const { SetMixin, StringMixin } = require("./utilities/exports_util.js");
-const { validEntities, validateFormat, validateTypes, validItems, validateKeys } = require("./validationList.js");
+const { EntityRegistry,ItemRegistry } = require("../registries/export.js");
+const { SetMixin, StringMixin,ME,isStringArray,isObjectArray } = require("../utilities/exports_util.js");
+const { validEntities, validateFormat, validateTypes, validItems, validateKeys } = require("../validation.js");
 const { Components } = require("./Component.js");
-const { ME, isStringArray, isObjectArray } = require("./utilities/helpers.js")
 const config = require("../../msc.config.json");
 //Adds mixins for Set and String Constructor
 Object.assign(Set.prototype, SetMixin)
@@ -12,7 +9,7 @@ Object.assign(String.prototype, StringMixin)
 
 class Entity {
     static __Data = {
-        "format_version": config.block.version,
+        "format_version": config.formatVersions.find(obj=>obj.name === 'entity'),
         "minecraft:entity": {
             "description": {
                 "identifier": "",
@@ -187,7 +184,7 @@ class Entity {
     static WantsJockey;
     static Events;
     static init() {
-        this.__Data["minecraft:entity"].description.identifier = `${config.prefix}:${this.name}`
+        this.__Data["minecraft:entity"].description.identifier = `${config.globalNamespace}:${this.name}`
         for (const [cdata, cvalue] of Object.entries(this)) {
             switch (cdata) {
                 case "Properties":
@@ -996,3 +993,5 @@ class Entity {
 
 
 }
+
+exports.Entity = Entity

@@ -1,5 +1,4 @@
 
-const { ME, getLabel } = require('./utilities/exports_util')
 const validEntities = new Set([
 	"agent",
 	"allay",
@@ -1246,6 +1245,8 @@ const validItems = new Set([
 	"yellow_terracotta",
 	"yellow_wool"
 ])
+
+
 function isValidCategory(category) {
 	return validCategories.has(category) ?? false
 }
@@ -1262,6 +1263,7 @@ function validateFormat(key) {
 }
 
 function validateTypes(types, targets, errorOrder, t) {
+	const { ME } = require('./utilities/exports_util');
 	for (let i = 0; i < types.length; i++) {
 		const typeList = types[i].includes('|') ? types[i].split('|').map(t => t.trim()) : [types[i]];
 		const target = targets[i];
@@ -1314,8 +1316,9 @@ function validateType(type, target) {
  * @param {string | string[]} com 
  */
 function validateKeys(expectedKeys, targetObj, t, com) {
+	const { getLabel } = require('./utilities/exports_util')
 	const comLabels = Array.isArray(com) ? com.map((k, i) => `[${getLabel(i)}:${k}]`) : [`[component: ${com}]`];
-  if (expectedKeys.length > Object.keys(targetObj).length) throw new Error(`[${this.name}] ${comLabels.join(' ')}: Expected ${expectedKeys.length} ${expectedKeys.length > 1 ? "properties" : "property"}, instead found ${Object.keys(targetObj).length}`);
+	if (expectedKeys.length > Object.keys(targetObj).length) throw new Error(`[${this.name}] ${comLabels.join(' ')}: Expected ${expectedKeys.length} ${expectedKeys.length > 1 ? "properties" : "property"}, instead found ${Object.keys(targetObj).length}`);
 	Object.keys(targetObj).forEach(key => {
 		if (!expectedKeys.includes(key)) {
 			const errorMessage = `[${t.name}] ${comLabels.join(' ')}: Unexpected key "${key}" found. Did you mean ${expectedKeys.map(k => `"${k}"`).join('|')}`;

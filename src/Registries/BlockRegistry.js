@@ -1,4 +1,3 @@
-const { Block } = require("../Block");
 
 class BlockRegistry {
   static Registries = [];
@@ -7,15 +6,13 @@ class BlockRegistry {
    * @param {Block | Array<Block> } block 
    */
   static register(block) {
-    if (typeof block === 'object') {
       if (Array.isArray(block)) {
         block.forEach(blocks => {
-          this.Registries.push(blocks.init())
+          this.Registries.push(blocks)
         })
       } else {
-        this.Registries.push(block.init())
+        this.Registries.push(block)
       }
-    }
   }
 }
 

@@ -647,7 +647,7 @@ class Components {
       }
       else return new Error(`[${this.name}] [component: RandomTicking]: expected {object} instead found {${typeof this.RandomTicking}}`)
     }
-    return this.__Data
+    return JSON.stringify(this.__Data,null,2)
   }
 }
 

@@ -1,6 +1,5 @@
 const { StringMixin } = require("../utilities/classMixins");
 Object.assign(String.prototype, StringMixin)
-const { Item } = require("../Item");
 class ItemRegistry {
   static Registries = [];
   static register(item) {
@@ -13,7 +12,7 @@ class ItemRegistry {
 */
   static Unregister(item) {
     this.Registries = this.Registries.filter(items => {
-      items !== item.init()
+      items !== item
     })
   }
   /**

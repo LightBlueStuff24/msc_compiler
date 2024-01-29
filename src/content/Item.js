@@ -1,6 +1,6 @@
-const { validCategories } = require("./validationList");
-const { ItemEventTriggerHandler, isNegative, SetMixin } = require("./utilities/exports_util");
-const config = require('../msc.config.json');
+const { validCategories } = require("../validation");
+const { ItemEventTriggerHandler, isNegative, SetMixin } = require("../utilities/exports_util");
+const config = require('../../msc.config.json');
 Object.assign(Set.prototype, SetMixin)
 
 /**
@@ -155,10 +155,10 @@ class Item {
 	 * @private
 	 */
 	static __Data = {
-		"format_version": config.item["version"],
+		"format_version": fileVersions.find(obj=>obj.name === 'item'),
 		"minecraft:item": {
 			"description": {
-				"identifier": `${config["prefix"]}:${this.name.toLowerCase()}`,
+				"identifier": `${config.globalNamespace}:${this.name.toLowerCase()}`,
 				"category": "none"
 			},
 			"components": {},
@@ -376,8 +376,8 @@ class Item {
 	 * @CreatesItemObject
 	 */
 	static init() {
-		this.__Data["minecraft:item"]["description"]["identifier"] = `${config["prefix"]}:${this.name.toLowerCase()}`
-		this.Identifier = `${config["prefix"]}:${this.name.toLowerCase()}`
+		this.__Data["minecraft:item"]["description"]["identifier"] = `${config.globalNamespace}:${this.name.toLowerCase()}`
+		this.Identifier = `${config.globalNamespace}:${this.name.toLowerCase()}`
 		/**
 		 * @handleCategory
 		 */

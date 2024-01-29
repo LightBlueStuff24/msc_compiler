@@ -1,6 +1,6 @@
-const { BlockRegistry } = require("../../Registries/BlockRegistry")
-const { Block } = require("../../Block")
-const { Components} = require("../../Component")
+const { BlockRegistry } = require("../../src/registries/BlockRegistry")
+const { Block } = require("../../src/content/Block")
+const { Components} = require("../../src/content/Component")
 class LogRotation0 extends Components {
   static Transformation = {
     Rotation: [0, 0, 0]
