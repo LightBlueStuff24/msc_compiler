@@ -11,7 +11,7 @@ class Block {
    * @private
    */
   static __Data = {
-    "format_version": config.formatVersions.find(obj=>obj.name === 'block').version,
+    "format_version": config.formatVersions.find(obj => obj.name === 'block').version,
     "minecraft:block": {
       "description": {
         "identifier": "",
@@ -21,28 +21,31 @@ class Block {
     }
   };
 
-
+  /**
+   * @private
+   */
   static lastState = {};
 
-  static async reset() {
-    this.__Data["minecraft:block"]["components"] = {}
-    
-      // Delete properties from the class that were in lastState but not in the current state
-      if (Object.keys(Block.lastState).length > 0) {
-        for (const key in Block.lastState) {
-          if (key === '__components' || key === '__Data' || key === 'reset' || typeof this[key] === 'function') continue;
-          if (!this[key]) {
-            delete this[key];
-          }
+  /**
+   * @private
+   */
+  static reset() {
+    Block.__components = {}
+    // Delete properties from the class that were in lastState but not in the current state
+    if (Object.keys(Block.lastState).length > 0) {
+      for (const key in Block.lastState) {
+        if (key === '__components' || key === '__Data' || key === 'reset' || typeof this[key] === 'function') continue;
+        if (!this[key]) {
+          console.warn(this.name,key)
+          delete this[key];
         }
-        
       }
-      // Update lastState with the current state
-      Block.lastState = Object.fromEntries(
-        Object.entries(this)
-          .filter(([key, value]) => key !== 'lastState' && key !== '__Data' && key !== 'reset' && key !== '__components' && value !== null && value !== undefined)
-      );
-      console.warn(this.__components)
+    }
+    // Update lastState with the current state
+    Block.lastState = Object.fromEntries(
+      Object.entries(this)
+        .filter(([key, value]) => key !== 'lastState' && key !== '__Data' && key !== 'reset' && key !== '__components' && value !== null && value !== undefined)
+    );
   }
   /**
    * Components of Block.
@@ -150,12 +153,10 @@ class Block {
    * @CreatesBlockObject
    */
   static init() {
-this.reset().then(()=>{
-  console.warn(this)
-    this.__Data["minecraft:block"].description.identifier =  `${config.globalNamespace}:${this.name.toLowerCase()}`
+    this.reset();
+    this.__Data["minecraft:block"].description.identifier = `${config.globalNamespace}:${this.name.toLowerCase()}`
     //Filters out the keys that have no value
-    for (const [cdata, cvalue] of Object.entries(this).filter(([key, val]) => val !== undefined)) {
-      console.warn(this.name,cdata)
+    for (const [cdata, cvalue] of Object.entries(this).filter(([_, val]) => val !== undefined)) {
       switch (cdata) {
         // Ignoring private properties
         case "__Data": break;
@@ -460,7 +461,9 @@ this.reset().then(()=>{
         }; break;
       }
     }
-    })
+    console.warn(this)
+    this.__Data["minecraft:block"]["components"] = this.__components
+
     return JSON.stringify(this.__Data, null, 2);
   }
 }

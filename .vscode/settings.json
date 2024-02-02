@@ -1,6 +1,12 @@
 {
-    "json.schemas": [
-        
-    ]
-    
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/*msc.config.json"
+      ],
+      "schema": {
+        "ref": "/schema/msc.config.schema.json"
+      }
+    }
+  ]
 }

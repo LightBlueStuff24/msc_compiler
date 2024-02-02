@@ -2,9 +2,24 @@
   "format_version": "1.20.30",
   "minecraft:block": {
     "description": {
-      "identifier": "",
-      "menu_category": {}
+      "identifier": "test:log",
+      "menu_category": {
+        "category": "construction"
+      }
     },
-    "components": {}
+    "components": {
+      "minecraft:display_name": "Log",
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 6
+      },
+      "minecraft:explosion_resistance": {
+        "explosion_resistance": 5
+      },
+      "minecraft:flammable": {},
+      "minecraft:on_player_placed": {
+        "event": "rotate",
+        "target": "self"
+      }
+    }
   }
 }

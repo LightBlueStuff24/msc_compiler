@@ -21,7 +21,7 @@ async function startBuild() {
     const endTime = performance.now()
     BuildLog.info(`Completed in ${(Math.floor(Math.round(endTime - startTime)) / 1000).toFixed(1)} seconds`)
   } catch (err) {
-    BuildLog.error(`Error reading directory: ${err}`, err.stack);
+    BuildLog.error(`Error reading directory: ${err}`);
     process.exit(1);
   }
 }
@@ -30,23 +30,22 @@ async function startBuild() {
 async function buildFiles() {
   await fsPromise.mkdir('build', { recursive: true });
   await fsPromise.mkdir('build/BP', { recursive: true });
-  await buildManifest();
   await buildRegistryFiles('blocks', BlockRegistry.Registries);
   await buildRegistryFiles('items', ItemRegistry.Registries);
   await buildRegistryFiles('entities', EntityRegistry.Registries);
+  await buildManifest();
 }
 async function buildRegistryFiles(subfolder, registries) {
   if (registries.length > 0) {
     await fsPromise.mkdir(`build/BP/${subfolder}`, { recursive: true });
-    registries.forEach(async registry => {
-      const fileName = registry.name.toLowerCase()
-      console.warn(fileName)
+    registries.forEach(async regEntry => {
+      const fileName = regEntry.name.toLowerCase()
       await fsPromise.writeFile(
         `build/BP/${subfolder}/${fileName}.json`,
-        await registry.init()
+        await regEntry.init()
       );
 
-      BuildLog.info(`Created ${fileName}`);
+      await BuildLog.info(`Created ${fileName}`);
     });
   }
 }
@@ -54,7 +53,7 @@ async function buildRegistryFiles(subfolder, registries) {
 async function buildFluidFiles() {
   if (FluidRegistry.Registries.length > 0) {
     await fsPromise.mkdir('build/BP/scripts', { recursive: true });
-    FluidRegistry.Registries.forEach(async (registry, index) => {
+    FluidRegistry.Registries.forEach(async (registry) => {
       const filename = registry.name;
       BuildLog.info(`Created ${filename}.js`);
 
@@ -63,7 +62,7 @@ async function buildFluidFiles() {
 }
 
 async function buildManifest() {
-  const outputDir = path.join(process.cwd(), 'build/BP/manifest.json');
+  const outputDir = path.join(currentDirectory, 'build/BP/manifest.json');
   const minecraftVersion = await getMinecraftVersion();
 
   let manifestStructure = {
@@ -90,7 +89,7 @@ async function buildManifest() {
       {
         "type": "script",
         "language": "javascript",
-        "entry": `"scripts/${config.scriptEntry}"`,
+        "entry": `scripts/${config.scriptEntry}`,
         "uuid": uuid(),
         "version": [1, 0, 0]
       }
@@ -99,22 +98,22 @@ async function buildManifest() {
     if (isObjectArray(config.scriptModules)) {
       for (const obj of config.scriptModules) {
         const version = obj.version || await getSemVer(obj.name);
-        BuildLog.warn(`Version for ${obj.name} not specified. Using current version: ${version}`);
+        if (!obj.version) BuildLog.warn(`Version for module "${obj.name}" not specified. Using current version: ${version}`);
         manifestStructure['dependencies'].push(
           {
             "module_name": obj.name,
-            "version": `"${version}"`
+            "version": `${version}`
           }
         );
       }
     } else {
       for (const str of config.scriptModules) {
         const version = await getSemVer(str);
-        BuildLog.warn(`Version for ${str} not specified. Using current version: ${version}`);
+        BuildLog.warn(`Version for module "${str}" not specified. Using current version: ${version}`);
         manifestStructure['dependencies'].push(
           {
             "module_name": str,
-            "version": `"${version}"`
+            "version": `${version}`
           }
         );
       }
@@ -130,11 +129,10 @@ async function getSemVer(packageName) {
     const minecraftVer = semver.coerce(await getMinecraftVersion());
     const matchingVersions = Object.keys(packageResponse.versions)
       .filter(ver => ver.includes('stable')).sort((a) => semver.compare(a, minecraftVer))
-    const closestVersion = matchingVersions[0].replace(/\.1(\.\d+)?\.\d+-stable|\.\d+$/i
-      , '');
+    const closestVersion = matchingVersions[0].replace(/\.1(\.\d+)?\.\d+-stable|\.\d+$/i, '');
     return closestVersion;
   } catch (error) {
-    BuildLog.error('Error in getSemVer:', error.message, error.stack);
+    BuildLog.error('Error in getSemVer:', error.message);
     return null;
   }
 }
@@ -151,14 +149,15 @@ async function getMinecraftVersion() {
 
 
 function loadFile(filePath) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     if (!filePath) reject();
-    BuildLog.info(`Loading file: ${filePath}`);
+    const fileName = path.basename(filePath)
+    BuildLog.info(`Loading file: ${fileName}`);
     try {
       require(filePath);
       resolve();
     } catch (error) {
-      BuildLog.error(`Error loading file ${filePath}:`, error);
+      BuildLog.error(`Error loading file ${fileName}:`, error);
       reject(error);
     }
   });

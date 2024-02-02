@@ -2,9 +2,13 @@
   "format_version": "1.20.30",
   "minecraft:block": {
     "description": {
-      "identifier": "",
-      "menu_category": {}
+      "identifier": "test:palmlog",
+      "menu_category": {
+        "category": "construction"
+      }
     },
-    "components": {}
+    "components": {
+      "minecraft:display_name": "Palm Log"
+    }
   }
 }

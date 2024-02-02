@@ -1,15 +1,14 @@
 const path = require('path');
 const fs = require('fs').promises;
 const { BuildLog } = require('./buildLog');
-
 async function copySchema() {
   try {
-    const schemaPath = path.join(__dirname, 'schema', 'msc.config.schema.json');
+    const schemaPath = path.join('./', 'schema', 'msc.config.schema.json');
     const userProjectPath = process.cwd();
     const configPath = path.join(userProjectPath, 'msc.config.json')
     const destPath = path.join(userProjectPath, 'schema');
     await fs.mkdir(destPath, { recursive: true });
-    if (!(await fs.exists(configPath))) await fs.writeFile(configPath, "{}");
+    if (!(await fs.readFile(configPath))) await fs.writeFile(configPath, "{}");
     await fs.copyFile(schemaPath, path.join(destPath, 'msc.config.schema.json'));
     await modifySettings(userProjectPath);
     BuildLog.info('Configuration schema file copied to your project.');
@@ -26,7 +25,7 @@ async function modifySettings(projectPath) {
       const settingsFilePath = path.join(vscodeFolderPath, 'settings.json');
       const settingsFileContent = await fs.readFile(settingsFilePath, 'utf8');
       const settingsFile = JSON.parse(settingsFileContent);
-      if (!settingsFile["json.schemas"] || !settingsFile["json.schemas"].some(obj => obj.fileMatch.includes('msc.config.json'))) {
+      if (!settingsFile["json.schemas"] || !settingsFile["json.schemas"].some(obj => obj.fileMatch[0].includes('msc.config.json'))) {
         if (!settingsFile["json.schemas"]) {
           settingsFile["json.schemas"] = [];
         }

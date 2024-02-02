@@ -14,5 +14,5 @@
   ],
   "scriptEntry":"id.js",
   "inputDirectory":"blocks",
-  "scriptModules":["@minecraft/server"]
+  "scriptModules":["@minecraft/server","@minecraft/server-ui"]
 }

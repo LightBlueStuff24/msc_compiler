@@ -1,4 +1,4 @@
-const { BlockRegistry } = require("../../Registries/BlockRegistry")
+const { BlockRegistry } = require("../../registries/BlockRegistry")
 const { Block } = require("../../Block")
 const { Components} = require("../../Component")
 class LogRotation0 extends Components {

@@ -1,6 +1,6 @@
 const { BlockRegistry } = require("../../src/registries/BlockRegistry")
 const { Block } = require("../../src/content/Block")
-const { Components} = require("../../src/content/Component")
+const { Components } = require("../../src/content/Component")
 class LogRotation0 extends Components {
   static Transformation = {
     Rotation: [0, 0, 0]
@@ -75,10 +75,12 @@ class PalmLog extends Block {
 
 
 
-class Blocky extends Block {
+
+class Blocky extends Log {
   static DisplayName = 'This is a block'
+
 }
 
 
-BlockRegistry.register([Log, PalmLog,Blocky])
+BlockRegistry.register([Log, PalmLog, Blocky])
 

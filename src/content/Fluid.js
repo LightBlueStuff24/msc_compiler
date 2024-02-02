@@ -67,6 +67,7 @@ class IFluid extends Decorator {
     static NeedsBottle;
 
     constructor(target) {
+        
         super(target)
         target.Permutations = {};
         Object.assign(target, IFluid);
