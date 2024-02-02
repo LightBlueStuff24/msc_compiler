@@ -5,7 +5,7 @@ const path = require("path");
 const { v4: uuid } = require('uuid')
 const semver = require('semver')
 const { EntityRegistry, FluidRegistry, ItemRegistry, BlockRegistry } = require('../src/registries/export');
-const { walkDirectory, isObjectArray } = require('../src/utilities/exports_util')
+const { walkDirectory, isObjectArray } = require('../utilities/exports_util')
 const currentDirectory = process.cwd();
 const configPath = walkDirectory('../').find(obj => obj.fileName === 'msc.config.json').filePath;
 const config = existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : undefined;

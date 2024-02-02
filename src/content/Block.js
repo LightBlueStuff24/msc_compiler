@@ -1,7 +1,7 @@
 const { Components } = require("./Component.js");
 const config = require("../../msc.config.json");
 const { isValidCategory, isValidGroup } = require('../validation.js')
-const { BlockEventTriggerHandler, ME, isFloat, SetMixin } = require('../utilities/exports_util.js');
+const { BlockEventTriggerHandler, ME, isFloat, SetMixin,getClassExtendsOf} = require('../../utilities/exports_util.js');
 //const { BlockLootTable } = require("./LootTable.js")
 Object.assign(Set.prototype, SetMixin);
 
@@ -36,7 +36,6 @@ class Block {
       for (const key in Block.lastState) {
         if (key === '__components' || key === '__Data' || key === 'reset' || typeof this[key] === 'function') continue;
         if (!this[key]) {
-          console.warn(this.name,key)
           delete this[key];
         }
       }
@@ -153,7 +152,7 @@ class Block {
    * @CreatesBlockObject
    */
   static init() {
-    this.reset();
+    if (getClassExtendsOf(this) === 'Block') {this.reset()};
     this.__Data["minecraft:block"].description.identifier = `${config.globalNamespace}:${this.name.toLowerCase()}`
     //Filters out the keys that have no value
     for (const [cdata, cvalue] of Object.entries(this).filter(([_, val]) => val !== undefined)) {
@@ -461,7 +460,6 @@ class Block {
         }; break;
       }
     }
-    console.warn(this)
     this.__Data["minecraft:block"]["components"] = this.__components
 
     return JSON.stringify(this.__Data, null, 2);

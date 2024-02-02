@@ -1,4 +1,4 @@
-const { StringMixin } = require("../utilities/classMixins");
+const { StringMixin } = require("../../utilities/classMixins");
 Object.assign(String.prototype, StringMixin)
 class ItemRegistry {
   static Registries = [];

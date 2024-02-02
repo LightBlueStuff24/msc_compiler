@@ -8,7 +8,18 @@
       }
     },
     "components": {
-      "minecraft:display_name": "This is a block"
+      "minecraft:display_name": "blocky",
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 6
+      },
+      "minecraft:explosion_resistance": {
+        "explosion_resistance": 5
+      },
+      "minecraft:flammable": {},
+      "minecraft:on_player_placed": {
+        "event": "rotate",
+        "target": "self"
+      }
     }
   }
 }

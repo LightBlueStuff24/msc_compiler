@@ -15,8 +15,6 @@ exports.StringMixin  = {
         if (this.includes(':')){
             return this.split(':').pop()
         }
-    },
-    isVanilla:function(){
-    return this.includes('minecraft')
     }
 }
+

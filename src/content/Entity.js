@@ -1,5 +1,5 @@
 const { EntityRegistry,ItemRegistry } = require("../registries/export.js");
-const { SetMixin, StringMixin,ME,isStringArray,isObjectArray } = require("../utilities/exports_util.js");
+const { SetMixin, StringMixin,ME,isStringArray,isObjectArray } = require("../../utilities/exports_util.js");
 const { validEntities, validateFormat, validateTypes, validItems, validateKeys } = require("../validation.js");
 const { Components } = require("./Component.js");
 const config = require("../../msc.config.json");

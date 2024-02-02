@@ -53,6 +53,12 @@ const isInt = function (n) { return `${n}`.includes(".") ? false : (Number(n) ? 
 const isAlpha = function (c) { return c.toUpperCase() != c.toLowerCase() }
 const isNegative = n => { return n < 0 }
 
+const getClassExtendsOf  = function (childClass){
+  const classSource = childClass.toString();
+  const extendsMatch = classSource.match(/extends\s+([A-Z][a-zA-Z_$\d]*)/);
+
+  return extendsMatch ? extendsMatch[1] : null;
+}
 
 module.exports = {
   isStringArray, ME,
@@ -60,5 +66,6 @@ module.exports = {
   isAlpha,isNegative,
   isObjectArray,
   getLabel,
-  walkDirectory
+  walkDirectory,
+  getClassExtendsOf
 }

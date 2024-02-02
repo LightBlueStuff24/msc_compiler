@@ -1,5 +1,5 @@
 const {BlockEventTriggerHandler,HandleAction,HandlePermCondition,ItemEventTriggerHandler} = require('./handlers')
-const {ME,isAlpha,isFloat,isInt,isNegative,isStringArray,getLabel,isObjectArray,walkDirectory} = require('./helpers')
+const {ME,isAlpha,isFloat,isInt,isNegative,isStringArray,getLabel,isObjectArray,walkDirectory,getClassExtendsOf} = require('./helpers')
 const {SetMixin,StringMixin} = require('./classMixins')
 
 module.exports = {
@@ -17,5 +17,6 @@ module.exports = {
     StringMixin,
     getLabel,
     isObjectArray,
-    walkDirectory
+    walkDirectory,
+    getClassExtendsOf
 }
