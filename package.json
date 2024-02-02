@@ -1,0 +1,43 @@
+{
+  "name": "msc_compiler",
+  "version": "1.0.0",
+  "description": "A Bedrock Add-on writer api using Javascript",
+  "main": "msc_compiler.js",
+  "scripts": {
+    "postinstall": "node ./bin/postinstall"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sifatplayz/msc_compiler.git"
+  },
+  "contributors": [
+    "Sifatplayz",
+    "Redux"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sifatplayz/msc_compiler/issues"
+  },
+  "homepage": "https://github.com/Sifatplayz/msc_compiler#readme",
+  "dependencies": {
+    "@jimp/types": "^0.22.10",
+    "@minecraft/server": "^1.9.0-beta",
+    "@types/node": "^20.10.4",
+    "axios": "^1.6.7",
+    "bun": "^1.0.16",
+    "caman": "^4.1.2",
+    "chalk": "^4.1.2",
+    "fs": "^0.0.1-security",
+    "fuse.js": "^7.0.0",
+    "hidefile": "^3.0.0",
+    "jimp": "^0.22.10",
+    "moment": "^2.30.1",
+    "path": "^0.12.7",
+    "semver": "^7.5.4",
+    "sharp": "^0.33.0",
+    "uuid": "^9.0.1",
+    "vm2": "^3.9.19",
+    "yargs": "^17.7.2"
+  },
+  "type": "commonjs"
+}
