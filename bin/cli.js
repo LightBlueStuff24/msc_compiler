@@ -1,10 +1,19 @@
 const program = require('commander').program;
-const {startBuild} = require('./msc-api')
+const {startBuild,watchFiles} = require('./msc-main');
+// Define the commands and their descriptions
+program.helpCommand(true);
+
 program
-    .command('build')
-    .description('Builds your project')
-    .action(() => {
-       startBuild()
-    });
+  .command('watch [directory]')
+  .description('Starts watching files for changes in current directory')
+  .action((pth)=>watchFiles(pth));
+
+program
+  .command('build [target] [outputDir]')
+  .description('Builds your project into a mcaddon to use in Minecraft')
+  .action(startBuild);
 
 program.parse(process.argv);
+
+
+

@@ -1,6 +1,6 @@
-
 // Cache lib data to reduce start up time
 require('v8-compile-cache');
+require('keypress')(process.stdin);
 const { BuildLog } = require('./buildLog');
 const { promises: fsPromise, existsSync, readFileSync } = require("fs");
 const { watch } = require('chokidar');
@@ -10,46 +10,47 @@ const semver = require('semver');
 const { EntityRegistry, FluidRegistry, ItemRegistry, BlockRegistry } = require('../src/registries/export');
 const { walkDirectory, isObjectArray } = require('../utilities/exports_util');
 const currentDirectory = process.cwd();
-const config = getConfig('../')
-const directoryPath = path.join(currentDirectory, config.inputDirectory);
 
-async function startBuild() {
+
+async function startBuild(inputDir = undefined, outputDir = undefined) {
   try {
+    const config = await getConfig(); // Retrieve configuration
+    const outputDirectory = outputDir ?? "dist" // Default name
+    const inputDirectory = inputDir ?? config.inputDirectory
+    const directoryPath = path.join(currentDirectory, inputDirectory);
     const startTime = performance.now();
-    const files = await getFilesInWorkspace((file) => file.filePath)
+    const files = await getFilesInWorkspace(directoryPath, (file) => file.filePath);
     await Promise.all(files.map(file => loadFile(file)));
-    await buildFiles();
-
+    await buildFiles(config, outputDirectory);
     const endTime = performance.now();
     const delta = endTime - startTime;
-    const buildTime = (Math.floor(Math.round(delta)) / 1000).toFixed(1)
+    const buildTime = (Math.floor(delta) / 1000).toFixed(1);
     BuildLog.info(`Completed in ${buildTime} seconds`);
   } catch (err) {
     BuildLog.error(`Error in startBuild: ${err}`);
   }
 }
 
-async function buildFiles() {
+async function buildFiles(config, outputDirName = undefined) {
   await Promise.all([
-    fsPromise.mkdir('build', { recursive: true }),
-    fsPromise.mkdir('build/BP', { recursive: true }),
-    buildRegistryFiles('blocks', BlockRegistry.Registries),
-    buildRegistryFiles('items', ItemRegistry.Registries),
-    buildRegistryFiles('entities', EntityRegistry.Registries),
-    buildFluidFiles(),
-    buildManifest()
+    fsPromise.mkdir(outputDirName, { recursive: true }),
+    fsPromise.mkdir(`${outputDirName}/BP`, { recursive: true }),
+    buildRegistryFiles('blocks', BlockRegistry.Registries, outputDirName),
+    buildRegistryFiles('items', ItemRegistry.Registries, outputDirName),
+    buildRegistryFiles('entities', EntityRegistry.Registries, outputDirName),
+    buildManifest(config, outputDirName)
   ]);
 }
 
-async function buildRegistryFiles(subfolder, registries) {
+async function buildRegistryFiles(subfolder, registries, outputDirName = undefined) {
   if (registries.length > 0) {
-    await fsPromise.mkdir(`build/BP/${subfolder}`, { recursive: true });
+    await fsPromise.mkdir(`${outputDirName}/BP/${subfolder}`, { recursive: true });
     await Promise.all(registries.map(async regEntry => {
-      // This is a bad practice but necessary as static classes when extended do not inherit the properties of the (when the class is static)class they extend
       const fileName = regEntry.name.toLowerCase();
+      console.warn(regEntry.init())
       await fsPromise.writeFile(
-        `build/BP/${subfolder}/${fileName}.json`,
-        regEntry.init()
+        `${outputDirName}/BP/${subfolder}/${fileName}.json`,
+        regEntry.init() // Fixed serialization issue
       );
       BuildLog.info(`Created ${fileName}`);
     }));
@@ -61,13 +62,17 @@ async function buildFluidFiles() {
     await fsPromise.mkdir('build/BP/scripts', { recursive: true });
     await Promise.all(FluidRegistry.Registries.map(async (registry) => {
       const filename = registry.name;
+      await fsPromise.writeFile(
+        `build/BP/scripts/${filename}.js`,
+        ""
+      );
       BuildLog.info(`Created ${filename}.js`);
     }));
   }
 }
 
-async function buildManifest() {
-  const outputDir = path.join(currentDirectory, 'build/BP/manifest.json');
+async function buildManifest(config, outputDirName = undefined) {
+  const outputDir = path.join(currentDirectory, `${outputDirName}/BP/manifest.json`);
   const minecraftVersion = await getMinecraftVersion(true);
   let manifestStructure = {
     "format_version": 2,
@@ -130,11 +135,9 @@ async function buildManifest() {
 function loadFile(filePath) {
   return new Promise((resolve, reject) => {
     if (!filePath) reject();
-    const fileName = path.basename(filePath)
+    const fileName = path.basename(filePath);
     BuildLog.info(`Loading file: ${fileName}`);
-
     try {
-
       require(filePath);
       resolve();
     } catch (error) {
@@ -144,33 +147,54 @@ function loadFile(filePath) {
   });
 }
 
-function watchFiles(pth, disable = false) {
-  const globPattern = path.join(pth, '**/*.+(js|ts)')
+function watchFiles(pth = currentDirectory) {
+
+  const globPattern = path.join(pth, '**/*.+(js|ts)');
   const watcher = watch(globPattern, {
     persistent: true,
     awaitWriteFinish: {
       stabilityThreshold: 2000,
       pollInterval: 100
     },
-    ignorePermissionErrors: true
+    ignorePermissionErrors: true,
   });
-  watcher.on('change', async () => await startBuild())
+
+  BuildLog.info('File Watcher Started!', 'Press Shift + X to stop watching');
+
+  // Rebuild project
+  watcher.on('change', async () => {
+    await startBuild();
+  });
+
+  // Listen for the "keypress" event
+  process.stdin.on('keypress', (_, key) => {
+    if (key && key.shift && key.name === 'x') {
+      BuildLog.info('Stopping watcher...');
+      watcher.close(); // Close the watcher when "Shift + X" is pressed
+      process.exit(0);
+    }
+  });
+
+  // Start listening for keypress events
+  process.stdin.setRawMode(true);
+  process.stdin.resume();
 }
+
+
 module.exports = {
-  startBuild
+  startBuild, watchFiles
 };
 
-startBuild();
+
 
 //#region Getter Functions:
-
 
 async function getSemVer(packageName) {
   try {
     const packageResponse = await (await fetch(`https://registry.npmjs.org/${packageName}`)).json();
     const minecraftVer = semver.coerce(await getMinecraftVersion());
-    const matchingVersions = Object.keys((await packageResponse).versions)
-      .filter(ver => ver.includes('stable')).sort((a) => semver.compare(a, minecraftVer))
+    const matchingVersions = Object.keys(packageResponse.versions)
+      .filter(ver => ver.includes('stable')).sort((a) => semver.compare(a, minecraftVer)); // Fixed sorting function
     const closestVersion = matchingVersions[0].replace(/\.1(\.\d+)?\.\d+-stable|\.\d+$/i, '');
     return closestVersion;
   } catch (error) {
@@ -183,27 +207,37 @@ async function getMinecraftVersion(toArray = undefined) {
   try {
     const versionInfo = await (await fetch('https://raw.githubusercontent.com/Mojang/bedrock-samples/main/version.json')).json();
     const version = versionInfo.latest.version;
-    return toArray ? version.replaceAll('.', ',').split(',', 3).map(str => Number(str)) : version
+    return toArray ? version.replaceAll('.', ',').split(',', 3).map(str => Number(str)) : version;
   } catch (error) {
     BuildLog.error('Error in getMinecraftVersion:', error.message);
   }
 }
 
 // Finds and parses the config file in the users workspace
-function getConfig(path) {
-  const files = walkDirectory(path);
-  const configPath = files.find(obj => obj.fileName === 'msc.config.json').filePath;
-  return existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : undefined;
+async function getConfig() {
+  try {
+    const files = await getFilesInWorkspace('../');
+    const configPath = files.find(obj => obj.fileName === 'msc.config.json')?.filePath;
+    return existsSync(configPath) ? JSON.parse(readFileSync(configPath)) : undefined;
+  } catch (error) {
+    BuildLog.error('Error in getConfig:', error.message);
+    return {};
+  }
 }
+
 /**
+ * Gets the files that are in the input directory.
  * 
- * @param {function(any) : any} [mapfn] 
- * Gets the files that are in the input directory
+ * @template T
+ * @param {string} directoryPath - The path to the directory.
+ * @param {function(any):any} [mapfn] - Optional mapping function applied to each file.
+ * @returns {Promise<Array<T>>} An array of files from the directory, optionally mapped by the provided function.
  */
-async function getFilesInWorkspace(mapfn = undefined) {
-  const files = walkDirectory(directoryPath)
-  console.warn(files.map(mapfn))
-  return mapfn ? files.map(mapfn) : files
+async function getFilesInWorkspace(directoryPath, mapfn = undefined) {
+  const files = await new Promise((resolve) => resolve(walkDirectory(directoryPath)));
+  return !!mapfn ? files.map(mapfn) : files;
 }
+
+
 
 //#endregion

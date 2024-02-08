@@ -34,6 +34,7 @@
         console.log(terrain);
     };
 
+    // Example: Print the terrain array
     const terrain = generateTerrain();
     printTerrain(terrain);
 })();

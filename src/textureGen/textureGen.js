@@ -42,9 +42,11 @@ class TextureGenerator {
         const fillHeight = fillRegion[3] - fillRegion[1];
         const fillArea = bucketImage.clone().crop(fillX, fillY, fillWidth, fillHeight);
         const secondFillArea = bucketImage.clone().crop(3, 4, 10, 1);
+        // Scans image pixel by pixel
         fluidImage.scan(0, 0, fluidImage.getWidth(), fluidImage.getHeight(), function (x, y) {
             const { r, g, b } = Jimp.intToRGBA(this.getPixelColor(x, y));
             const [centerX, centerY] = [fillWidth / 2, fillHeight / 2]
+            // Calculates the pixels distance from the center
             const distance = Math.sqrt(((x - centerX) ** 2) + ((y - centerY) ** 2))
             const brightness = (distance / Math.max(centerX, centerY)) * 255;
             const alpha = Jimp.intToRGBA(fillArea.getPixelColor(x, y)).a;

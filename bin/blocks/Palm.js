@@ -54,6 +54,7 @@ class Log extends Block {
   }
 }
 
+
 class PalmLog extends Block {
   static States = {
     "prop": [1, 2, 3]
@@ -80,7 +81,8 @@ class PalmLog extends Block {
 
 class Blocky extends Log {
   
-  static DisplayName = 'This is a block'
+  static DisplayName = 'This is a block'; 
+  static Category = 'construction'
 
 }
 
