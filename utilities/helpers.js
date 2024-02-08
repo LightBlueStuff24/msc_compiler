@@ -1,36 +1,41 @@
 const path = require('path');
-const fs = require('fs'); const { statSync } = require('fs');
+const fs = require('fs');
+const { statSync } = require('fs');
 
-const isStringArray = (a)=> {
+const isStringArray = (a) => {
   if (!Array.isArray(a)) return false;
   return a.every(element => typeof element === 'string')
 }
 
-const isObjectArray = (a)=> {
+const isObjectArray = (a) => {
   if (!Array.isArray(a)) return false;
   return a.every(element => typeof element === 'object')
 }
-
-
-function walkDirectory(pat) {
-  const files = []
-  fs.readdirSync(pat).forEach(file => {
-      const filePath  = path.join(pat, file)
-      const stat = statSync(filePath)
-      if (stat.isFile()) {
-          files.push({fileName:file,filePath:filePath})
-      } else if (stat.isDirectory()) {
-          files.push(...walkDirectory(filePath))
-      }
-  })
-  return files
+/**
+ * 
+ * @param {string} pth 
+ * @returns {Array<{fileName:string; filePath:string}>}
+ */
+function walkDirectory(pth) {
+  let files = [];
+  const dirents = fs.readdirSync(pth, { withFileTypes: true });
+  for (const dirent of dirents) {
+    const filePath = path.join(pth, dirent.name);
+    if (dirent.isDirectory()) {
+      files = files.concat(walkDirectory(filePath));
+    } else {
+      files.push({ fileName: dirent.name, filePath: filePath });
+    }
+  }
+  return files;
 }
+
 
 /**
  * @param {number} index 
  * @returns {string} Label for the given index
  */
-const getLabel = (i)=> {
+const getLabel = (i) => {
   const labels = ['component', 'child', 'subChild', 'prop', 'subProp'];
   return labels[i] || `label${i + 1}`;
 }
@@ -53,19 +58,29 @@ const isInt = function (n) { return `${n}`.includes(".") ? false : (Number(n) ? 
 const isAlpha = function (c) { return c.toUpperCase() != c.toLowerCase() }
 const isNegative = n => { return n < 0 }
 
-const getClassExtendsOf  = function (childClass){
+const getClassExtendsOf = function (childClass) {
   const classSource = childClass.toString();
   const extendsMatch = classSource.match(/extends\s+([A-Z][a-zA-Z_$\d]*)/);
-
   return extendsMatch ? extendsMatch[1] : null;
 }
 
+const inheritStaticProperties = function (subclass, superclass) {
+  const inheritedProperties = Object.getOwnPropertyNames(superclass);
+  inheritedProperties.forEach(property => {
+    if (!Object.hasOwnProperty.call(subclass, property)) {
+      subclass[property] = superclass[property];
+    }
+  });
+}
+
+
 module.exports = {
   isStringArray, ME,
-  isFloat,isInt,
-  isAlpha,isNegative,
+  isFloat, isInt,
+  isAlpha, isNegative,
   isObjectArray,
   getLabel,
   walkDirectory,
-  getClassExtendsOf
+  getClassExtendsOf,
+  inheritStaticProperties
 }

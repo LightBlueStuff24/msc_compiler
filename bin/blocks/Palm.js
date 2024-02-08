@@ -83,7 +83,7 @@ class Blocky extends Log {
   static DisplayName = 'This is a block'
 
 }
-Object.assign(Blocky,Log).DisplayName = 'blocky'
-console.warn(console.warn(Object.getOwnPropertyNames(Blocky)))
-BlockRegistry.register([Log, PalmLog, Blocky])
+
+
+BlockRegistry.register([Blocky,Log, PalmLog])
 

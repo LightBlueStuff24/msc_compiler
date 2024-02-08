@@ -1,5 +1,5 @@
 /**
- * Base Class for Component Implementations in msc-api
+ * Base Class for Components in msc-api. Used to make permutations
  */
 class Components {
 

@@ -8,7 +8,7 @@
       }
     },
     "components": {
-      "minecraft:display_name": "blocky",
+      "minecraft:display_name": "This is a block",
       "minecraft:destructible_by_mining": {
         "seconds_to_destroy": 6
       },

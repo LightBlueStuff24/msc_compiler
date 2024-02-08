@@ -35,8 +35,6 @@ class FluidBlock extends Block {
 /**
  * @class IFluid
  * @classdesc A decorator as an alternative to the FluidBlock class
- * @extends {Decorator}
- * @implements {FluidBlock}
  */
 class IFluid extends Decorator {
     // How fast they can swim when in the fluid 
@@ -67,7 +65,6 @@ class IFluid extends Decorator {
     static NeedsBottle;
 
     constructor(target) {
-        
         super(target)
         target.Permutations = {};
         Object.assign(target, IFluid);
@@ -75,10 +72,11 @@ class IFluid extends Decorator {
 }
 module.exports = { FluidBlock, IFluid };
 
-@IFluid
+
 /**
- * @implements {FluidBlock}
+ * @implements {IFluid}
  */
+@IFluid
 class FG extends Block {
-    static
+    static 
 }

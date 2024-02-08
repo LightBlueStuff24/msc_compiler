@@ -3,11 +3,11 @@
   "header": {
     "name": "Test",
     "description": "A minecraft bedrock edition add-on compiler that compiles your Javascript code into json code.",
-    "uuid": "ca978450-42f3-4348-8e78-1cc5b9d73fff",
+    "uuid": "112781ab-8d7c-4d5a-9ec0-f09fa3d1ef0f",
     "min_engine_version": [
       1,
       20,
-      50
+      60
     ],
     "version": [
       1,
@@ -18,7 +18,7 @@
   "modules": [
     {
       "type": "data",
-      "uuid": "c4a0aa61-2c32-486d-9691-9a4ae90cf178",
+      "uuid": "aaa1bfac-b6a8-4205-bffc-0e868c1665dc",
       "version": [
         1,
         0,
@@ -29,7 +29,7 @@
       "type": "script",
       "language": "javascript",
       "entry": "scripts/id.js",
-      "uuid": "fd4854ef-d1f7-4c54-978d-430032bc5be5",
+      "uuid": "1c922b63-7d36-4619-9c19-fdb75a628ae1",
       "version": [
         1,
         0,
@@ -40,7 +40,7 @@
   "dependencies": [
     {
       "module_name": "@minecraft/server",
-      "version": "1.8.0-beta"
+      "version": "1.9.0-beta"
     },
     {
       "module_name": "@minecraft/server-ui",

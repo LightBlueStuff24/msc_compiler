@@ -5,14 +5,18 @@ class BlockRegistry {
    * 
    * @param {Block | Array<Block> } block 
    */
-  static register(block) {
-      if (Array.isArray(block)) {
-        block.forEach(blocks => {
-          this.Registries.push(blocks)
-        })
-      } else {
+  static register(blocks) {
+    if (Array.isArray(blocks)) {
+      blocks.forEach(block => {
+         // Bad Practice:
+        global[block.name] = block
         this.Registries.push(block)
-      }
+      })
+    } else {
+      // Bad Practice:
+      global[blocks.name] = blocks
+      this.Registries.push(blocks)
+    }
   }
 }
 
