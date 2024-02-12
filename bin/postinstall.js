@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs').promises;
-const { BuildLog } = require('./buildLog');
+const { BuildLog } = require('../utilities/buildLog');
 async function copySchema() {
   try {
     const schemaPath = path.join('./', 'schema', 'msc.config.schema.json');

@@ -1,7 +1,6 @@
 const { Components } = require("./Component.js");
 const config = require("../../msc.config.json");
-const { isValidCategory, isValidGroup } = require('../validation.js')
-const { BlockEventTriggerHandler, ME, isFloat, SetMixin,getClassExtendsOf,inheritStaticProperties} = require('../../utilities/exports_util.js');
+const { BlockEventTriggerHandler, ME, isFloat, SetMixin, getClassExtendsOf, inheritStaticProperties, isValidCategory, isValidGroup } = require('../../utilities/exports_util.js');
 //const { BlockLootTable } = require("./LootTable.js")
 Object.assign(Set.prototype, SetMixin);
 
@@ -152,11 +151,11 @@ class Block {
    * @CreatesBlockObject
    */
   static init() {
-    
-     /* When extending Block clears the properties to prevent it from inheriting the values of the last class that extended Block,
-     * Else make the class inherit the properties of the class they extend
-    */
-   if (getClassExtendsOf(this) === 'Block') {this.reset()} else inheritStaticProperties(this,global[getClassExtendsOf(this)]) ;
+
+    /* When extending Block clears the properties to prevent it from inheriting the values of the last class that extended Block,
+    * Else make the class inherit the properties of the class they extend
+   */
+    if (getClassExtendsOf(this) === 'Block') { this.reset() } else inheritStaticProperties(this, global[getClassExtendsOf(this)]);
 
     this.__Data["minecraft:block"].description.identifier = `${config.globalNamespace}:${this.name.toLowerCase()}`
     //Filters out the keys that have no value

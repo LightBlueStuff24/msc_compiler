@@ -1,7 +1,7 @@
 const config = require("../msc.config.json")
 // TODO:: UPDATE THIS!!
 exports.ItemEventTriggerHandler = function (o, d, e, t) {
-  const { validateTypes } = require("../src/validation.js")
+  const { validateTypes } = require("./validation.js")
   let { Condition, Event, Target } = o
   validateTypes(['string'], [o], [e], t)
   if (!d["minecraft:item"]["events"]) d["minecraft:item"]["events"] = {}
@@ -25,7 +25,7 @@ exports.ItemEventTriggerHandler = function (o, d, e, t) {
 exports.BlockEventTriggerHandler = function (o, e, t) {
   const { ME } = require("./helpers.js")
   if (typeof o !== 'object') throw ME(t, o, [e], 'object')
-  const { validateTypes } = require("../src/validation.js")
+  const { validateTypes } = require("./validation.js")
   validateTypes(['string'], [o], [e], t)
   let { Condition, Event, Target,Action } = o
   let d = t.__Data;
@@ -80,7 +80,7 @@ exports.HandlePermCondition = function (v, d, t) {
 
 exports
 function HandleFilter(t, o, c) {
-  const { validateKeys } = require("../src/validation.js")
+  const { validateKeys } = require("./validation.js")
   let __data = {}
   validateKeys(['AnyOf', 'AllOf', 'NoneOf', 'TestSubject', 'OperatorSign', 'TestCondition', 'Domain'], o, t, c)
   const { AnyOf, AllOf, NoneOf, TestSubject, OperatorSign, TestCondition, Domain } = o;

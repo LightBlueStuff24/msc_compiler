@@ -23,6 +23,7 @@ class DestroyTime extends Components {
   static DestroyTime = 6
 }
 
+
 /**
  * @class Log
  */
@@ -73,17 +74,10 @@ class PalmLog extends Block {
 }
 
 
-
-
-
-
-
-
 class Blocky extends Log {
   
   static DisplayName = 'This is a block'; 
   static Category = 'construction'
-
 }
 
 

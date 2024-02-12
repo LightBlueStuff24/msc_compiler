@@ -1,6 +1,5 @@
-const { EntityRegistry,ItemRegistry } = require("../registries/export.js");
-const { SetMixin, StringMixin,ME,isStringArray,isObjectArray } = require("../../utilities/exports_util.js");
-const { validEntities, validateFormat, validateTypes, validItems, validateKeys } = require("../validation.js");
+const { EntityRegistry, ItemRegistry } = require("../registries/export.js");
+const { SetMixin, StringMixin, ME, isStringArray, isObjectArray, validEntities, validateFormat, validateTypes, validItems, validateKeys } = require("../../utilities/exports_util.js");
 const { Components } = require("./Component.js");
 const config = require("../../msc.config.json");
 //Adds mixins for Set and String Constructor
@@ -9,7 +8,7 @@ Object.assign(String.prototype, StringMixin)
 
 class Entity {
     static __Data = {
-        "format_version": config.formatVersions.find(obj=>obj.name === 'entity'),
+        "format_version": config.formatVersions.find(obj => obj.name === 'entity'),
         "minecraft:entity": {
             "description": {
                 "identifier": "",

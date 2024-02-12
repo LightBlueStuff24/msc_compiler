@@ -35,7 +35,8 @@
               "type": "object",
               "properties": {
                 "version": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "Version of this module. If omitted, msc will use the latest version"
                 },
                 "name": {
                   "type": "string",
@@ -46,7 +47,8 @@
                     "@minecraft/server-net",
                     "@minecraft/server-admin",
                     "@minecraft/server-editor"
-                  ]
+                  ],
+                  "description": "Name of the modules"
                 }
               },
               "required": ["version", "name"],
@@ -91,10 +93,27 @@
             "type":"number"
         },
         "maxItems": 3,
-        "Description": "If provided, this information will be used during the generation of the manifest. Otherwise, Msc will default to using the current Minecraft version."
+        "Description": "If provided, this information will be used during the generation of the manifest. Otherwise, msc will default to using the current Minecraft version."
+      },
+      "ignoreFiles": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Specifies a list of files and folders for msc to ignore when searching for configuration. Primarily used to optimize internal build processes and reduce build times."
+      },      
+      "experimentalFeatures":{
+        "type":"object",
+        "properties": {
+          "languageGeneration":{
+            "type":"boolean",
+            "description": "Specifies whether msc should automatically generate lang files in the 29 languages MCBE supports. If false, msc will only generate english lang file"
+          }
+        },
+        "description": "Describes experimental features for msc to use in the generation of your project"
       }
     },
-    "required": ["project", "globalNamespace", "formatVersions","minEngineVersion"],
+    "required": ["project", "globalNamespace", "formatVersions"],
     "if": {
       "properties": { "scriptModules": { "not": { "type": "null" } } }
     },

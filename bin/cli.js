@@ -6,7 +6,7 @@ program.helpCommand(true);
 program
   .command('watch [directory]')
   .description('Starts watching files for changes in current directory')
-  .action((pth)=>watchFiles(pth));
+  .action(watchFiles);
 
 program
   .command('build [target] [outputDir]')

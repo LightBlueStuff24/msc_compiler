@@ -130,6 +130,18 @@ const validEntities = new Set([
 	"zombie_villager_v2"
 ])
 
+const supportedLanguages = new Set([
+	'id_ID', 'da_DK', 'de_DE',
+	'en_GB', 'en_US', 'es_ES',
+	'es_MX', 'fr_CA', 'fr_FR',
+	'it_IT', 'hu_HU', 'nl_NL',
+	'nb_NO', 'pl_PL', 'pt_BR',
+	'pt_PT', 'sk_SK', 'fi_FI',
+	'sv_SE', 'tr_TR', 'cs_CZ',
+	'el_GR', 'bg_BG', 'ru_RU',
+	'uk_UA', 'ja_JP', 'zh_CN',
+	'zh_TW', 'ko_KR'
+  ])
 const validCategories = new Set(['construction', 'items', 'equipments', 'nature', 'none'])
 const validGroups = new Set([
 	"itemGroup.name.anvil",
@@ -1263,7 +1275,7 @@ function validateFormat(key) {
 }
 
 function validateTypes(types, targets, errorOrder, t) {
-	const { ME } = require('../utilities/exports_util');
+	const { ME } = require('./exports_util');
 	for (let i = 0; i < types.length; i++) {
 		const typeList = types[i].includes('|') ? types[i].split('|').map(t => t.trim()) : [types[i]];
 		const target = targets[i];
@@ -1316,7 +1328,7 @@ function validateType(type, target) {
  * @param {string | string[]} com 
  */
 function validateKeys(expectedKeys, targetObj, t, com) {
-	const { getLabel } = require('../utilities/exports_util')
+	const { getLabel } = require('./exports_util')
 	const comLabels = Array.isArray(com) ? com.map((k, i) => `[${getLabel(i)}:${k}]`) : [`[component: ${com}]`];
 	if (expectedKeys.length > Object.keys(targetObj).length) throw new Error(`[${this.name}] ${comLabels.join(' ')}: Expected ${expectedKeys.length} ${expectedKeys.length > 1 ? "properties" : "property"}, instead found ${Object.keys(targetObj).length}`);
 	Object.keys(targetObj).forEach(key => {
@@ -1337,5 +1349,6 @@ module.exports = {
 	validEntities,
 	validGroups,
 	validItems,
-	validateKeys
+	validateKeys,
+	supportedLanguages
 }
