@@ -1,85 +1,32 @@
-# msc_compiler
-A Minecraft Bedrock Addon writer using classes
+# xtend
 
-Example of Creating a Block and Creating another same type of Block:
-```javascript
-const {BlockRegistry} = require("./msc_compiler/BlockRegistry")
-const {Block} = require("./msc_compiler/api/Block")
+[![browser support][3]][4]
 
-class LogRotation0 extends Permutations {
-  static Transformation = {
-    Rotation: [0, 0, 0]
-  }
-}
-class LogRotation1 extends Permutations {
-  static Transformation = {
-    Rotation: [90, 0, 0]
-  }
-}
-class LogRotation2 extends Permutations {
-  static Transformation = {
-    Rotation: [0, 90, 0]
-  }
-}
+[![locked](http://badges.github.io/stability-badges/dist/locked.svg)](http://github.com/badges/stability-badges)
 
-/**
- * @class Log
- * @template Log
- */
-class Log extends Block {
-  static Category = "construction";
-  static Group = "itemGroup.name.logs";
-  static DisplayName = "Log";
-  static DestroyTime = 6;
-  static ExplosionResistance = 5;
-  // Flammable[0] = CatchChanceModifier
-  // Flammable[1] = DestroyChanceModifier
-  static Flammable = [5, 20]
-  static Material = {
-    "*": {
-      Texture: "log",
-      RenderMethod: "opaque",
-      FaceDimming: false,
-      AmbientOcclusion: false
-    }
-  }
-  static OnPlayerPlacing = {
-    Event: "rotate",
-    Target: "self",
-    Action: {
-      SetBlockState: {
-        "rotation": "Math.floor(q.cardinal_face/2)"
-      }
-    }
-  }
-  static States = {
-    "rotation": [0,1,2]
-  }
-  static Permutations = {
-    "rotation == 0": LogRotation0.init(),
-    "rotation == 1": LogRotation1.init(),
-    "rotation == 2": LogRotation2.init()
-  }
-}
-BlockRegistry.register(Log)
+Extend like a boss
 
-class NewLog extends Log {
-  static DisplayName = "New Log"
-}
-BlockRegistry.register(NewLog)
+xtend is a basic utility library which allows you to extend an object by appending all of the properties from each object in a list. When there are identical properties, the right-most property takes precedence.
 
+## Examples
+
+```js
+var extend = require("xtend")
+
+// extend returns a new object. Does not mutate arguments
+var combination = extend({
+    a: "a",
+    b: "c"
+}, {
+    b: "b"
+})
+// { a: "a", b: "b" }
 ```
 
-## Features
-- Write less code and do more!
+## Stability status: Locked
 
-- Clone same type of Block, Item, Entity, etc. just by extending it using another class and only modifying the code that is needed.
+## MIT Licensed 
 
-- Write more than 1 block a file upto as much as you need.
 
-- set your pack name and details only once in `msc.config.json`. Don't have to write `manifest.json` twice for `BehaviorPack` and `ResourcePack`.
-
-- Specify your pack type e.g. only `behavior pack` or only `Resource pack` or Both by setting it's value to true in `behavior_pack: boolean (default: true)` and `resource_pack: boolean (default: true)` in `msc.config.js`
-## Documentations
-- [Blocks Documentation](./src/documentation/BLOCK.md)
-- [Items Documentation](./src/documentation/ITEM.md)
+  [3]: http://ci.testling.com/Raynos/xtend.png
+  [4]: http://ci.testling.com/Raynos/xtend

@@ -1,0 +1,110 @@
+{
+  "DisplayName": [
+    {
+      "name": "minecraft:display_name",
+      "type": "string",
+      "default": "New msc block"
+    }
+  ],
+  "DestroyTime": [
+    {
+      "name": "minecraft:destructible_by_mining",
+      "type": "object",
+      "properties": [
+        {
+          "name": "seconds_to_destroy",
+          "type": "number",
+          "default": 10
+        }
+      ],
+      "default": 10
+    },
+    {
+      "type": "boolean",
+      "name": "minecraft:destructible_by_mining",
+      "default": true
+    }
+  ],
+  "ExplosionResistance": [
+    {
+      "type": "object",
+      "name": "minecraft:destructible_by_explosion",
+      "properties": [
+        {
+          "type": "number",
+          "name": "explosion_resistance",
+          "default": 20
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "name": "minecraft:destructible_by_explosion",
+      "default": true
+    }
+  ],
+  "Flammable": [
+    {
+      "name": "minecraft:flammable",
+      "type": "object",
+      "properties": [
+        {
+          "name": "catch_chance_modifier",
+          "type": "number",
+          "default": 20
+        },
+        {
+          "name": "destroy_chance_modifier",
+          "type": "number",
+          "default": 20
+        }
+      ]
+    },
+    {
+      "name": "minecraft:flammable",
+      "type": "boolean",
+      "default": true
+    }
+  ],
+  "Friction": [
+    {
+      "name": "minecraft:friction",
+      "type": "number",
+      "default": 0.4
+    }
+  ],
+  "Material": [
+    {
+      "name": "minecraft:material_instances",
+      "type": "object",
+      "properties": [
+        {
+          "name": "$string",
+          "type": "object",
+          "properties": [
+            {
+              "name": "texture",
+              "type": "string",
+              "default": "default_block_texture"
+            },
+            {
+              "name": "render_method",
+              "type": "string",
+              "default": "opaque"
+            },
+            {
+              "name": "face_dimming",
+              "type": "boolean",
+              "default": false
+            },
+            {
+              "name": "ambient_occlusion",
+              "type": "boolean",
+              "default": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
