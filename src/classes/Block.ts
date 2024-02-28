@@ -1,7 +1,5 @@
 import config from '../../config'
-import Log from '../utilities/Log'
-import { int, float, bool, path } from '../utilities/typedef'
-
+import type { int, float, bool, path } from '../utilities/typedef'
 import type {
   IBlockData,
   IFlammable,
@@ -23,6 +21,7 @@ import type {
   //@ts-expect-error
   IRandomTicking
 } from '../interfaces/IBlock'
+import { ParseComponent } from '../contents/ComponentParser';
 
 
 
@@ -88,9 +87,13 @@ export class Block {
 
   public static RandomTicking: IRandomTicking;
 
-  public static init() {
+  public static async init() {
     this.Data['minecraft:block'].description.identifier = 
     `${config.prefix}:${this.name.replace(/([a-Z])([A-Z])/, '$1_$2').toLowerCase()}`;
-    this.Data['minecraft:block'].components = 
+    const parsedComponentData = await ParseComponent(this,'block');
+    if (parsedComponentData){
+      this.Component = parsedComponentData;
+    }
+    return JSON.stringify(this.Data)
   }
 }

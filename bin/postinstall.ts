@@ -1,7 +1,6 @@
-const path = require('path');
-const fs = require('fs').promises;
-const { Log } = require('../utils/Log');
-
+import path from 'path';
+import { promises as fs } from 'fs';
+import Log from '../src/utilities/Log';
 type SchemaObject = {
   fileMatch: string[],
   schema: {

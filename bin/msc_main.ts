@@ -1,5 +1,5 @@
 import keypress from 'keypress'
-import {Log} from "../src/utilities/Log"
+import Log from "../src/utilities/Log"
 import {promises as fsPromise } from 'fs'
 import path from 'path'
 

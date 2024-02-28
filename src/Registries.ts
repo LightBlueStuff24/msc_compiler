@@ -1,9 +1,8 @@
 import type { Block } from './classes/Block'
-import type { IBlockData } from './interfaces/IBlock'
 
 class BlockRegistry {
-  public static Registries: IBlockData[] = []
+  public static Registries: typeof Block[] = []
   public static Register(block : typeof Block) {
-    BlockRegistry.Registries.push(block.init())
+    BlockRegistry.Registries.push(block)
   }
 }

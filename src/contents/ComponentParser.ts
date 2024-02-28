@@ -1,4 +1,4 @@
-import Log from '../utilities/Log.ts';
+import Log from '../utilities/Log';
 import type { ObjectStruct } from '../utilities/typedef.ts';
 
 async function ParseData(object: any, cd: string, cv: any, type: string): Promise<void> {
