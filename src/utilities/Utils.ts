@@ -1,34 +1,47 @@
-const isFloat = (n: string) => { return `${n}`.includes(".") }
-const isInt = (n: string) => { return `${n}`.includes(".") ? false : (Number(n) ? true : false) };
-const isAlpha = (c:any) => { return c.toUpperCase() != c.toLowerCase() }
-const isNegetive = (n) => { return n < 0 }
-const getLabel = (i) => {
+import { readdirSync } from "fs";
+import type { float, int, FileResult } from "./typedef.ts";
+import path from "path";
+
+// Type guards to check if a number is float, int, alpha, or negative
+const isFloat = (n: number): n is float => `${n}`.includes(".");
+const isInt = (n: number): n is int => Number.isInteger(n);
+const isAlpha = (c: any): boolean => typeof c === 'string' && c.toUpperCase() !== c.toLowerCase();
+const isNegative = (n: number): boolean => n < 0;
+
+
+const getLabel = (i: int): string => {
   const labels = ['component', 'child', 'subChild', 'prop', 'subProp'];
   return labels[i] || `label${i + 1}`;
+};
+
+
+async function isObjectArray(a: any[]): Promise<boolean> {
+  return Array.isArray(a) && a.every(element => typeof element === 'object');
 }
-async function isObjectArray(a) {
-  if (!Array.isArray(a)) return false;
-  return a.every(element => typeof element === 'object')
-}
-function walkDir(path: string, filterTypes=[]) {
-  let files = [];
-  const dirents = readdirSync(path, { withFileTypes: true });
+
+
+function walkDir(dirPath: string, filterTypes: string[] = []): FileResult[] {
+  let files: FileResult[] = [];
+  const dirents = readdirSync(dirPath, { withFileTypes: true });
   for (const dirent of dirents) {
-    const filePath = path.join(path, dirent.name);
+    const filePath = path.join(dirPath, dirent.name); // Constructing file path using path module
     if (dirent.isDirectory() && !filterTypes.includes(dirent.name)) {
       files = files.concat(walkDir(filePath));
     } else {
-      if (filterTypes.includes(dirent.name)) continue;
-      files.push({ fileName: dirent.name, filePath: filePath });
+      if (!filterTypes.includes(dirent.name)) {
+        files.push({ fileName: dirent.name, filePath: filePath });
+      }
     }
   }
   return files;
 }
-async function getWorkspaceFiles(dirPath: string, mapfn = undefined, filterfn = undefined, skipTypes=['node_modules']) {
-  let files = await new Promise<T>((resolve) => {
-    resolve(walkDir(dirPath, skipTypes))
-  })
-  if(mapfn) files = files.map(mapfn)
-  if(filterfn) files = files.filter(filterfn);
-  return files;
+
+
+function getWorkspaceFiles(dirPath: string, mapfn?: (fileResult: FileResult) => FileResult, filterfn?: (fileResult: FileResult) => FileResult[], skipTypes: string[] = ['node_modules']): Promise<FileResult[]> {
+  return new Promise<FileResult[]>((resolve) => {
+    let files = walkDir(dirPath, skipTypes);
+    if (mapfn) files = files.map(mapfn);
+    if (filterfn) files = files.filter(filterfn);
+    resolve(files);
+  });
 }

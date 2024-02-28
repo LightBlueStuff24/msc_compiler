@@ -1,8 +1,5 @@
-import Log from '../utilities/Log';
-
-interface ObjectData {
-  [key: string]: any;
-}
+import Log from '../utilities/Log.ts';
+import type { ObjectStruct } from '../utilities/typedef.ts';
 
 async function ParseData(object: any, cd: string, cv: any, type: string): Promise<void> {
   if (cd === 'Namespace') {
@@ -25,8 +22,8 @@ async function ParseData(object: any, cd: string, cv: any, type: string): Promis
   }
 }
 
-async function ParseComponent(object: ObjectData, type: string): Promise<ObjectData | void> {
-  let parsedComponentData: ObjectData = {};
+export async function ParseComponent(object: ObjectStruct, type: string): Promise<ObjectStruct | void> {
+  let parsedComponentData: ObjectStruct = {};
   let component: any;
   if (type === 'block') component = require('./components/block.json');
   if (type === 'item') component = require('./components/item.json');

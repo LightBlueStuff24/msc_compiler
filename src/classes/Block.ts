@@ -2,7 +2,7 @@ import config from '../../config'
 import Log from '../utilities/Log'
 import { int, float, bool, path } from '../utilities/typedef'
 
-import {
+import type {
   IBlockData,
   IFlammable,
   //@ts-expect-error
@@ -26,7 +26,7 @@ import {
 
 
 
-class Block {
+export class Block {
   private static Data: IBlockData = {
     "format_version": config.version,
     "minecraft:block": {
@@ -91,26 +91,6 @@ class Block {
   public static init() {
     this.Data['minecraft:block'].description.identifier = 
     `${config.prefix}:${this.name.replace(/([a-Z])([A-Z])/, '$1_$2').toLowerCase()}`;
-    for(let [cd, cv] of Object.entries(this).filter(([_, val])=> val !== undefined))
-    {
-      switch (cd)
-      {
-        // private properties
-        case 'Data': break;
-        case 'Component': break;
-        case 'reset': break;
-        case 'init': break;
-        // public properties
-        case 'Namespace': {
-          if(cv === undefined) return Log.error(`${Log.highlight(this.name)} 'Namespace' is undefined`)
-          else this.Data['minecraft:block'].description.identifier = `${this.Namespace}:${this.name.toLowerCase()}`
-        }; break;
-        case 'Version': {
-          if(!Array.isArray(cv)) return Log.error(`${Log.highlight(this.name)} 'Version' should be int[]`)
-          this.Data['format_version'] = `${cv[0]}.${cv[1]}.${cv[2]}`;
-        };
-        
-      }
-    }
+    this.Data['minecraft:block'].components = 
   }
 }

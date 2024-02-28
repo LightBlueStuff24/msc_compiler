@@ -1,4 +1,4 @@
-import { int, float, bool } from '../utilities/typedef'
+import type { int, float, bool } from '../utilities/typedef'
 import { RenderMethods, BlockFaces } from '../utilities/BlockValues'
 
 interface IBlockData {
@@ -22,11 +22,12 @@ interface IMaterialInstances {
   }
 }
 
-interface IFlammable {
-  catch_chance_modifier: int,
-  destroy_chance_modifier: int
+interface IFlammableObject {
+  catch_chance_modifier?: int,
+  destroy_chance_modifier?: int
 }
 
+type IFlammable = IFlammableObject | int[]
 interface IStates {
   [name: string]: int[] | bool[] | string[]
 }
@@ -36,7 +37,7 @@ interface IPermutation {
   components: IComponents,
 }
 
-export {
+export type {
   IMaterialInstances,
   IFlammable,
   IBlockData,
