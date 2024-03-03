@@ -4,7 +4,6 @@ A Minecraft Bedrock Add-on Creating Api.
 It uses the Typescript/JavaScript as it's base language.
 
 ## Features
-_______________
 - Shortens the amount of time that you use writing in json.
 - Can copy blocks just by extending.
 - Create upto as many blocks, items, entities etc. as you want in a single file. also you're able to create item, blocks, entities in the same file.
