@@ -1,32 +1,29 @@
-# xtend
+# MSC
 
-[![browser support][3]][4]
+A Minecraft Bedrock Add-on Creating Api.
+It uses the Typescript/JavaScript as it's base language.
 
-[![locked](http://badges.github.io/stability-badges/dist/locked.svg)](http://github.com/badges/stability-badges)
+## Features
+_______________
+- Shortens the amount of time that you use writing in json.
+- Can copy blocks just by extending.
+- Create upto as many blocks, items, entities etc. as you want in a single file. also you're able to create item, blocks, entities in the same file.
+- the config provides a default values for your components. also your project name, description, input/output directory.
+- the manifest will be generated automatically based on the given information in config file.
 
-Extend like a boss
 
-xtend is a basic utility library which allows you to extend an object by appending all of the properties from each object in a list. When there are identical properties, the right-most property takes precedence.
+## Example of a Block
+```javascript
+import {Block, BlockRegistry} from "msc";
 
-## Examples
+class TestBlock extends Block {
+  static DisplayName = "Test Block";
+  static DestroyTime = 5; // boolean|number
+  static Material = new Material("test_block", "opaque", false, false);
+  static ExplosionResistance = 20;
+  static Flammable = [20, 40] //[0] = catch_chance_modifier, [1] = destroy_chance_modifier
+}
 
-```js
-var extend = require("xtend")
-
-// extend returns a new object. Does not mutate arguments
-var combination = extend({
-    a: "a",
-    b: "c"
-}, {
-    b: "b"
-})
-// { a: "a", b: "b" }
+BlockRegistry.register(TestBlock)
 ```
-
-## Stability status: Locked
-
-## MIT Licensed 
-
-
-  [3]: http://ci.testling.com/Raynos/xtend.png
-  [4]: http://ci.testling.com/Raynos/xtend
+  
