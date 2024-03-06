@@ -1,13 +1,12 @@
 import { readdirSync } from "fs";
-import type { float, int, FileResult } from "./typedef.ts";
+import type { float, int, FileResult, ObjectStruct } from "./typedef.ts";
 import path from "path";
 
-// Type guards to check if a number is float, int, alpha, or negative
-const isFloat = (n: number): n is float => `${n}`.includes(".");
-const isInt = (n: number): n is int => Number.isInteger(n);
-const isAlpha = (c: any): boolean => typeof c === 'string' && c.toUpperCase() !== c.toLowerCase();
-const isNegative = (n: number): boolean => n < 0;
 
+const isFloat = (n: number): n is float => { return `${n}`.includes(".") };
+const isInt = (n: number): n is int => { return Number.isInteger(n) };
+const isAlpha = (c: any): boolean => { return typeof c === 'string' && c.toUpperCase() !== c.toLowerCase() };
+const isNegative = (n: number): boolean => { return n < 0 };
 
 const getLabel = (i: int): string => {
   const labels = ['component', 'child', 'subChild', 'prop', 'subProp'];
@@ -15,7 +14,7 @@ const getLabel = (i: int): string => {
 };
 
 
-async function isObjectArray(a: any[]): Promise<boolean> {
+function isObjectArray(a: any[]): a is ObjectStruct[] {
   return Array.isArray(a) && a.every(element => typeof element === 'object');
 }
 
@@ -37,11 +36,21 @@ function walkDir(dirPath: string, filterTypes: string[] = []): FileResult[] {
 }
 
 
-function getWorkspaceFiles(dirPath: string, mapfn?: (fileResult: FileResult) => FileResult, filterfn?: (fileResult: FileResult) => FileResult[], skipTypes: string[] = ['node_modules']): Promise<FileResult[]> {
+function getWorkspaceFiles(dirPath: string, mapfn?: (fileResult: FileResult) => FileResult, filterfn?: (fileResult: FileResult) => FileResult[], skipTypes: string[] = ['node_modules']) {
   return new Promise<FileResult[]>((resolve) => {
     let files = walkDir(dirPath, skipTypes);
     if (mapfn) files = files.map(mapfn);
     if (filterfn) files = files.filter(filterfn);
     resolve(files);
   });
+}
+
+export {
+  getWorkspaceFiles,
+  isAlpha,
+  isFloat,
+  isInt,
+  isNegative,
+  isObjectArray,
+  walkDir
 }

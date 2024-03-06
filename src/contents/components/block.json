@@ -79,7 +79,7 @@
       "type": "object",
       "properties": [
         {
-          "name": "$string",
+          "name": "string",
           "type": "object",
           "properties": [
             {
@@ -105,6 +105,71 @@
           ]
         }
       ]
+    }
+  ],
+  "CollisionBox": [
+    {
+      "name": "minecraft:collision_box",
+      "type": "object",
+      "properties": [
+        {
+          "name": "origin",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxLength": 3
+          }
+        },
+        {
+          "name": "origin",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxLength": 3
+          }
+        }
+      ]
+    },
+    {
+      "name": "minecraft:collision_box",
+      "type": "boolean",
+      "default": true
+    }
+  ],
+  "SelectionBox": [
+    {
+      "name": "minecraft:selection_box",
+      "type": "object",
+      "properties": [
+        {
+          "name": "origin",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxLength": 3
+          }
+        },
+        {
+          "name": "origin",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "maxLength": 3
+          }
+        }
+      ]
+    },
+    {
+      "name": "minecraft:selection_box",
+      "type": "boolean",
+      "default": true
+    }
+  ],
+  "Events": [
+    {
+      "name": "events",
+      "type": "object",
+      "default": "{}"
     }
   ]
 }

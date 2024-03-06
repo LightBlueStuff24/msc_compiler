@@ -12,5 +12,6 @@ export enum BlockFaces {
   East = "east",
   West = "west",
   North = "north",
-  South = "south"
+  South = "south",
+  All = "*"
 }

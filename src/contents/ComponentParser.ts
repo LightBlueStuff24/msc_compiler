@@ -25,10 +25,10 @@ async function ParseData(object: any, cd: string, cv: any, type: string): Promis
 export async function ParseComponent(object: ObjectStruct, type: string): Promise<ObjectStruct | void> {
   let parsedComponentData: ObjectStruct = {};
   let component: any;
-  if (type === 'block') component = require('./components/block.json');
-  if (type === 'item') component = require('./components/item.json');
-  if (type === 'entity') component = require('./components/entity.json');
-  if (type === 'recipe') component = require('./components/recipe.json');
+  if (type === 'block') component = await import('./components/block.json');
+  if (type === 'item') component =  await import('./components/item.json');
+  if (type === 'entity') component = await import('./components/entity.json');
+  if (type === 'recipe') component = await import('./components/recipe.json');
 
   // Looping through What's in my block class
   for (const [cd, cv] of Object.entries(object)) {

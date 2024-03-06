@@ -1,7 +1,6 @@
-async function ArrToObj(array) {
-  let object = {}
-  array.map((x,i)=>object[i] = x)
-}
 
+async function ArrToObj(array : [string,any][]) {
+return Object.fromEntries(array)
+}
 // [{}, {}]
 // {0: {}, 1: {}}

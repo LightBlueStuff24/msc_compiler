@@ -1,32 +1,30 @@
 import config from '../../config'
-import type { int, float, bool, path } from '../utilities/typedef'
+import type { int, float, bool, path, ObjectStruct } from '../utilities/typedef'
+
 import type {
   IBlockData,
   IFlammable,
-  //@ts-expect-error
   ICollisionBox,
-   //@ts-expect-error
   ISelectionBox,
-   //@ts-expect-error
-  IBlockEventTrigger,
   IStates,
   IPermutation,
-   //@ts-expect-error
   IGeometry,
   IMaterialInstances,
-   //@ts-expect-error
+  //@ts-expect-error
   ITransformation,
-  //@ts-expect-error
   IQueuedTicking,
-  //@ts-expect-error
-  IRandomTicking
+  IRandomTicking,
+  IOnStepOnTrigger,
+  IBlockEventTrigger,
+  IBlockEvent
 } from '../interfaces/IBlock'
-import { ParseComponent } from '../contents/ComponentParser';
+import { ParseComponent } from '../contents/ComponentParser'
+import { BlockFaces, RenderMethods } from '../utilities/BlockValues'
 
 
 
 export class Block {
-  private static Data: IBlockData = {
+  static Data: IBlockData = {
     "format_version": config.version,
     "minecraft:block": {
       "description": { "identifier": "" },
@@ -34,9 +32,9 @@ export class Block {
     }
   }
   private static Component = this.Data['minecraft:block'].components;
-  
+
   public static Namespace: string;
-  
+
   public static Version: int[];
 
   public static Identifier: string;
@@ -51,7 +49,7 @@ export class Block {
 
   public static ExplosionResistance: int | bool;
 
-  public static Flammable: IFlammable;
+  public static Flammable: IFlammable | int[];
 
   public static Friction: float;
 
@@ -64,14 +62,14 @@ export class Block {
   public static CollisionBox: ICollisionBox;
 
   public static SelectionBox: ISelectionBox;
-  
-  public static Geometry: IGeometry;
-  
+
+  public static Geometry: IGeometry | string;
+
   public static Transformation: ITransformation;
-  
+
   public static OnInteract: IBlockEventTrigger;
 
-  public static OnStepOn: IBlockEventTrigger;
+  public static OnStepOn: IOnStepOnTrigger;
 
   public static OnStepOff: IBlockEventTrigger;
 
@@ -87,13 +85,16 @@ export class Block {
 
   public static RandomTicking: IRandomTicking;
 
+  public static Events: ObjectStruct<string, IBlockEvent>;
+
   public static async init() {
-    this.Data['minecraft:block'].description.identifier = 
-    `${config.prefix}:${this.name.replace(/([a-Z])([A-Z])/, '$1_$2').toLowerCase()}`;
-    const parsedComponentData = await ParseComponent(this,'block');
-    if (parsedComponentData){
-      this.Component = parsedComponentData;
+    this.Data['minecraft:block'].description.identifier =
+      `${config.prefix}:${this.name.replace(/([a-Z])([A-Z])/, '$1_$2').toLowerCase()}`;
+    const parsedComponentData = await ParseComponent(this, 'block');
+    if (parsedComponentData) {
+      this.Data['minecraft:block'].components = parsedComponentData;
     }
-    return JSON.stringify(this.Data)
+    return JSON.stringify(this.Data);
   }
 }
+

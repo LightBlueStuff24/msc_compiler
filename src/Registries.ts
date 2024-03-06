@@ -5,4 +5,6 @@ class BlockRegistry {
   public static Register(block : typeof Block) {
     BlockRegistry.Registries.push(block)
   }
+
+  
 }

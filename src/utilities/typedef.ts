@@ -1,16 +1,22 @@
+// Basic Types
 type float = number;
 type int = number;
 type bool = boolean;
 type path = string;
 
-interface ObjectStruct {
-    [key:string] : any
-}
+
+type VectorArray = [number, number, number]
+
+
+type ObjectStruct<K extends string | number | symbol = string, T = any> = {
+    [key in K]: T;
+};
 
 interface FileResult {
-    filePath : path,
-    fileName:string
+    filePath: path,
+    fileName: string
 }
+
 
 export type {
     float,
@@ -18,5 +24,6 @@ export type {
     bool,
     path,
     ObjectStruct,
-    FileResult
+    FileResult,
+    VectorArray
 }
