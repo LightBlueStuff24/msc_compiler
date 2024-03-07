@@ -13,6 +13,7 @@
       "properties": [
         {
           "name": "seconds_to_destroy",
+          "alias":"SecondsToDestroy",
           "type": "number",
           "default": 10
         }
@@ -50,11 +51,13 @@
       "properties": [
         {
           "name": "catch_chance_modifier",
+          "alias":"CatchChanceModifier",
           "type": "number",
           "default": 20
         },
         {
           "name": "destroy_chance_modifier",
+          "alias":"DestroyChanceModifier",
           "type": "number",
           "default": 20
         }
@@ -84,21 +87,25 @@
           "properties": [
             {
               "name": "texture",
+              "alias":"Texture",
               "type": "string",
               "default": "default_block_texture"
             },
             {
               "name": "render_method",
+              "alias":"RenderMethod",
               "type": "string",
               "default": "opaque"
             },
             {
               "name": "face_dimming",
+              "alias":"FaceDimming",
               "type": "boolean",
               "default": false
             },
             {
               "name": "ambient_occlusion",
+              "alias":"AmbientOcculusion",
               "type": "boolean",
               "default": false
             }
@@ -114,6 +121,7 @@
       "properties": [
         {
           "name": "origin",
+          "alias": "Origin",
           "type": "array",
           "items": {
             "type": "number",
@@ -121,11 +129,12 @@
           }
         },
         {
-          "name": "origin",
+          "name": "size",
+          "alias": "Size",
           "type": "array",
           "items": {
             "type": "number",
-            "maxLength": 3
+            "maxItems": 3
           }
         }
       ]
@@ -136,6 +145,21 @@
       "default": true
     }
   ],
+  "MapColor": [
+    {
+      "name": "minecraft:map_color",
+      "type": "array",
+      "items": {
+        "maxItems": 3,
+        "type": "number"
+      }
+    },
+    {
+      "name": "minecraft:map_color",
+      "type": "string",
+      "default": "#FFFFFF"
+    }
+  ],
   "SelectionBox": [
     {
       "name": "minecraft:selection_box",
@@ -143,18 +167,20 @@
       "properties": [
         {
           "name": "origin",
+          "alias": "Origin",
           "type": "array",
           "items": {
             "type": "number",
-            "maxLength": 3
+            "maxItems": 3
           }
         },
         {
-          "name": "origin",
+          "name": "size",
+          "alias": "Size",
           "type": "array",
           "items": {
             "type": "number",
-            "maxLength": 3
+            "maxItems": 3
           }
         }
       ]
@@ -169,7 +195,21 @@
     {
       "name": "events",
       "type": "object",
-      "default": "{}"
+      "properties": [
+        {
+          "name": "$string",
+          "properties": [
+            {
+              "name": "add_mob_effect",
+              "alias": "AddMobEffect",
+              "type": "object",
+              "properties": [
+                {}
+              ]
+            }
+          ]
+        }
+      ],
     }
   ]
 }

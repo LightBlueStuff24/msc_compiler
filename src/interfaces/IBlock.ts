@@ -1,50 +1,55 @@
-import type { int, float, bool, VectorArray, path, ObjectStruct } from '../utilities/typedef'
-import type { RenderMethods, BlockFaces } from '../utilities/BlockValues'
-import type { Block } from '../classes/Block'
-import type { DamageType } from '../utilities/GlobalValues'
+import type { int, float, bool, VectorArray, ObjectStruct } from '../utilities/typedef';
+import type { RenderMethods, BlockFaces } from '../utilities/BlockValues';
+import { IEventTrigger, IEvent } from './IEvent';
 
 interface IBlockData {
   format_version: string,
   "minecraft:block": {
-    description: { "identifier": string },
-    components: ObjectStruct<string, ObjectStruct>
-  }
+    description: { "identifier": string; },
+    components: ObjectStruct<string, ObjectStruct>;
+  };
 }
 
-
-type IComponents = IMaterialInstances | IFlammable | ICollisionBox | ISelectionBox
-
+// Change this later
+type IComponents = IMaterialInstances | IFlammable | ICollisionBox | ISelectionBox | ITransformation;
 
 type IMaterialInstances = {
   [bone in BlockFaces]: {
-    Texture: string
-    RenderMethod: RenderMethods
-    FaceDimming?: boolean
-    AmbientOcclusion?: boolean
+    Texture: string;
+    RenderMethod: RenderMethods;
+    FaceDimming?: boolean;
+    AmbientOcclusion?: boolean;
   }
-}
+};
 
 
 interface ICollisionBox {
-  Origin: number[],
-  Size: number[]
+  Origin: VectorArray,
+  Size: VectorArray;
 }
 
 interface ISelectionBox {
   Origin: VectorArray,
-  Size: VectorArray
+  Size: VectorArray;
 }
 
-interface IFlammable{
-  catch_chance_modifier?: int,
-  destroy_chance_modifier?: int
+interface IFlammable {
+  CatchChanceModifier?: int,
+  DestroyChanceModifier?: int;
 }
 
 
 
 interface IStates {
-  [name: string]: int[] | bool[] | string[]
+  [name: string]: int[] | bool[] | string[];
 }
+
+interface ITransformation {
+  Scale: VectorArray;
+  Translation: VectorArray;
+  Rotation: VectorArray;
+}
+
 
 interface IPermutation {
   Condition: string,
@@ -52,119 +57,29 @@ interface IPermutation {
 }
 
 interface IGeometry {
-  Identifier: string
-  BoneVisibility: ObjectStruct<string, string | bool>
+  Identifier: string;
+  BoneVisibility: ObjectStruct<string, string | bool>;
 }
+
+// Complete this later
 interface Filter {
 
 }
 
-//#region BlockEventResponses
-interface IPlaySound {
-  Sound: string
-  Target?: Filter
-}
-
-interface IDamage {
-  Amount?: int
-  AmountWhenHeld?: int
-  Target?: Filter
-  Type: keyof typeof DamageType
-}
-
-interface IDie {
-  Target?: Filter
-}
-
-interface ISpawnParticleEffect {
-  Data: int
-  ParticleName: string
-  Target: Filter
-}
-
-interface IRemoveMobEffect {
-  EffectName: string
-  Target?: Filter
+interface IOnStepOnTrigger extends IEventTrigger {
+  MinFallDistance: float;
 }
 
 
-interface IAddMobEffect extends IRemoveMobEffect {
-  Amplifier?: int
-  Duration?: float
-}
-
-interface IRunCommand {
-  Command: string
-  Commands?: string[]
-  Target?: string
-}
-
-interface ISpawnLoot {
-  Table: path
-}
-
-interface ITransformItem {
-  TransformTo: string
-}
-
-interface ISetBlock {
-  BlockType: string | typeof Block
-}
-
-interface ISetBlockAtPos extends ISetBlock {
-  BlockOffset?: VectorArray
-}
-
-interface ISetBlockState {
-  state: string
-}
-
-interface ITeleport {
-  AvoidWater?: bool
-  Destination?: VectorArray
-  LandOnBlock?: bool
-  MaxRange?: VectorArray
-  Target?: Filter
-
-}
-
-interface IBlockEventTrigger {
-  Event: string,
-  Condition: string,
-  Target: string
-}
-// #endregion
-
-interface IBlockEvent {
-  Teleport?: ITeleport
-  AddMobEffect?: IAddMobEffect
-  Damage?: IDamage
-  Die?: IDie
-  SpawnParticleEffect?: ISpawnParticleEffect
-  SpawnLoot?: ISpawnLoot
-  PlaySound?: IPlaySound
-  RemoveMobEffect?: IRemoveMobEffect
-  RunCommand?: IRunCommand
-  SetBlock?: ISetBlock
-  SetBlockAtPos?: ISetBlockAtPos
-  SetBlockState?: ISetBlockState
-  ShouldDecrementStack?: bool
-  ShouldActorSwing?: bool
-  TransformItem?: ITransformItem
-}
-
-interface IOnStepOnTrigger extends IBlockEventTrigger {
-  MinFallDistance: float
-}
 interface IQueuedTicking {
-  IntervalRange?: int[]
-  Looping?: bool
-  OnTick: IBlockEvent
+  IntervalRange?: int[];
+  Looping?: bool;
+  OnTick: IEvent;
 }
 
 
 interface IRandomTicking {
-  OnTick: IBlockEvent
+  OnTick: IEvent;
 }
 
 
@@ -179,9 +94,10 @@ export type {
   ISelectionBox,
   IQueuedTicking,
   IRandomTicking,
-  IBlockEvent,
+  ITransformation,
   IOnStepOnTrigger,
-  IBlockEventTrigger,
-  IGeometry
+  IEventTrigger,
+  IGeometry,
+  Filter
 }
 

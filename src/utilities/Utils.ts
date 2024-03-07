@@ -1,22 +1,19 @@
 import { readdirSync } from "fs";
-import type { float, int, FileResult, ObjectStruct } from "./typedef.ts";
+import type { float, int, FileResult } from "./typedef.ts";
 import path from "path";
 
 
-const isFloat = (n: number): n is float => { return `${n}`.includes(".") };
-const isInt = (n: number): n is int => { return Number.isInteger(n) };
-const isAlpha = (c: any): boolean => { return typeof c === 'string' && c.toUpperCase() !== c.toLowerCase() };
-const isNegative = (n: number): boolean => { return n < 0 };
-
-const getLabel = (i: int): string => {
-  const labels = ['component', 'child', 'subChild', 'prop', 'subProp'];
-  return labels[i] || `label${i + 1}`;
-};
+const isFloat = (n: number): n is float => { return `${n}`.includes("."); };
+const isInt = (n: number): n is int => { return Number.isInteger(n); };
+const isAlpha = (c: any): boolean => { return typeof c === 'string' && c.toUpperCase() !== c.toLowerCase(); };
+const isNegative = (n: number): boolean => { return n < 0; };
 
 
-function isObjectArray(a: any[]): a is ObjectStruct[] {
-  return Array.isArray(a) && a.every(element => typeof element === 'object');
+function checkProperties(obj: any, allowedProperties: string[]) {
+  const unknownProperties: string[] = Object.keys(obj).filter(prop => !allowedProperties.includes(prop));
+  return unknownProperties;
 }
+
 
 
 function walkDir(dirPath: string, filterTypes: string[] = []): FileResult[] {
@@ -51,6 +48,6 @@ export {
   isFloat,
   isInt,
   isNegative,
-  isObjectArray,
+  checkProperties,
   walkDir
-}
+};

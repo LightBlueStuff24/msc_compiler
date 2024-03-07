@@ -10,20 +10,22 @@ import type {
   IPermutation,
   IGeometry,
   IMaterialInstances,
-  //@ts-expect-error
   ITransformation,
   IQueuedTicking,
   IRandomTicking,
-  IOnStepOnTrigger,
-  IBlockEventTrigger,
-  IBlockEvent
+  IOnStepOnTrigger
 } from '../interfaces/IBlock'
+import type {
+  IEventTrigger,
+  IEvent
+} from '../interfaces/IEvent';
 import { ParseComponent } from '../contents/ComponentParser'
-import { BlockFaces, RenderMethods } from '../utilities/BlockValues'
+
 
 
 
 export class Block {
+
   static Data: IBlockData = {
     "format_version": config.version,
     "minecraft:block": {
@@ -59,6 +61,10 @@ export class Block {
 
   public static Loot: path;
 
+  public static LightEmission: int;
+
+  public static LightDampening: int;
+
   public static CollisionBox: ICollisionBox;
 
   public static SelectionBox: ISelectionBox;
@@ -67,25 +73,25 @@ export class Block {
 
   public static Transformation: ITransformation;
 
-  public static OnInteract: IBlockEventTrigger;
+  public static OnInteract: IEventTrigger;
 
   public static OnStepOn: IOnStepOnTrigger;
 
-  public static OnStepOff: IBlockEventTrigger;
+  public static OnStepOff: IEventTrigger;
 
-  public static OnFallOn: IBlockEventTrigger;
+  public static OnFallOn: IEventTrigger;
 
-  public static OnPlaced: IBlockEventTrigger;
+  public static OnPlaced: IEventTrigger;
 
-  public static OnPlayerPlacing: IBlockEventTrigger;
+  public static OnPlayerPlacing: IEventTrigger;
 
-  public static OnPlayerDestroy: IBlockEventTrigger;
+  public static OnPlayerDestroy: IEventTrigger;
 
   public static QueuedTicking: IQueuedTicking;
 
   public static RandomTicking: IRandomTicking;
 
-  public static Events: ObjectStruct<string, IBlockEvent>;
+  public static Events: ObjectStruct<string, IEvent>;
 
   public static async init() {
     this.Data['minecraft:block'].description.identifier =
@@ -94,6 +100,7 @@ export class Block {
     if (parsedComponentData) {
       this.Data['minecraft:block'].components = parsedComponentData;
     }
+  
     return JSON.stringify(this.Data);
   }
 }
