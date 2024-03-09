@@ -1,6 +1,6 @@
 import Log from '../utilities/Log';
 import type { ObjectStruct } from '../utilities/typedef';
-import { ParseObject, ParseArray } from './TypeParser';
+import { Parser } from './TypeParser';
 
 async function ParseData(object: any, cd: string, cv: any, type: string): Promise<void> {
   switch (cd) {
@@ -54,19 +54,24 @@ async function ParseComponent(object: ObjectStruct, type: string): Promise<Objec
     const compInfo = component[cd];
     if (!compInfo) {
       Log.error(`<${object.name}> unknown component ${cd}`);
-      continue;
+      return;
     }
     const cdLen: number = compInfo.length;
     for (let i = 0; i < cdLen; i++) {
       const mobj: any = compInfo[i];
-      if (typeof cv === mobj.type) {
+      if (typeof cv != mobj.type) {
+        if (mobj.type === "array" && Array.isArray(cv)) {
+          Parser.ParseArray(cv, mobj, parsedComponentData, object);
+        } else {
+          Log.error(`<${object.name}> expected value of ${cd} to be type ${mobj.type}`);
+          return;
+        }
+      } else {
         if (mobj.type === "object") {
-          ParseObject(cv, mobj, parsedComponentData, object);
-        } else if (mobj.type === "array") {
-          ParseArray(cv, mobj, parsedComponentData, object);
+          Parser.ParseObject(cv, mobj, parsedComponentData, object);
         }
         // Handle numbers or bools
-        // ParseValues(cv,mobj,parsedComponentData,)
+        // Parser.ParseValues(cv,mobj,parsedComponentData)
         parsedComponentData[mobj.name] = cv;
       }
       if (mobj.default !== undefined && !parsedComponentData[mobj.name]) {

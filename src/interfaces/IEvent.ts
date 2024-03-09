@@ -4,7 +4,7 @@ import type { Filter } from './IBlock';
 import type { Block } from '../classes/Block';
 
 
-//#region BlockEventResponses
+//#region EventResponses
 interface IPlaySound {
     Sound: string;
     Target?: Filter;
@@ -83,6 +83,6 @@ export interface IEvent {
     ShouldDecrementStack?: bool;
     ShouldActorSwing?: bool;
     TransformItem?: ITransformItem;
-    Sequence?:ObjectStruct<string,IEvent>[];
-    Randomize?:ObjectStruct<string,IEvent>[];
+    Sequence?: ObjectStruct<string, IEvent>[];
+    Randomize?: ObjectStruct<string, IEvent>[];
 }

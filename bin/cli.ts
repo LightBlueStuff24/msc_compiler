@@ -1,5 +1,6 @@
 import {program} from 'commander'
-import {Init, Build, WatchFile, ReBuild } from './msc_main'
+import {Build,Init,WatchFile,Rebuild} from './msc_main'
+
 
 program.helpCommand(true)
 
@@ -16,7 +17,7 @@ program
 program
   .command('recompile')
   .description('Recompiles your edited files only.')
-  .action(ReBuild)
+  .action(Rebuild)
 
 program
   .command('watch')

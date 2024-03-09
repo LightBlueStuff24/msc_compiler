@@ -5,7 +5,7 @@ type bool = boolean;
 type path = string;
 
 
-type VectorArray = [number, number, number]
+type VectorArray = [number, number, number];
 
 
 type ObjectStruct<K extends string | number | symbol = string, T = any> = {
@@ -14,7 +14,7 @@ type ObjectStruct<K extends string | number | symbol = string, T = any> = {
 
 interface FileResult {
     filePath: path,
-    fileName: string
+    fileName: string;
 }
 
 
@@ -26,4 +26,4 @@ export type {
     ObjectStruct,
     FileResult,
     VectorArray
-}
+};

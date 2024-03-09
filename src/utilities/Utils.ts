@@ -42,6 +42,31 @@ function getWorkspaceFiles(dirPath: string, mapfn?: (fileResult: FileResult) => 
   });
 }
 
+
+function isType(a: any[], type: string): boolean {
+  return Array.isArray(a) && a.every(element => typeof element === type);
+}
+
+
+function getArrayType(arr: any[]): string {
+  const types: { [key: string]: number; } = {};
+  arr.forEach(element => {
+    const elementType = typeof element;
+    types[elementType] = (types[elementType] || 0) + 1;
+  });
+
+  let maxCount = 0;
+  let mostCommonType = '';
+  for (const type in types) {
+    if (types[type] > maxCount) {
+      maxCount = types[type];
+      mostCommonType = type;
+    }
+  }
+
+  return mostCommonType;
+}
+
 export {
   getWorkspaceFiles,
   isAlpha,
@@ -49,5 +74,7 @@ export {
   isInt,
   isNegative,
   checkProperties,
-  walkDir
+  walkDir,
+  isType,
+  getArrayType
 };

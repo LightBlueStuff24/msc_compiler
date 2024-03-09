@@ -2,6 +2,7 @@ import type { int, float, bool, VectorArray, ObjectStruct } from '../utilities/t
 import type { RenderMethods, BlockFaces } from '../utilities/BlockValues';
 import { IEventTrigger, IEvent } from './IEvent';
 
+
 interface IBlockData {
   format_version: string,
   "minecraft:block": {

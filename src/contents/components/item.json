@@ -1,0 +1,16 @@
+{
+    "DisplayName": [
+        {
+            "name": "minecraft:display_name",
+            "type": "string",
+            "default": "new msc item"
+        }
+    ],
+    "BlockPlacer": [
+        {
+            "name": "minecraft:block_placer",
+            "type": "object",
+            "properties": []
+        }
+    ]
+}
