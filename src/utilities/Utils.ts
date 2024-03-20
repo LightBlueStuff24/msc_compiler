@@ -2,7 +2,7 @@ import { readdirSync } from "fs";
 import type { float, int, FileResult } from "./typedef.ts";
 import path from "path";
 
-
+type FileResultFunction<T> = (fileResult: FileResult) => T;
 const isFloat = (n: number): n is float => { return `${n}`.includes("."); };
 const isInt = (n: number): n is int => { return Number.isInteger(n); };
 const isAlpha = (c: any): boolean => { return typeof c === 'string' && c.toUpperCase() !== c.toLowerCase(); };
@@ -33,7 +33,7 @@ function walkDir(dirPath: string, filterTypes: string[] = []): FileResult[] {
 }
 
 
-function getWorkspaceFiles(dirPath: string, mapfn?: (fileResult: FileResult) => FileResult, filterfn?: (fileResult: FileResult) => FileResult[], skipTypes: string[] = ['node_modules']) {
+function getWorkspaceFiles(dirPath: string, mapfn?: FileResultFunction<FileResult>, filterfn?: FileResultFunction<FileResult[]>, skipTypes: string[] = ['node_modules']) {
   return new Promise<FileResult[]>((resolve) => {
     let files = walkDir(dirPath, skipTypes);
     if (mapfn) files = files.map(mapfn);

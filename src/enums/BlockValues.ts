@@ -2,7 +2,7 @@ export enum RenderMethods {
   Opaque = "opaque",
   Blend = "blend",
   AlphaTest = "alpha_test",
-  DoubleSided = ",double_sided",
+  DoubleSided = "double_sided",
   AlphaTestSingleSided = "alpha_test_single_sided"
 }
 

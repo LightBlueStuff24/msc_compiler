@@ -1,104 +1,125 @@
-import { ObjectStruct } from '../utilities/typedef';
-import { IEventTrigger } from './IEvent';
+import type { Item } from '../classes/Item';
+import { MenuCategories, MenuGroups } from '../enums/GlobalValues';
+import type { WearableSlot } from '../enums/ItemValues';
+import type { ObjectStruct, bool } from '../utilities/typedef';
+import type { IEventTrigger } from './IEvent';
+
 interface IItemData {
     format_version: string,
     "minecraft:item": {
         description: { "identifier": string; },
-        components: ObjectStruct<string, ObjectStruct>;
+        components: ObjectStruct<string, any>;
     };
 }
 
-
 interface IIcon {
-    texture: string;
+    Texture: string;
+    Frame: string;
 }
 
-
 interface IBlockPlacer {
-    block: string;
-    useOn: string[];
+    Block: string;
+    UseOn: string[];
 }
 
 interface ICoolDown {
-    cooldown: number;
-    category: string;
+    Cooldown: number;
+    Category: string;
 }
 
 interface IDurability {
-    damageChance: string;
-    durability: number;
+    DamageChance: string;
+    Durability: number;
 }
 
 interface IEnchantable {
-    value: string;
-    slot: number;
+    Value: string;
+    Slot: WearableSlot;
 }
 
 interface IDigger {
-    useEfficiency: boolean;
-    destroySpeed: { block: string, speed: number, onDig: IEventTrigger; }[];
-    onDig?: IEventTrigger;
+    UseEfficiency: boolean;
+    DestroySpeed: { block: string, speed: number, onDig: IEventTrigger; }[];
+    OnDig?: IEventTrigger;
 }
 
 interface IWearable {
-    slot: number;
-    protection: number;
-    dispensable: boolean;
+    Slot: WearableSlot;
+    Protection: number;
+    Dispensable: boolean;
 }
 
+
 interface IEntityPlacer {
-    entity: string;
-    dispenseOn: string[];
-    useOn: string[];
+    Entity: string;
+    DispenseOn: string[];
+    UseOn: string[];
+}
+
+interface IAmmunition {
+    Item: string | typeof Item,
+    ShouldSearchInventory: boolean,
+    UseInCreative: boolean,
+    UseInOffHand: boolean;
+}
+interface IRepairableEntry {
+    Items: string[];
+    RepairAmount: number;
 }
 
 interface IRepairable {
-    repairItems: string[];
+    RepairItems: IRepairableEntry[];
     OnRepair?: IEventTrigger;
 }
 
 interface IFood {
-    canAlwaysEat: boolean;
-    nutrition: number;
-    saturationModifier: number;
-    onConsume: IEventTrigger;
-    onUseConvertTo: string;
+    CanAlwaysEat: bool;
+    Nutrition: number;
+    SaturationModifier: number;
+    OnConsume: IEventTrigger;
+    OnUseConvertTo: string;
+}
+
+interface IMenuCategory {
+    IsHidddenInCommands?:bool
+    Category:MenuCategories
+    Group?:MenuGroups
 }
 
 interface IFuel {
-    duration: number;
+    Duration: number;
 }
 
 interface IItemStorage {
-    capacity: number;
+    Capacity: number;
 }
 
 interface IProjectile {
-    criticalPower: number;
-    projectileEntity: string;
+    CriticalPower: number;
+    ProjectileEntity: string;
 }
 
 interface IRecord {
-    comparatorSignal: number;
-    duration: number;
-    soundEvent: string;
+    ComparatorSignal: number;
+    Duration: number;
+    SoundEvent: string;
 }
 
 interface IShooter {
-    ammunition: { item: string, shouldSearchInventory: boolean, useInCreative: boolean, useInOffHand: boolean; }[];
-    chargeOnDraw?: boolean;
-    launchScale?: number;
-    drawDuration: number;
-    launchPower: number;
-    scalePowerByDraw: boolean;
+    Ammunition: IAmmunition[];
+    ChargeOnDraw?: boolean;
+    LaunchScale?: number;
+    DrawDuration: number;
+    LaunchPower: number;
+    ScalePowerByDraw: boolean;
 }
 
 interface IThrowable {
-    doSwing: boolean;
-    launchScale?: number;
-    drawDuration: { max?: number, min?: number; };
-    launchPower: number;
-    scalePowerByDraw: boolean;
+    DoSwing: boolean;
+    LaunchScale?: number;
+    DrawDuration: { max?: number, min?: number; };
+    LaunchPower: number;
+    ScaleByPowerByDraw: boolean;
 }
 
 interface IItemComponents {
@@ -136,7 +157,7 @@ interface IItemComponents {
     Wearable?: IWearable;
 }
 
-export {
+export type {
     IBlockPlacer,
     ICoolDown,
     IDigger,

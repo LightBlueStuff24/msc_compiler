@@ -1,6 +1,6 @@
 import Log from '../utilities/Log';
 import type { ObjectStruct } from '../utilities/typedef';
-import { Parser } from './TypeParser';
+import { TypeParser } from './TypeParser';
 
 async function ParseData(object: any, cd: string, cv: any, type: string): Promise<void> {
   switch (cd) {
@@ -61,17 +61,17 @@ async function ParseComponent(object: ObjectStruct, type: string): Promise<Objec
       const mobj: any = compInfo[i];
       if (typeof cv != mobj.type) {
         if (mobj.type === "array" && Array.isArray(cv)) {
-          Parser.ParseArray(cv, mobj, parsedComponentData, object);
+          TypeParser.ParseArray(cv, mobj, parsedComponentData, object);
         } else {
           Log.error(`<${object.name}> expected value of ${cd} to be type ${mobj.type}`);
           return;
         }
       } else {
         if (mobj.type === "object") {
-          Parser.ParseObject(cv, mobj, parsedComponentData, object);
+          TypeParser.ParseObject(cv, mobj, parsedComponentData, object);
         }
         // Handle numbers or bools
-        // Parser.ParseValues(cv,mobj,parsedComponentData)
+        // TypeParser.ParseValues(cv,mobj,parsedComponentData)
         parsedComponentData[mobj.name] = cv;
       }
       if (mobj.default !== undefined && !parsedComponentData[mobj.name]) {

@@ -20,11 +20,12 @@ import type {
   IEvent
 } from '../interfaces/IEvent';
 import { ParseComponent } from '../contents/ComponentParser'
+import { IComponent } from './components/IBlockComponent';
 
 
 
 
-export class Block {
+export class Block extends IComponent {
 
   static Data: IBlockData = {
     "format_version": config.version,
@@ -105,3 +106,6 @@ export class Block {
   }
 }
 
+class B extends Block {
+  static 
+}

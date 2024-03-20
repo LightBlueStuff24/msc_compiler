@@ -1,4 +1,4 @@
-import type { DamageType } from "../utilities/GlobalValues";
+import type { DamageType } from "../enums/GlobalValues";
 import type { int, float, bool, VectorArray, path, ObjectStruct } from "../utilities/typedef";
 import type { Filter } from './IBlock';
 import type { Block } from '../classes/Block';

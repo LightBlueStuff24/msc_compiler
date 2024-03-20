@@ -2,7 +2,7 @@ import Log from "../utilities/Log";
 import { checkProperties, isType, getArrayType } from "../utilities/Utils";
 import type { ObjectStruct } from "../utilities/typedef";
 
-export namespace Parser {
+export namespace TypeParser {
 
   export function ParseObject(cv: any, mobj: any, parsedComponentData: any, object: ObjectStruct): void {
     const cvLen = Object.keys(cv).length;
@@ -20,7 +20,7 @@ export namespace Parser {
       if (propertyValue) {
         if (typeof propertyValue !== property.type) {
           if (property.type === 'array' && Array.isArray(propertyValue)) {
-            Parser.ParseArray(propertyValue, property, parsedComponentData[mobj.name][property.name], object);
+            TypeParser.ParseArray(propertyValue, property, parsedComponentData[mobj.name][property.name], object);
           } else {
             Log.error(`<${object.name}> expected ${property.alias} to be type ${property.type}`);
             return;
@@ -28,8 +28,9 @@ export namespace Parser {
         }
         else {
           if (property.type === 'object') {
-            Parser.ParseObject(propertyValue, property, parsedComponentData[mobj.name][property.name], object);
+            TypeParser.ParseObject(propertyValue, property, parsedComponentData[mobj.name][property.name], object);
           }
+          
           parsedComponentData[mobj.name][property.name] = propertyValue;
         }
 

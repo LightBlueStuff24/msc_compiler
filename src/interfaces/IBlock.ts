@@ -1,12 +1,15 @@
 import type { int, float, bool, VectorArray, ObjectStruct } from '../utilities/typedef';
-import type { RenderMethods, BlockFaces } from '../utilities/BlockValues';
-import { IEventTrigger, IEvent } from './IEvent';
+import type { RenderMethods, BlockFaces } from '../enums/BlockValues';
+import type { IEventTrigger, IEvent } from './IEvent';
 
 
 interface IBlockData {
   format_version: string,
   "minecraft:block": {
-    description: { "identifier": string; },
+    description: { 
+      "identifier": string;
+      "menu_category"
+    },
     components: ObjectStruct<string, ObjectStruct>;
   };
 }

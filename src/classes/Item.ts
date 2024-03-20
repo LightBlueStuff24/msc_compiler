@@ -1,4 +1,4 @@
-import {
+import type {
     IBlockPlacer,
     ICoolDown,
     IDigger,
@@ -19,8 +19,9 @@ import {
 } from "../interfaces/IItem";
 import { ParseComponent } from '../contents/ComponentParser';
 import config from "../../config";
+import { MenuCategories, MenuGroups } from "../enums/GlobalValues";
 
-class Item {
+export class Item {
 
     static Data: IItemData = {
         "format_version": config.version,
@@ -38,12 +39,17 @@ class Item {
     /**
      * Group of the item.
      */
-    public static Group: string;
+    public static Group: MenuGroups;
+
+    /**
+     * Category of the item.
+     */
+    public static Category: MenuCategories;
 
     /**
      * Whether the item is allowed in the off-hand.
      */
-    public static AllowOffHand: boolean;
+    public static AllowInOffHand: boolean;
 
     /**
      * Block placer component.

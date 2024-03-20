@@ -204,12 +204,14 @@
               "alias": "AddMobEffect",
               "type": "object",
               "properties": [
-                {}
+                {
+                  
+                }
               ]
             }
           ]
         }
-      ],
+      ]
     }
   ]
 }

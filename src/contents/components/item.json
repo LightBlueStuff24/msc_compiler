@@ -1,16 +1,493 @@
 {
-    "DisplayName": [
-        {
-            "name": "minecraft:display_name",
-            "type": "string",
-            "default": "new msc item"
-        }
+    "IsHiddenInCommands": [
+      {
+        "name": "IsHiddenInCommands",
+        "type": "boolean"
+      }
+    ],
+    "Group": [
+      {
+        "name": "minedraft:menu_",
+         "alias":"Group"
+        "type": "string"
+      }
+    ],
+    "AllowOffHand": [
+      {
+        "name": "AllowOffHand",
+        "type": "boolean"
+      }
     ],
     "BlockPlacer": [
-        {
-            "name": "minecraft:block_placer",
+      {
+        "name": "BlockPlacer",
+        "type": "object",
+        "properties": [
+          {
+            "name": "Block",
+            "type": "string"
+          },
+          {
+            "name": "UseOn",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    ],
+    "DisplayName": [
+      {
+        "name": "DisplayName",
+        "type": "string"
+      }
+    ],
+    "MaxDamage": [
+      {
+        "name": "MaxDamage",
+        "type": "number"
+      }
+    ],
+    "CoolDown": [
+      {
+        "name": "CoolDown",
+        "type": "object",
+        "properties": [
+          {
+            "name": "Cooldown",
+            "type": "number"
+          },
+          {
+            "name": "Category",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "Damage": [
+      {
+        "name": "minecraft:damage",
+        "alias":"Damage",
+        "type": "number"
+      }
+    ],
+    "Digger": [
+      {
+        "name": "Digger",
+        "type": "object",
+        "properties": [
+          {
+            "name": "use_efficiency",
+            "alias":"UseEfficiency",
+            "type": "boolean"
+          },
+          {
+            "name": "destroy_speed",
+            "alias":"DestroySpeed",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": [
+                {
+                  "name": "block",
+                  "alias":"Block",
+                  "type": "string"
+                },
+                {
+                  "name": "speed",
+                  "alias":"Speed",
+                  "type": "number"
+                },
+                {
+                  "name": "on_dig",
+                  "alias":"OnDig",
+                  "type": "object",
+                  ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "OnDig",
+            "type": "object"
+          }
+        ]
+      }
+    ],
+    "Durability": [
+      {
+        "name": "Durability",
+        "type": "object",
+        "properties": [
+          {
+            "name": "DamageChance",
+            "type": "string"
+          },
+          {
+            "name": "Durability",
+            "type": "number"
+          }
+        ]
+      }
+    ],
+    "Enchantable": [
+      {
+        "name": "Enchantable",
+        "type": "object",
+        "properties": [
+          {
+            "name": "Value",
+            "type": "string"
+          },
+          {
+            "name": "Slot",
+            "type": "number"
+          }
+        ]
+      }
+    ],
+    "Icon": [
+      {
+        "name": "Icon",
+        "type": "object",
+        "properties": [
+          {
+            "name": "Texture",
+            "type": "string"
+          },
+          {
+            "name": "Frame",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "EntityPlacer": [
+      {
+        "name": "EntityPlacer",
+        "type": "object",
+        "properties": [
+          {
+            "name": "Entity",
+            "type": "string"
+          },
+          {
+            "name": "DispenseOn",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "UseOn",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    ],
+    "Food": [
+      {
+        "name": "Food",
+        "type": "object",
+        "properties": [
+          {
+            "name": "CanAlwaysEat",
+            "type": "boolean"
+          },
+          {
+            "name": "Nutrition",
+            "type": "number"
+          },
+          {
+            "name": "SaturationModifier",
+            "type": "number"
+          },
+          {
+            "name": "OnConsume",
+            "type": "object"
+          },
+          {
+            "name": "OnUseConvertTo",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "Fuel": [
+      {
+        "name": "Fuel",
+        "type": "object",
+        "properties": [
+          {
+            "name": "Duration",
+            "type": "number"
+          }
+        ]
+      }
+    ],
+    "Glint": [
+      {
+        "name": "Glint",
+        "type": "boolean"
+      }
+    ],
+    "HandEquipped": [
+      {
+        "name": "HandEquipped",
+        "type": "boolean"
+      }
+    ],
+    "HoverTextColor": [
+      {
+        "name": "HoverTextColor",
+        "type": "string"
+      }
+    ],
+    "InteractButton": [
+      {
+        "name": "InteractButton",
+        "type": "boolean"
+      }
+    ],
+    "ItemStorage": [
+      {
+        "name": "ItemStorage",
+        "type": "object",
+        "properties": [
+          {
+            "name": "Capacity",
+            "type": "number"
+          }
+        ]
+      }
+    ],
+    "LiquidClipped": [
+      {
+        "name": "LiquidClipped",
+        "type": "boolean"
+      }
+    ],
+    "MaxStackSize": [
+      {
+        "name": "MaxStackSize",
+        "type": "number"
+      }
+    ],
+    "Projectile": [
+      {
+        "name": "Projectile",
+        "type": "object",
+        "properties": [
+          {
+            "name": "CriticalPower",
+            "type": "number"
+          },
+          {
+            "name": "ProjectileEntity",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "Identifier": [
+      {
+        "name": "Identifier",
+        "type": "string"
+      }
+    ],
+    "Record": [
+      {
+        "name": "Record",
+        "type": "object",
+        "properties": [
+          {
+            "name": "ComparatorSignal",
+            "type": "number"
+          },
+          {
+            "name": "Duration",
+            "type": "number"
+          },
+          {
+            "name": "SoundEvent",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "Repairable": [
+      {
+        "name": "Repairable",
+        "type": "object",
+        "properties": [
+          {
+            "name": "RepairItems",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": [
+                {
+                  "name": "Items",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "RepairAmount",
+                  "type": "number"
+                }
+              ]
+            }
+          },
+          {
+            "name": "OnRepair",
+            "type": "object"
+          }
+        ]
+      }
+    ],
+    "Shooter": [
+      {
+        "name": "Shooter",
+        "type": "object",
+        "properties": [
+          {
+            "name": "Ammunition",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": [
+                {
+                  "name": "Item",
+                  "type": [
+                    "string",
+                    "object"
+                  ]
+                },
+                {
+                  "name": "ShouldSearchInventory",
+                  "type": "boolean"
+                },
+                {
+                  "name": "UseInCreative",
+                  "type": "boolean"
+                },
+                {
+                  "name": "UseInOffHand",
+                  "type": "boolean"
+                }
+              ]
+            }
+          },
+          {
+            "name": "ChargeOnDraw",
+            "type": "boolean"
+          },
+          {
+            "name": "LaunchScale",
+            "type": "number"
+          },
+          {
+            "name": "DrawDuration",
+            "type": "number"
+          },
+          {
+            "name": "LaunchPower",
+            "type": "number"
+          },
+          {
+            "name": "ScalePowerByDraw",
+            "type": "boolean"
+          }
+        ]
+      }
+    ],
+    "ShouldDespawn": [
+      {
+        "name": "ShouldDespawn",
+        "type": "boolean"
+      }
+    ],
+    "StackedByData": [
+      {
+        "name": "StackedByData",
+        "type": "boolean"
+      }
+    ],
+    "Throwable": [
+      {
+        "name": "Throwable",
+        "type": "object",
+        "properties": [
+          {
+            "name": "DoSwing",
+            "type": "boolean"
+          },
+          {
+            "name": "LaunchScale",
+            "type": "number"
+          },
+          {
+            "name": "DrawDuration",
             "type": "object",
-            "properties": []
-        }
+            "properties": [
+              {
+                "name": "max",
+                "type": "number"
+              },
+              {
+                "name": "min",
+                "type": "number"
+              }
+            ]
+          },
+          {
+            "name": "LaunchPower",
+            "type": "number"
+          },
+          {
+            "name": "ScaleByPowerByDraw",
+            "type": "boolean"
+          }
+        ]
+      }
+    ],
+    "UseAnimation": [
+      {
+        "name": "UseAnimation",
+        "type": "string"
+      }
+    ],
+    "UseDuration": [
+      {
+        "name": "UseDuration",
+        "type": "number"
+      }
+    ],
+    "Wearable": [
+      {
+        "name": "Wearable",
+        "type": "object",
+        "properties": [
+          {
+            "name": "Slot",
+            "type": "number"
+          },
+          {
+            "name": "Protection",
+            "type": "number"
+          },
+          {
+            "name": "Dispensable",
+            "type": "boolean"
+          }
+        ]
+      }
     ]
-}
+  }
+  
