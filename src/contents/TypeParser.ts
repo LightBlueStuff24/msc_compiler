@@ -7,7 +7,8 @@ export namespace TypeParser {
   export function ParseObject(cv: any, mobj: any, parsedComponentData: any, object: ObjectStruct): void {
     const cvLen = Object.keys(cv).length;
     const mobjProperties = mobj.properties;
-    const unknownProperties = checkProperties(cv, mobjProperties.map(obj => obj.name));
+    const mobjPropertyNames = mobjProperties.map(obj => obj.name);
+    const unknownProperties = checkProperties(cv, mobjPropertyNames);
     if (unknownProperties.length > 0) {
       Log.error(`<${object.name}> contains unknown properties: ${unknownProperties.join(', ')}`);
     }
@@ -16,44 +17,63 @@ export namespace TypeParser {
       return;
     }
     mobjProperties.forEach((property: ObjectStruct) => {
-      const propertyValue = cv[property.alias];
-      if (propertyValue) {
-        if (typeof propertyValue !== property.type) {
-          if (property.type === 'array' && Array.isArray(propertyValue)) {
-            TypeParser.ParseArray(propertyValue, property, parsedComponentData[mobj.name][property.name], object);
+      const { type, alias, name, default: defaultValue } = property;
+      const propertyValue = cv[alias];
+      if (propertyValue !== undefined) {
+        if (typeof propertyValue !== type) {
+          if (type === 'array' && Array.isArray(propertyValue)) {
+            TypeParser.ParseArray(propertyValue, property, parsedComponentData[mobj.name][name], object);
           } else {
-            Log.error(`<${object.name}> expected ${property.alias} to be type ${property.type}`);
-            return;
+            Log.error(`<${object.name}> expected ${alias} to be type ${type}`);
           }
-        }
-        else {
-          if (property.type === 'object') {
-            TypeParser.ParseObject(propertyValue, property, parsedComponentData[mobj.name][property.name], object);
-          }
-          
-          parsedComponentData[mobj.name][property.name] = propertyValue;
+          return;
         }
 
+        if (type === 'object') {
+          TypeParser.ParseObject(propertyValue, property, parsedComponentData[mobj.name][name], object);
+        }
+
+        parsedComponentData[mobj.name][name] = propertyValue;
       } else {
-        parsedComponentData[mobj.name][property.name] = property.default;
+        if (defaultValue === undefined) {
+          Log.error(`<${object.name}> expected ${alias} to have a value with the type ${type}`);
+          return;
+        }
+        parsedComponentData[mobj.name][name] = defaultValue;
       }
     });
   }
 
   export function ParseArray(cv: any[], mobj: any, parsedComponentData: any, object: ObjectStruct): void {
+    const { maxItems, type, name } = mobj.items;
     if (!Array.isArray(cv)) {
-      Log.error(`<${object.name}> expected array for value of ${mobj.name}`);
+      Log.error(`<${object.name}> expected array for value of ${name}`);
       return;
     }
-    if (mobj.items.maxItems !== undefined && (cv.length < mobj.items.maxItems || cv.length > mobj.items.maxItems)) {
-      Log.error(`<${object.name}> expected array length of ${mobj.items.maxItems}, instead got ${cv.length}`);
+    if (maxItems !== undefined && (cv.length < maxItems || cv.length > maxItems)) {
+      Log.error(`<${object.name}> expected array length of ${maxItems}, instead got ${cv.length}`);
       return;
     }
-    if (!isType(cv, mobj.items.type)) {
-      Log.error(`<${object.name}> expected array elements to be type ${mobj.items.type}[], instead got ${getArrayType(cv)}[]`);
+    if (!isType(cv, type)) {
+      Log.error(`<${object.name}> expected array elements to be type ${type}[], instead got ${getArrayType(cv)}[]`);
       return;
+    } else {
+      switch (type) {
+        case 'object':
+          cv.forEach(element => {
+            TypeParser.ParseObject(element, mobj.items, parsedComponentData, object);
+          });
+          break;
+
+        case 'array':
+          TypeParser.ParseArray(cv, mobj.items.items, parsedComponentData, object);
+          break;
+
+        default:
+          parsedComponentData[mobj.name] = cv;
+          break;
+      }
     }
-    parsedComponentData[mobj.name] = cv;
   }
 
 

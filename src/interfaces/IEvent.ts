@@ -1,35 +1,35 @@
 import type { DamageType } from "../enums/GlobalValues";
 import type { int, float, bool, VectorArray, path, ObjectStruct } from "../utilities/typedef";
-import type { Filter } from './IBlock';
+import type { IFilter } from './IFIilter.ts';
 import type { Block } from '../classes/Block';
 
 
 //#region EventResponses
 interface IPlaySound {
     Sound: string;
-    Target?: Filter;
+    Target?: IFilter;
 }
 interface IDamage {
     Amount?: int;
     AmountWhenHeld?: int;
-    Target?: Filter;
+    Target?: IFilter;
     Type: keyof typeof DamageType;
 }
 interface IDie {
-    Target?: Filter;
+    Target?: IFilter;
 }
 interface ISpawnParticleEffect {
     Data?: int;
     ParticleName: string;
-    Target?: Filter;
+    Target?: IFilter;
 }
 interface IRemoveMobEffect {
     EffectName: string;
-    Target?: Filter;
+    Target?: IFilter;
 }
 interface IAddMobEffect {
     EffectName: string;
-    Target?: Filter;
+    Target?: IFilter;
     Amplifier?: int;
     Duration?: float;
 }
@@ -58,7 +58,7 @@ interface ITeleport {
     Destination?: VectorArray;
     LandOnBlock?: bool;
     MaxRange?: VectorArray;
-    Target?: Filter;
+    Target?: IFilter;
 
 }
 export interface IEventTrigger {

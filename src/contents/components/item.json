@@ -8,7 +8,7 @@
     "Group": [
       {
         "name": "minedraft:menu_",
-         "alias":"Group"
+         "alias":"Group",
         "type": "string"
       }
     ],
@@ -20,15 +20,17 @@
     ],
     "BlockPlacer": [
       {
-        "name": "BlockPlacer",
+        "name": "minecraft:block_placer",
         "type": "object",
         "properties": [
           {
-            "name": "Block",
+            "name": "block",
+            "alias":"Block",
             "type": "string"
           },
           {
-            "name": "UseOn",
+            "name": "use_on",
+            "alias":"UseOn",
             "type": "array",
             "items": {
               "type": "string"
@@ -39,8 +41,9 @@
     ],
     "DisplayName": [
       {
-        "name": "DisplayName",
-        "type": "string"
+        "name": "minecraft:display_name",
+        "type": "string",
+        "default":"New msc item"
       }
     ],
     "MaxDamage": [
@@ -51,15 +54,17 @@
     ],
     "CoolDown": [
       {
-        "name": "CoolDown",
+        "name": "minecraft:cool_down",
         "type": "object",
         "properties": [
           {
-            "name": "Cooldown",
-            "type": "number"
+            "name": "duration",
+            "alias":"Duration",
+            "type": "float"
           },
           {
-            "name": "Category",
+            "name": "category",
+            "alias":"Category",
             "type": "string"
           }
         ]
@@ -68,7 +73,6 @@
     "Damage": [
       {
         "name": "minecraft:damage",
-        "alias":"Damage",
         "type": "number"
       }
     ],
@@ -98,19 +102,9 @@
                   "name": "speed",
                   "alias":"Speed",
                   "type": "number"
-                },
-                {
-                  "name": "on_dig",
-                  "alias":"OnDig",
-                  "type": "object",
-                  ""
                 }
               ]
             }
-          },
-          {
-            "name": "OnDig",
-            "type": "object"
           }
         ]
       }
@@ -121,12 +115,14 @@
         "type": "object",
         "properties": [
           {
-            "name": "DamageChance",
+            "name": "damage_chance",
+            "alias":"DamageChance",
             "type": "string"
           },
           {
-            "name": "Durability",
-            "type": "number"
+            "name": "durability",
+            "alias":"Durability",
+            "type": "int"
           }
         ]
       }
@@ -137,24 +133,30 @@
         "type": "object",
         "properties": [
           {
-            "name": "Value",
+            "name": "value",
+            "alias":"Value",
             "type": "string"
           },
           {
-            "name": "Slot",
-            "type": "number"
+            "name": "slot",
+            "alias":"Slot",
+            "type": "int"
           }
         ]
       }
     ],
     "Icon": [
       {
-        "name": "Icon",
+        "name": "minecraft:icon",
         "type": "object",
         "properties": [
           {
-            "name": "Texture",
-            "type": "string"
+            "name": "textures",
+            "alias":"Textures",
+            "type": "object",
+            "properties":[
+
+            ]
           },
           {
             "name": "Frame",

@@ -4,8 +4,8 @@ import { promises as fsPromise } from 'fs';
 import path from 'path';
 import { watch } from 'chokidar';
 import { v4 as uuid } from 'uuid';
-const cwd = process.cwd();
 
+const cwd = process.cwd();
 const listener = new Listener();
 
 export async function Build(inputDir: string | undefined = undefined, outputDir: string | undefined = undefined) {
@@ -29,7 +29,8 @@ async function WatchFile(dir = cwd) {
         watcher.close();
         process.exit(0);
     });
-    watcher.on('change', (pa, stat) => {
+
+    watcher.on('change', (filePath, stat) => {
 
     });
 }

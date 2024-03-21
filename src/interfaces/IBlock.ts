@@ -65,10 +65,7 @@ interface IGeometry {
   BoneVisibility: ObjectStruct<string, string | bool>;
 }
 
-// Complete this later
-interface Filter {
 
-}
 
 interface IOnStepOnTrigger extends IEventTrigger {
   MinFallDistance: float;
@@ -101,7 +98,6 @@ export type {
   ITransformation,
   IOnStepOnTrigger,
   IEventTrigger,
-  IGeometry,
-  Filter
+  IGeometry
 }
 

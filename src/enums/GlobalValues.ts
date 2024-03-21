@@ -4,9 +4,9 @@ export enum MenuCategories {
     Items = 'items',
     Nature = 'nature',
     None = 'none'
-  }
-  
-  export enum MenuGroups {
+}
+
+export enum MenuGroups {
     Anvil = 'itemGroup.name.anvil',
     Arrow = 'itemGroup.name.arrow',
     Axe = 'itemGroup.name.axe',
@@ -88,9 +88,9 @@ export enum MenuCategories {
     Wood = 'itemGroup.name.wood',
     Wool = 'itemGroup.name.wool',
     WoolCarpet = 'itemGroup.name.woolCarpet'
-  }
-  
-  export enum DamageType {
+}
+
+export enum DamageType {
     /**
         * @remarks
         * Damage caused by a falling anvil.
@@ -297,5 +297,23 @@ export enum MenuCategories {
      *
      */
     wither = 'wither',
-  }
-  
+}
+
+//#region Filter Enums
+
+export enum SubjectType {
+
+}
+
+export enum OperatorType {
+    NotEqual = '!=',
+    LessThan = '<',
+    LessThanOrEqualTo = '<=',
+    EqualTo = '=',
+    ExactlyEqualTo = '==',
+    GreaterThan = '>',
+    GreaterThanOrEqualTo = '>=',
+}
+
+
+//#endregion

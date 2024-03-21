@@ -1,8 +1,7 @@
 import { readdirSync } from "fs";
-import type { float, int, FileResult } from "./typedef.ts";
+import type { float, int, FileResult, FileResultFunction } from "./typedef.ts";
 import path from "path";
 
-type FileResultFunction<T> = (fileResult: FileResult) => T;
 const isFloat = (n: number): n is float => { return `${n}`.includes("."); };
 const isInt = (n: number): n is int => { return Number.isInteger(n); };
 const isAlpha = (c: any): boolean => { return typeof c === 'string' && c.toUpperCase() !== c.toLowerCase(); };
@@ -16,13 +15,13 @@ function checkProperties(obj: any, allowedProperties: string[]) {
 
 
 
-function walkDir(dirPath: string, filterTypes: string[] = []): FileResult[] {
+function WalkDir(dirPath: string, filterTypes: string[] = []): FileResult[] {
   let files: FileResult[] = [];
   const dirents = readdirSync(dirPath, { withFileTypes: true });
   for (const dirent of dirents) {
     const filePath = path.join(dirPath, dirent.name); // Constructing file path using path module
     if (dirent.isDirectory() && !filterTypes.includes(dirent.name)) {
-      files = files.concat(walkDir(filePath));
+      files = files.concat(WalkDir(filePath));
     } else {
       if (!filterTypes.includes(dirent.name)) {
         files.push({ fileName: dirent.name, filePath: filePath });
@@ -33,9 +32,9 @@ function walkDir(dirPath: string, filterTypes: string[] = []): FileResult[] {
 }
 
 
-function getWorkspaceFiles(dirPath: string, mapfn?: FileResultFunction<FileResult>, filterfn?: FileResultFunction<FileResult[]>, skipTypes: string[] = ['node_modules']) {
+function GetWorkspaceFiles(dirPath: string, mapfn?: FileResultFunction<FileResult>, filterfn?: FileResultFunction<FileResult[]>, skipTypes: string[] = ['node_modules']) {
   return new Promise<FileResult[]>((resolve) => {
-    let files = walkDir(dirPath, skipTypes);
+    let files = WalkDir(dirPath, skipTypes);
     if (mapfn) files = files.map(mapfn);
     if (filterfn) files = files.filter(filterfn);
     resolve(files);
@@ -67,14 +66,19 @@ function getArrayType(arr: any[]): string {
   return mostCommonType;
 }
 
+function GetBlockModel(block){
+
+}
+
 export {
-  getWorkspaceFiles,
+  GetWorkspaceFiles,
   isAlpha,
   isFloat,
   isInt,
   isNegative,
   checkProperties,
-  walkDir,
+  WalkDir,
   isType,
-  getArrayType
+  getArrayType,
+  GetBlockModel
 };

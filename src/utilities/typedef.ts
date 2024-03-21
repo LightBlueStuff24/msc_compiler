@@ -17,6 +17,7 @@ interface FileResult {
     fileName: string;
 }
 
+type FileResultFunction<T> = (fileResult: FileResult) => T;
 
 export type {
     float,
@@ -25,5 +26,6 @@ export type {
     path,
     ObjectStruct,
     FileResult,
-    VectorArray
+    VectorArray,
+    FileResultFunction
 };
