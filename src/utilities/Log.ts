@@ -1,12 +1,11 @@
 import chalk from "chalk";
 const { redBright, grey, green, yellowBright } = chalk;
-const lightBlue = chalk.hex("#0070ce");
 const purple = chalk.hex("#0070ce");
 
 export default class Log {
   private static label = `${grey('[')}${purple('MSC')}${grey(']')}`;
   public static info(msg: string) {
-    console.info(`${this.label} ${grey('[')}${green('info')}${grey(']')}`);
+    console.info(`${this.label} ${grey('[')}${green('info')}${grey(']')} ${msg}`);
   }
   public static error(msg: string) {
     const stackTrace = new Error().stack;

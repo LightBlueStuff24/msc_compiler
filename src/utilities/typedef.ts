@@ -5,7 +5,7 @@ type bool = boolean;
 type path = string;
 
 
-type VectorArray = [number, number, number];
+type Vec3Array = [number, number, number];
 
 
 type ObjectStruct<K extends string | number | symbol = string, T = any> = {
@@ -26,6 +26,6 @@ export type {
     path,
     ObjectStruct,
     FileResult,
-    VectorArray,
+    Vec3Array,
     FileResultFunction
 };

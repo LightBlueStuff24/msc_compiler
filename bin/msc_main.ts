@@ -4,11 +4,12 @@ import { promises as fsPromise } from 'fs';
 import path from 'path';
 import { watch } from 'chokidar';
 import { v4 as uuid } from 'uuid';
-
+import { FileOperations } from '../src/utilities/Utils';
+import config from '../config'
 const cwd = process.cwd();
 const listener = new Listener();
 
-export async function Build(inputDir: string | undefined = undefined, outputDir: string | undefined = undefined) {
+export async function Build(inputDir: string = '', outputDir: string = 'dist') {
 
 }
 
@@ -16,7 +17,7 @@ async function BuildRegistryFiles() {
 
 }
 
-async function WatchFile(dir = cwd) {
+export async function WatchFile(dir = cwd) {
     const globPattern = path.join(dir, '**/*.+(js|ts)');
     const watcher = watch(globPattern,
         {
@@ -31,20 +32,24 @@ async function WatchFile(dir = cwd) {
     });
 
     watcher.on('change', (filePath, stat) => {
-
+     
     });
 }
 
-async function Init() {
+export async function Init() {
 
 }
 
 
 
+export async function Rebuild() {
+    
+}
 
 
-/** 
 
+
+/*
 // Cache lib data to reduce start up time
 require('v8-compile-cache');
 require('keypress')(process.stdin);

@@ -15,7 +15,7 @@ program
   .action(Build)
 
 program
-  .command('rc')
+  .command('recompile')
   .description('Recompiles your edited files only.')
   .action(Rebuild)
 

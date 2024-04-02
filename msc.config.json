@@ -1,0 +1,13 @@
+{
+   "$schema": "./schema/msc.config.schema.json",
+
+      "msc": {
+        "experimentalFeatures":[
+    
+        ]
+      },
+
+      "project":{
+
+      }
+}

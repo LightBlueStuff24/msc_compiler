@@ -1,20 +1,19 @@
 {
     "IsHiddenInCommands": [
       {
-        "name": "IsHiddenInCommands",
+        "name": "description#menu_category#is_hidden_in_commands",
         "type": "boolean"
       }
     ],
     "Group": [
       {
-        "name": "minedraft:menu_",
-         "alias":"Group",
+        "name": "description#menu_category#group",
         "type": "string"
       }
     ],
     "AllowOffHand": [
       {
-        "name": "AllowOffHand",
+        "name": "minecraft:allow_in_off_hand",
         "type": "boolean"
       }
     ],
@@ -171,18 +170,21 @@
         "type": "object",
         "properties": [
           {
-            "name": "Entity",
+            "name": "entity",
+            "alias":"Entity",
             "type": "string"
           },
           {
-            "name": "DispenseOn",
+            "name": "dispense_on",
+            "alias":"DispenseOn",
             "type": "array",
             "items": {
               "type": "string"
             }
           },
           {
-            "name": "UseOn",
+            "name": "use_on",
+            "alias":"UseOn",
             "type": "array",
             "items": {
               "type": "string"
@@ -193,7 +195,7 @@
     ],
     "Food": [
       {
-        "name": "Food",
+        "name": "minecraft:food",
         "type": "object",
         "properties": [
           {

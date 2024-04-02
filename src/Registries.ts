@@ -1,24 +1,27 @@
-import type { Block } from './classes/Block'
-import type { Advancement } from './classes/Advancement'
+import { Block } from './classes/Block';
+import { Entity } from './classes/Entity';
 
+class RegistryBase {
+  // Subclasses implement their own registries
+  protected static Registries : any[];
 
-class BlockRegistry {
-  public static Registries: typeof Block[] = []
-  public static Register(block : typeof Block) {
-    BlockRegistry.Registries.push(block.init())
+  public static Register<T>(item: T) {
+    this.Registries.push(item);
+  }
+
+  public static Get<T>(name: string): T | undefined {
+    return this.Registries.find((item: any) => item.name === name);
   }
 }
 
-
-
-
-/**
- * @idea
- * #Testing
- */
-class AdvancementRegistry {
-  public static Registries: typeof Advancement[] = []
-  public static Register(advancement : typeof Advancement) {
-    AdvancementRegistry.Registries.push(advancement.init())
-  }
+class BlockRegistry extends RegistryBase {
+  public static Registries: typeof Block[] = [];
 }
+
+class EntityRegistry extends RegistryBase {
+  public static Registries: [] = [];
+}
+
+const entity = EntityRegistry.Get<typeof Entity>('Cogwheel');
+
+EntityRegistry.Register<typeof Entity>(Entity)

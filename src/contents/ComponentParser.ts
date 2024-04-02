@@ -28,6 +28,20 @@ async function ParseData(object: any, cd: string, cv: any, type: string): Promis
       parts[1] = cv.toLowerCase();
       object.Data[`minecraft:${type.toLowerCase()}`].description.identifier = parts.join(':');
       break;
+
+    case "IsHiddenInCommands":
+     if (typeof cv != 'boolean') {
+      Log.error(`<IsHiddenInCommands> type boolean expected instead found ${typeof cv}`);
+      return;
+     }
+    
+      break;
+
+    case "Group":
+      break;
+
+    case "Category":
+      break;
     default:
       Log.error(`Unknown component data type: ${cd}`);
       break;
@@ -46,16 +60,12 @@ async function ParseComponent(object: ObjectStruct, type: string): Promise<Objec
 
   for (const [cd, cv] of Object.entries(object)) {
     if (['reset', 'init', 'Data', 'Component'].includes(cd)) continue;
-    if (['Namespace', 'Version', 'Identifier'].includes(cd)) {
+    if (['Namespace', 'Version', 'Identifier', 'IsHiddenInCommands', 'Group', 'Category'].includes(cd)) {
       await ParseData(object, cd, cv, type).catch((error) => {
         Log.error(`Error parsing ${cd}: ${error.message}`);
       });
     }
     const compInfo = component[cd];
-    if (!compInfo) {
-      Log.error(`<${object.name}> unknown component ${cd}`);
-      return;
-    }
     const cdLen: number = compInfo.length;
     for (let i = 0; i < cdLen; i++) {
       const mobj: any = compInfo[i];

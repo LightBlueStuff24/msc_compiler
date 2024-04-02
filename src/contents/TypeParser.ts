@@ -60,7 +60,7 @@ export namespace TypeParser {
     } else {
       switch (type) {
         case 'object':
-          cv.forEach(element => {
+          cv.map(element => {
             TypeParser.ParseObject(element, mobj.items, parsedComponentData, object);
           });
           break;

@@ -1,7 +1,7 @@
 import type { DamageType } from "../enums/GlobalValues";
-import type { int, float, bool, VectorArray, path, ObjectStruct } from "../utilities/typedef";
+import type { int, float, bool, Vec3Array, path, ObjectStruct } from "../utilities/typedef";
 import type { IFilter } from './IFIilter.ts';
-import type { Block } from '../classes/Block';
+import { Block } from '../classes/Block';
 
 
 //#region EventResponses
@@ -48,16 +48,16 @@ interface ISetBlock {
     BlockType: string | typeof Block;
 }
 interface ISetBlockAtPos extends ISetBlock {
-    BlockOffset?: VectorArray;
+    BlockOffset?: Vec3Array;
 }
 interface ISetBlockState {
     State: string;
 }
 interface ITeleport {
     AvoidWater?: bool;
-    Destination?: VectorArray;
+    Destination?: Vec3Array;
     LandOnBlock?: bool;
-    MaxRange?: VectorArray;
+    MaxRange?: Vec3Array;
     Target?: IFilter;
 
 }
@@ -66,6 +66,8 @@ export interface IEventTrigger {
     Condition: string;
     Target: string;
 }
+
+
 // #endregion
 export interface IEvent {
     Teleport?: ITeleport;
@@ -83,6 +85,8 @@ export interface IEvent {
     ShouldDecrementStack?: bool;
     ShouldActorSwing?: bool;
     TransformItem?: ITransformItem;
-    Sequence?: ObjectStruct<string, IEvent>[];
-    Randomize?: ObjectStruct<string, IEvent>[];
+    Sequence?: IEvent[];
+    Randomize?: IEvent[];
 }
+
+
