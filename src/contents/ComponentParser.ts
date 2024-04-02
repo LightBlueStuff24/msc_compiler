@@ -48,6 +48,7 @@ async function ParseData(object: any, cd: string, cv: any, type: string): Promis
   }
 }
 
+
 async function ParseComponent(object: ObjectStruct, type: string): Promise<ObjectStruct<string, ObjectStruct> | void> {
   let parsedComponentData: any = {};
   let component: any;

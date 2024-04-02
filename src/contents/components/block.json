@@ -17,8 +17,7 @@
           "type": "number",
           "default": 10
         }
-      ],
-      "default": 10
+      ]
     },
     {
       "type": "boolean",
@@ -67,6 +66,20 @@
       "name": "minecraft:flammable",
       "type": "boolean",
       "default": true
+    }
+  ],
+  "LightEmission": [
+    {
+      "name": "minecraft:light_emission",
+      "type": "number",
+      "default": 0
+    }
+  ],
+  "LightDampening": [
+    {
+      "name": "minecraft:light_dampening|",
+      "type": "number",
+      "default": 0
     }
   ],
   "Friction": [
@@ -191,27 +204,33 @@
       "default": true
     }
   ],
-  "Events": [
+  "Geometry": [
     {
-      "name": "events",
+      "name": "minecraft:geometry",
       "type": "object",
       "properties": [
         {
-          "name": "$string",
+          "name": "identifier",
+          "alias": "Identifier",
+          "type": "string",
+          "default": "minecraft:geometry.full_block"
+        },
+        {
+          "name": "bone_visibility",
+          "alias": "BoneVisibiliy",
+          "type": "object",
           "properties": [
             {
-              "name": "add_mob_effect",
-              "alias": "AddMobEffect",
-              "type": "object",
-              "properties": [
-                {
-                  
-                }
-              ]
+              "name": "$BONE",
+              "alias": "$UPPER_CASE($BONE)",
+              "type": "boolean"
             }
           ]
         }
       ]
     }
+  ],
+  "Events": [
+    
   ]
 }

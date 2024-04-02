@@ -76,7 +76,6 @@ export namespace TypeParser {
     }
   }
 
-
   export function ParseValues(num, mobj, object, parsedComponentData: any) {
   }
 }
