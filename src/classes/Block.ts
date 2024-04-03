@@ -58,4 +58,11 @@ export class Block extends IBlockComponents {
 
 }
 
-
+class Skmevjdbsn extends Block {
+  static Geometry = {
+    Identifier: "jdnsnsn",
+    BoneVisibility: {
+      "Scraft:bone": true
+    }
+  }
+}

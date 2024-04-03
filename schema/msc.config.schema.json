@@ -1,17 +1,34 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "properties": {
-        "msc":{
-            "type":"object",
-            "properties": {
-                "experimentalFeatures":{
-                    "type":"array",
-                    "enum": [
-                        "fullLangGeneration"
-                    ],
-                   "description": "List of experimentalFeatures that should be used during compilation"
-                }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "msc": {
+      "type": "object",
+      "properties": {
+        "experimentalFeatures": {
+          "type": "array",
+          "enum": [
+            "fullLangGeneration"
+          ],
+          "description": "List of experimentalFeatures that should be used during compilation"
+        },
+        "compilerOptions": {
+          "type": "object",
+          "properties": {
+            "srcDir": {
+              "type": "string",
+              "description": "Input directory"
+            },
+            "outDir": {
+              "type": "string",
+              "description": "Output directory"
+            },
+            "indent": {
+              "type": "number",
+              "description": "Indentation"
             }
+          }
         }
+      }
     }
+  }
 }

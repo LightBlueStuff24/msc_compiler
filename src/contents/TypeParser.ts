@@ -76,6 +76,7 @@ export namespace TypeParser {
     }
   }
 
-  export function ParseValues(num, mobj, object, parsedComponentData: any) {
+  export function ParseValues(cv: any[], mobj: any, object: any, parsedComponentData: ObjectStruct): void {
+    
   }
 }
