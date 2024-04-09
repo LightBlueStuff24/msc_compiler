@@ -1,53 +1,46 @@
-import { Listener } from 'keypress.js';
+import { Listener } from "keypress.js";
 import Log from "../src/utilities/Log";
-import { promises as fsPromise } from 'fs';
-import path from 'path';
-import { watch } from 'chokidar';
-import { v4 as uuid } from 'uuid';
-import { FileOperations } from '../src/utilities/Utils';
-import config from '../config'
+import { promises as fsPromise } from "fs";
+import path from "path";
+import { watch } from "chokidar";
+import { v4 as uuid } from "uuid";
+import { FileOperations } from "../src/utilities/Utils";
+import config from "../../../config";
 const cwd = process.cwd();
 const listener = new Listener();
 
-export async function Build(inputDir: string = '', outputDir: string = 'dist') {
-
+export async function Build(
+    inputDir: string = "",
+    outputDir: string = "dist"
+) {
+    // Change later
+    global.msc.config = await import('../../../config');
 }
 
-async function BuildRegistryFiles() {
-
-}
+async function BuildRegistryFiles() { }
 
 export async function WatchFile(dir = cwd) {
-    const globPattern = path.join(dir, '**/*.+(js|ts)');
-    const watcher = watch(globPattern,
-        {
-            persistent: true, depth: 5, interval: 300, usePolling: true,
-            awaitWriteFinish: { stabilityThreshold: 1000, pollInterval: 250 }
-        });
-    Log.info('File Watcher Started! Press Shift + X to stop watching');
-    listener.simple_combo('shift x', () => {
-        Log.info('Stopping Watcher...');
+    const globPattern = path.join(dir, "**/*.+(js|ts)");
+    const watcher = watch(globPattern, {
+        persistent: true,
+        depth: 5,
+        interval: 300,
+        usePolling: true,
+        awaitWriteFinish: { stabilityThreshold: 1000, pollInterval: 250 },
+    });
+    Log.info("File Watcher Started! Press Shift + X to stop watching");
+    listener.simple_combo("shift x", () => {
+        Log.info("Stopping Watcher...");
         watcher.close();
         process.exit(0);
     });
 
-    watcher.on('change', (filePath, stat) => {
-     
-    });
+    watcher.on("change", (filePath, stat) => { });
 }
 
-export async function Init() {
+export async function Init() { }
 
-}
-
-
-
-export async function Rebuild() {
-    
-}
-
-
-
+export async function Rebuild() { }
 
 /*
 // Cache lib data to reduce start up time

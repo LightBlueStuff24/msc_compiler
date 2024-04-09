@@ -6,9 +6,13 @@
       "properties": {
         "experimentalFeatures": {
           "type": "array",
-          "enum": [
-            "fullLangGeneration"
-          ],
+          "items": {
+            "enum": [
+              "Enchantable"
+            ],
+            "type":"string"
+          },
+          "default":"",
           "description": "List of experimentalFeatures that should be used during compilation"
         },
         "compilerOptions": {
@@ -22,9 +26,10 @@
               "type": "string",
               "description": "Output directory"
             },
-            "indent": {
+            "fileIndent": {
               "type": "number",
-              "description": "Indentation"
+              "description": "Sets the indentation of the compiled json file",
+              "default": 0
             }
           }
         }

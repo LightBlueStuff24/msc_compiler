@@ -3,11 +3,18 @@
 
       "msc": {
         "experimentalFeatures":[
-    
-        ]
+          ""
+        ],
+        "compilerOptions": {
+          "fileIndent": 0,
+          "outDir": "",
+          "srcDir": ""
+        }
       },
 
       "project":{
-
+       
       }
+
+    
 }

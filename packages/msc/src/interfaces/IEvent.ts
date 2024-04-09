@@ -1,6 +1,6 @@
 import type { DamageType } from "../enums/GlobalValues";
 import type { int, float, bool, Vec3Array, path, ObjectStruct } from "../utilities/typedef";
-import type { IFilter } from './IFIilter.ts';
+import type { IFilter } from './IFilter.ts';
 import { Block } from '../classes/Block';
 
 

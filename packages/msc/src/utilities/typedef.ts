@@ -29,5 +29,3 @@ export type {
     Vec3Array,
     FileResultFunction
 };
-
-

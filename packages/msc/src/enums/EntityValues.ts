@@ -1,4 +1,4 @@
-export enum EntityType {
+export enum EntityIdentifiers {
     Agent = "agent",
     Allay = "allay",
     AreaEffectCloud = "area_effect_cloud",
