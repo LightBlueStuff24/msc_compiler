@@ -4,16 +4,10 @@
     "msc": {
       "type": "object",
       "properties": {
-        "experimentalFeatures": {
+        "ignorePaths": {
+          "description": "Lists paths to ignore when building the project.",
           "type": "array",
-          "items": {
-            "enum": [
-              "Enchantable"
-            ],
-            "type":"string"
-          },
-          "default":"",
-          "description": "List of experimentalFeatures that should be used during compilation"
+          "items": { "type": "string" }
         },
         "compilerOptions": {
           "type": "object",
@@ -24,14 +18,61 @@
             },
             "outDir": {
               "type": "string",
-              "description": "Output directory"
+              "description": "Output directory",
+              "enum": ["com.mojang"],
+              "default": ""
             },
             "fileIndent": {
-              "type": "number",
-              "description": "Sets the indentation of the compiled json file",
-              "default": 0
+              "oneOf": [
+                {
+                  "type": "number",
+                  "description": "Sets the indentation of the compiled JSON files for all files.",
+                  "default": 0
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "minifyAll": {
+                      "type": "boolean",
+                      "description": "Minifies the indentation of every file in this project.",
+                      "default": false
+                    }
+                  }
+                }
+              ]
+            },
+            "experimentalFeatures": {
+              "type": "array",
+              "items": {
+                "enum": ["AdvancedLangGeneration"],
+                "type": "string"
+              },
+              "default": "",
+              "description": "List of experimentalFeatures that should be used during compilation"
             }
           }
+        }
+      }
+    },
+    "project": {
+      "properties": {
+        "prefix": {
+          "description": "The namespace used in this project",
+          "type": "string",
+          "default": "msc",
+          "not": { "pattern": "minecraft" }
+        },
+        "name": {
+          "description": "Name of this project"
+        },
+        "version": {
+          "description": "Version this project is targeted towards, if unspecified, msc will use the latest version of bedrock edition",
+          "default": ""
+        },
+        "authors": {
+          "description": "Creator(s) of the project.",
+          "type": "array",
+          "items": { "type": "string" }
         }
       }
     }

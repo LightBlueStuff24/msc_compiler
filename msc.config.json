@@ -1,20 +1,20 @@
 {
-   "$schema": "./schema/msc.config.schema.json",
+  "$schema": "./schema/msc.config.schema.json",
 
-      "msc": {
-        "experimentalFeatures":[
-          ""
-        ],
-        "compilerOptions": {
-          "fileIndent": 0,
-          "outDir": "",
-          "srcDir": ""
-        }
+  "msc": {
+    "ignorePaths": [],
+    "compilerOptions": {
+      "fileIndent": {
+        "minifyAll": false
       },
+      "outDir": "com.mojang",
+      "srcDir": ""
+    }
+  },
 
-      "project":{
-       
-      }
-
-    
+  "project": {
+    "prefix": "msc",
+    "version": "",
+    "name": ""
+  }
 }

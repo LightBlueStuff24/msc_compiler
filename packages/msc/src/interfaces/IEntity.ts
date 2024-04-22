@@ -38,7 +38,6 @@ interface IFeedItem {
 }
 
 export class IEntityComponents {
-  public static Geometry;
   public static Properties: ObjectStruct<string, IProperty>;
   public static ComponentGroups: ObjectStruct<
     string,
@@ -197,4 +196,8 @@ export class IEntityComponents {
   public static Variant;
   public static WalkAnimationSpeed;
   public static WantsJockey;
+}
+
+export {
+  IScripts
 }
