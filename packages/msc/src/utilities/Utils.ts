@@ -5,7 +5,7 @@ import type {
   ObjectStruct,
   float,
   int,
-} from "./typedef.ts";
+} from "../types";
 import path from "path";
 import Log from "./Log.ts";
 import { computeLevenshteinDistance, OBJtoJson } from "./RandomFunctions.ts";
@@ -40,9 +40,8 @@ function checkProperties(obj: any, allowedProperties: string[]) {
   return unknownProperties;
 }
 
-// File Operations Namespace
+// File Operations
 namespace FileOperations {
-  
   export function walkDir(
     dirPath: string,
     filterTypes: string[] = []
@@ -68,7 +67,7 @@ namespace FileOperations {
   ) {
     return new Promise<FileResult[]>((resolve) => {
       let files = walkDir(dirPath, skipPaths);
-      if (mapfn) files = files.map(mapfn);
+      if (mapfn) files.forEach((files, index) => (files[index] = mapfn(files)));
       if (filterfn) files = files.filter(filterfn);
       resolve(files);
     });
@@ -125,13 +124,12 @@ async function getModel(modelName: string): Promise<any> {
     const cwd = process.cwd();
     const texturesFolder = path.join(cwd, "RP/textures");
     const modelsFolder = path.join(cwd, "RP/models");
-
-    const textureFiles = await FileOperations.getWorkspaceFiles(texturesFolder);
-    const modelFiles = await FileOperations.getWorkspaceFiles(modelsFolder);
-
-    const modelFile = FileOperations.findClosestFile(modelFiles, modelName);
+    const modelFile = FileOperations.findClosestFile(
+      await FileOperations.getWorkspaceFiles(modelsFolder),
+      modelName
+    );
     const texturePath = FileOperations.findClosestFile(
-      textureFiles,
+      await FileOperations.getWorkspaceFiles(texturesFolder),
       modelName
     )?.filePath;
     if (modelFile && texturePath) {
@@ -151,11 +149,38 @@ async function getModel(modelName: string): Promise<any> {
           Log.error(`Unsupported model file format for ${modelName}`);
       }
     } else {
-      Log.error(`Unable to find model file ${modelName}`);
+      Log.error(
+        `Unable to find ${
+          !texturePath ? "texture" : "model"
+        } file for ${modelName}`
+      );
     }
   } catch (error) {
     Log.error(`Error fetching model ${modelName}: ${error}`);
     return undefined;
+  }
+}
+
+function getExtendedClass(childClass: ObjectStruct) {
+  const classSource = childClass.toString();
+  const extendsMatch = classSource.match(/extends\s+([A-Z][a-zA-Z_$\d]*)/);
+  if (extendsMatch) {
+    const match = extendsMatch[1];
+    // Make sure it does not extend base class
+    if (
+      [
+        "Block",
+        "Entity",
+        "Item",
+        "IClientEntity",
+        "Fluid",
+        "Effect",
+        "Enchant",
+        "Advancement",
+      ].includes(match)
+    )
+      return;
+    return match;
   }
 }
 
@@ -169,4 +194,5 @@ export {
   isType,
   getArrayType,
   getModel,
+  getExtendedClass,
 };

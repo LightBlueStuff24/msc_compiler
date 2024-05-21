@@ -1,21 +1,22 @@
-
-import type { int, ObjectStruct } from "../utilities/typedef";
+import type { int, ObjectStruct } from "../../utilities/typedef.ts";
 import {
   type IBlockData,
   type IStates,
   IBlockComponents,
-} from "../interfaces/IBlock";
-import type { IEvent } from "../interfaces/IEvent";
-import type { IPermutation } from "../interfaces/IPermutation.ts";
-import { ParseComponent } from "../contents/ComponentParser";
-import config from "../../../../config.ts";
+} from "../../interfaces/IBlock.ts";
+import type { IEvent } from "../../interfaces/IEvent.ts";
+import type { IPermutation } from "../../interfaces/IPermutation.ts";
+import { ParseComponent } from "../../contents/ComponentParser.ts";
+import config from "../../../../../config.ts";
+import { Entity, Dimension } from "@minecraft/server";
 
 export class Block extends IBlockComponents {
   private static Data: IBlockData = {
-    format_version: config.version,
+    format_version: config.project.version,
     "minecraft:block": {
       description: { identifier: "" },
       components: {},
+      permutations: {},
     },
   };
   private static Components = this.Data["minecraft:block"].components;
@@ -34,7 +35,7 @@ export class Block extends IBlockComponents {
 
   public static async init() {
     this.Data["minecraft:block"].description.identifier = `${
-      config.prefix
+      config.project.prefix
     }:${this.name.replace(/([a-Z])([A-Z])/, "$1_$2").toLowerCase()}`;
     if (this.Permutations) {
       this.Data["minecraft:block"].permutations;
@@ -46,9 +47,17 @@ export class Block extends IBlockComponents {
     return JSON.stringify(this.Data);
   }
 
-  public static OnStepOff(ev) {
-
-  }
+  /**
+   *
+   * @param block A reference to this Block
+   * @param entity
+   * @param dimension
+   */
+  public static OnStepOff(
+    block: import("@minecraft/server").Block,
+    entity: Entity,
+    dimension: Dimension
+  ) {}
 }
 
 class Skmevjdbsn extends Block {
@@ -58,4 +67,5 @@ class Skmevjdbsn extends Block {
       "Scraft:bone": true,
     },
   };
+  static Permutations: IPermutation[];
 }

@@ -1,5 +1,5 @@
-import type { Item } from '../classes/Item';
-import { MenuCategories, MenuGroups } from '../enums/GlobalValues';
+import type { Item } from '../classes/base/Item';
+import type { MenuCategories, MenuGroups } from '../enums/GlobalValues';
 import type { WearableSlot } from '../enums/ItemValues';
 import type { ObjectStruct, bool, int } from '../utilities/typedef';
 import type { IEventTrigger } from './IEvent';
@@ -304,6 +304,7 @@ export class IItemComponents {
      */
     public static Wearable: IWearable;
 }
+
 
 export type {
     IBlockPlacer,

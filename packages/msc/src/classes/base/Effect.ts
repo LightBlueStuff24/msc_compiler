@@ -1,6 +1,6 @@
 import { Entity } from "@minecraft/server";
-import { IEffectData } from "../interfaces/IEffect";
-import { int } from "../utilities/typedef";
+import { IEffectData } from "../../interfaces/IEffect";
+import { int } from "../../utilities/typedef";
 
 class Effect {
   private static Data: IEffectData = {
@@ -13,7 +13,7 @@ class Effect {
   public static Icon: string;
 
   /**
-   * When this effect is applied to an entity, this method defines the logic for the effect.
+   * When this effect is applied to an entity.
    * @param entity Entity this effect was applied to
    */
   public static OnEffectApplied(entity: Entity) {}
@@ -44,3 +44,4 @@ class Effect {
     }
   }
 }
+

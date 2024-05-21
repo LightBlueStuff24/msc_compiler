@@ -6,7 +6,8 @@ import {
   isInt,
   isFloat,
 } from "../utilities/Utils";
-import type { ObjectStruct } from "../utilities/typedef";
+import type { ObjectStruct } from "../types";
+import Emsg from "../utilities/Emsg";
 
 export namespace TypeParser {
   export function ParseObject(
@@ -18,6 +19,9 @@ export namespace TypeParser {
     const cvLen = Object.keys(cv).length;
     const mobjProperties = mobj.properties;
     const mobjPropertyNames = mobjProperties.map((obj) => obj.name);
+    // TODO: Correct Later
+    if (mobjPropertyNames.some((name: string) => name.startsWith("$")))
+      TypeParser.ParseTemplateLiteral(cv, mobj, parsedComponentData, object);
     const unknownProperties = checkProperties(cv, mobjPropertyNames);
     if (unknownProperties.length > 0) {
       Log.error(
@@ -43,6 +47,7 @@ export namespace TypeParser {
               object
             );
           } else {
+            Emsg.typeError
             Log.error(`<${object.name}> expected ${alias} to be type ${type}`);
           }
           return;
@@ -56,7 +61,7 @@ export namespace TypeParser {
             object
           );
         }
- 
+
         parsedComponentData[mobj.name][name] = propertyValue;
       } else {
         if (defaultValue === undefined) {
@@ -83,7 +88,7 @@ export namespace TypeParser {
     }
     if (
       maxItems !== undefined &&
-      (cv.length < maxItems || cv.length > maxItems)
+      (cv.length >= maxItems)
     ) {
       Log.error(
         `<${object.name}> expected array length of ${maxItems}, instead got ${cv.length}`
@@ -92,8 +97,7 @@ export namespace TypeParser {
     }
     if (!isType(cv, type)) {
       Log.error(
-        `<${
-          object.name
+        `<${object.name
         }> expected array elements to be type ${type}[], instead got ${getArrayType(
           cv
         )}[]`
@@ -102,10 +106,10 @@ export namespace TypeParser {
     } else {
       switch (type) {
         case "object":
-          cv.map((element) => {
-            TypeParser.ParseObject(element, items, parsedComponentData, object);
-          });
-          parsedComponentData[name] = cv
+          cv.map((element) =>
+            TypeParser.ParseObject(element, items, parsedComponentData, object)
+          );
+          parsedComponentData[name] = cv;
           break;
 
         case "array":
@@ -137,9 +141,7 @@ export namespace TypeParser {
       case "int":
         if (!isInt(cv)) {
           Log.warn(
-            `<${object.name}> expected value to be type ${type}, instead got ${
-              isInt(cv) ? "int" : "float"
-            }`
+            `<${object.name}> expected value to be type ${type}, instead got float`
           );
           // Convert float to int
           return Math.round(cv);
@@ -148,9 +150,7 @@ export namespace TypeParser {
       case "float":
         if (!isFloat(cv)) {
           Log.warn(
-            `<${object.name}> expected value to be type ${type}, instead got ${
-              isFloat(cv) ? "float" : "int"
-            }`
+            `<${object.name}> expected value to be type ${type}, instead got int`
           );
           // Convert int to float
           return parseFloat((cv as number).toFixed(10));
@@ -158,11 +158,12 @@ export namespace TypeParser {
         return cv;
       default:
         Log.error(`<${object.name}> unsupported numeric type: ${type}`);
-        return undefined;
+        break;
     }
   }
-}
 
+  export function ParseTemplateLiteral(cv, mobj, parsedComponentData, object) { }
+}
 
 function resolveAlias(alias: string, cv: any): any {
   if (alias.startsWith("$UPPER_CASE(") && alias.endsWith(")")) {

@@ -1,7 +1,7 @@
-import type { IAdvancementData, IReward } from "../interfaces/IAdvancement";
-import Log from "../utilities/Log";
-import Emsg from "../utilities/Emsg";
-import { isType } from "../utilities/Utils";
+import type { IAdvancementData, IReward } from "../../interfaces/IAdvancement";
+import Log from "../../utilities/Log";
+import Emsg from "../../utilities/Emsg";
+import { isType } from "../../utilities/Utils";
 
 export class Advancement {
   private static Data: IAdvancementData = {

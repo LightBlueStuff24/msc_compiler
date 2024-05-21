@@ -1,4 +1,4 @@
-import { Entity } from "../classes/Entity";
+import { Entity } from "../classes/base/Entity";
 import { EntityIdentifiers, PropertyType } from "../enums/EntityValues";
 import { ObjectStruct, bool, float, int } from "../utilities/typedef";
 

@@ -13,11 +13,18 @@ export async function Build(
     inputDir: string = "",
     outputDir: string = "dist"
 ) {
+    const workspaceFiles = await FileOperations.getWorkspaceFiles(cwd)
     // Change later
     global.msc.config = await import('../../../config');
+    await Promise.all([
+        BuildRegistryFiles(),
+        
+    ])
 }
 
-async function BuildRegistryFiles() { }
+async function BuildRegistryFiles() {
+
+}
 
 export async function WatchFile(dir = cwd) {
     const globPattern = path.join(dir, "**/*.+(js|ts)");
@@ -34,8 +41,6 @@ export async function WatchFile(dir = cwd) {
         watcher.close();
         process.exit(0);
     });
-
-    watcher.on("change", (filePath, stat) => { });
 }
 
 export async function Init() { }

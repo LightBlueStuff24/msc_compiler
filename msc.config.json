@@ -8,10 +8,12 @@
         "minifyAll": false
       },
       "outDir": "com.mojang",
-      "srcDir": ""
+      "srcDir": "",
+      "experimentalFeatures": [
+        "AdvancedLangGeneration"
+      ]
     }
   },
-
   "project": {
     "prefix": "msc",
     "version": "",

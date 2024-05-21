@@ -1,8 +1,8 @@
-import config from "../../../../config.ts";
-import { IEntityComponents } from "../interfaces/IEntity.ts";
-import type { ObjectStruct } from "../utilities/typedef.ts";
-import { IEvent } from "../interfaces/IEvent.ts";
-import { ParseComponent } from "../contents/ComponentParser.ts";
+import config from "../../../../../config.ts";
+import { IEntityComponents } from "../../interfaces/IEntity.ts";
+import type { ObjectStruct } from "../../utilities/typedef.ts";
+import { IEvent } from "../../interfaces/IEvent.ts";
+import { ParseComponent } from "../../contents/ComponentParser.ts";
 
 export class Entity extends IEntityComponents {
   private static Data = {

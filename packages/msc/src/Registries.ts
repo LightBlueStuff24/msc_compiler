@@ -1,11 +1,12 @@
-import { Block, Entity, Item } from "./classes/index";
+import { Block, Entity, Item } from "./classes/base/index";
 
 class RegistryBase {
   // Subclasses implement their own registries
   protected static Registries: any[];
 
   public static Register<T = any>(item: T) {
-    this.Registries.push(item);
+    //@ts-expect-error
+    this.Registries.push(item.init());
   }
 
   public static Get<T = any>(name: string): T | undefined {
@@ -24,8 +25,5 @@ class EntityRegistry extends RegistryBase {
 class ItemRegistry extends RegistryBase {
   public static Registries: (typeof Item)[] = [];
 }
-
-const entity = EntityRegistry.Get<typeof Entity>("Cogwheel");
-entity?.toString();
 
 export { BlockRegistry, EntityRegistry, ItemRegistry };

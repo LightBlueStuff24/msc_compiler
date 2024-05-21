@@ -1,3 +1,4 @@
+import { world } from "@minecraft/server";
 import Log from "../utilities/Log";
 import type { ObjectStruct } from "../utilities/typedef";
 import { TypeParser } from "./TypeParser";
@@ -55,9 +56,10 @@ async function ParseData(
       break;
 
     case "Group":
+
       break;
 
-    case "Category":
+    case "Category":  
       break;
     default:
       Log.error(`Unknown component data type: ${cd}`);
@@ -68,7 +70,7 @@ async function ParseData(
 async function ParseComponent(
   object: ObjectStruct,
   type: string
-): Promise<ObjectStruct<string, ObjectStruct> | void> {
+): Promise<ObjectStruct | undefined> {
   let parsedComponentData: any = {};
   let component: any;
   if (["block", "item", "entity", "recipe"].includes(type)) {

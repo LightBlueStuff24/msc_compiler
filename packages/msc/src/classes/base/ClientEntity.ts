@@ -1,8 +1,8 @@
-import config from "../../../../config";
-import { ParseComponent } from "../contents/ComponentParser";
-import { IClientEntity } from "../interfaces/IClientEntity";
-import { FileOperations, getModel, isInt } from "../utilities/Utils";
-import { bool } from "../utilities/typedef";
+import config from "../../../../../config";
+import { ParseComponent } from "../../contents/ComponentParser";
+import { IClientEntity } from "../../interfaces/IClientEntity";
+import { FileOperations, getModel, isInt } from "../../utilities/Utils";
+import { bool } from "../../utilities/typedef";
 
 export class ClientEntity extends IClientEntity {
   private static Data = {
@@ -27,10 +27,10 @@ export class ClientEntity extends IClientEntity {
       
       })
     }
-    const parsedData = await ParseComponent(this, "client_entity");
-    if (parsedData) {
+    const parsedComponentData = await ParseComponent(this, "client_entity");
+    if (parsedComponentData) {
       return JSON.stringify(
-        parsedData,
+        parsedComponentData,
         null,
         config.msc.compilerOptions.fileIndent
       );

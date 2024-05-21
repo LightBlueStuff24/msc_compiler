@@ -1,6 +1,11 @@
 import Jimp from "jimp";
 
-async function OBJtoJson(objFileContent: string, texturePath: string, modelId: string, scale: number = 1): Promise<any | null> {
+async function OBJtoJson(
+  objFileContent: string,
+  texturePath: string,
+  modelId: string,
+  scale: number = 1
+): Promise<any | null> {
   let positions: number[][] = [];
   let normals: number[][] = [];
   let uvs: number[][] = [];
@@ -17,7 +22,9 @@ async function OBJtoJson(objFileContent: string, texturePath: string, modelId: s
       switch (defType) {
         case "v":
           positions.push(
-            data.split(" ").map((str, i) => (i === 0 ? -scale : scale) * Number(str))
+            data
+              .split(" ")
+              .map((str, i) => (i === 0 ? -scale : scale) * Number(str))
           );
           break;
         case "vn":
@@ -29,12 +36,10 @@ async function OBJtoJson(objFileContent: string, texturePath: string, modelId: s
           uvs.push(data.split(" ").map(Number));
           break;
         case "f":
-          const face = data
-            .split(" ")
-            .map((index) => {
-              const [v, vt, vn] = index.split("/").map(Number);
-              return [v - 1, vn - 1, vt - 1];
-            });
+          const face = data.split(" ").map((index) => {
+            const [v, vt, vn] = index.split("/").map(Number);
+            return [v - 1, vn - 1, vt - 1];
+          });
           while (face.length <= 3) face.push(face[0]);
           while (face.length > 4) face.pop();
           polys.push(face);
@@ -77,7 +82,7 @@ function getImage(filePath: string): Promise<Jimp> {
   return Jimp.read(filePath);
 }
 
-function computeLevenshteinDistance(str1: string, str2: string) {
+function computeLevenshteinDistance(str1: string, str2: string) : number {
   // Create a matrix to store the distances
   const matrix: any[] = [];
 
@@ -97,8 +102,8 @@ function computeLevenshteinDistance(str1: string, str2: string) {
       } else {
         matrix[i][j] = Math.min(
           matrix[i - 1][j - 1] + 1, // substitution
-          matrix[i][j - 1] + 1,     // insertion
-          matrix[i - 1][j] + 1      // deletion
+          matrix[i][j - 1] + 1, // insertion
+          matrix[i - 1][j] + 1 // deletion
         );
       }
     }
@@ -108,7 +113,5 @@ function computeLevenshteinDistance(str1: string, str2: string) {
   return matrix[str2.length][str1.length];
 }
 
-export {
-  OBJtoJson,
-  computeLevenshteinDistance
-}
+
+export { OBJtoJson, computeLevenshteinDistance };

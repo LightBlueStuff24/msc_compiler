@@ -4,28 +4,25 @@ type int = number;
 type bool = boolean;
 type path = string;
 
-
 type Vec3Array = [number, number, number];
 
-
 type ObjectStruct<K extends string | number | symbol = string, T = any> = {
-    [key in K]: T;
+  [key in K]: T;
 };
 
-interface FileResult {
-    filePath: path,
-    fileName: string;
+interface Vec3 {
+  x: number;
+  y: number;
+  z: number;
 }
 
-type FileResultFunction<T> = (fileResult: FileResult) => T;
-
-export type {
+export {
+    ObjectStruct,
+    Vec3,
+    Vec3Array,
+    bool,
     float,
     int,
-    bool,
     path,
-    ObjectStruct,
-    FileResult,
-    Vec3Array,
-    FileResultFunction
-};
+    
+}
