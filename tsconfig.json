@@ -1,34 +1,37 @@
 {
-	"compilerOptions": {
-		// Enable latest features
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleDetection": "force",
-		"jsx": "react-jsx",
-		"allowJs": true,
-        "outDir": "./dist",
-		// Generate .d.ts files
-		"declaration": true,
-		
-		// Node mode
-		"moduleResolution": "Node",
-		"allowImportingTsExtensions": true,
-		"verbatimModuleSyntax": true,
-		"noEmit": true,
-		// Best practices
-		"resolveJsonModule": true,
-		"strict": true,
-		"skipLibCheck": true,
-		"noFallthroughCasesInSwitch": true,
-		// Some stricter flags (disabled by default)
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
-		"noPropertyAccessFromIndexSignature": false
-	},
-	"include": [
-		"./*.ts"
-	],
-	"exclude": [
-		"node_modules"
-	]
+  "compilerOptions": {
+    // Enable latest features
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "outDir": "./dist",
+    // Generate .d.ts files
+    "declaration": true,
+
+    // Use Node
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    // Best practices
+    "resolveJsonModule": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    // Some stricter flags (disabled by default)
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noPropertyAccessFromIndexSignature": false,
+
+    "baseUrl": "msc",
+    "paths": {
+      "@utils/*": ["shared/utilities/*"]
+    },
+    
+  },
+ 
+  "include": ["./*.ts"],
+  "exclude": ["node_modules"]
 }
