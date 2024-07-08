@@ -16,11 +16,7 @@ To use the `Entity` class, you can create custom entity types by extending it an
 import { Entity } from 'msc';
 
 class CustomEntity extends Entity {
-  constructor() {
-    super();
-    // Custom initialization logic
-  }
 
-  // Custom methods and properties
+  
 }
 ```

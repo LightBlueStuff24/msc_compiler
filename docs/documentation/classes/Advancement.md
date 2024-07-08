@@ -7,7 +7,7 @@ The `Advancement` class allows you to create advancements for your addon. Advanc
 To create a new advancement, you can extend the `Advancement` class and define its properties:
 ::: code-group
 ```js [adv.js]
-import {Advancement} from 'msc';
+import { Advancement } from 'msc';
 
 class NewAdvancement extends Advancement {
   static Icon = "./path/to/icon";
@@ -18,7 +18,7 @@ class NewAdvancement extends Advancement {
     { item: "minecraft:diamond", xp: 5 },
     { item: "minecraft:emerald", xp: 10 },
     { item: "minecraft:iron", xp: 2 }
-  ], 2);
+  ],2);
 
   static shuffle(array, x) {
     let res = [];
@@ -32,7 +32,7 @@ class NewAdvancement extends Advancement {
 ```
 
 ```ts [adv.ts]
-import {Advancement, IReward} from 'msc';
+import { Advancement, type IReward } from 'msc';
 
 class NewAdvancement extends Advancement {
   static Icon = "./path/to/icon";

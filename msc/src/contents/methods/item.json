@@ -1,0 +1,17 @@
+{
+  "Events": {
+    "OnRightClick": {
+      "params": ["player", "block", "itemStack"],
+      "type": "afterEvents",
+      "name": "playerInteractWithBlock"
+    }
+  },
+
+  "CustomComponent": {
+    "OnRightClick": {
+      "params": ["player", "block", "itemStack"],
+      "type": "itemComponentRegistry",
+      "name": "onUseOn"
+    }
+  }
+}
