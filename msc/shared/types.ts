@@ -33,7 +33,7 @@ interface FileResult {
 
 type FileResultFunction<R> = (fileResult: FileResult) => R;
 
-export {
+export type {
   ObjectStruct,
   Vec3,
   Vec3Array,

@@ -5,7 +5,7 @@ import type {
   ObjectStruct,
   float,
   int,
-} from "../types";
+} from "../types.ts";
 import path from "path";
 import Log from "./Log.ts";
 import { computeLevenshteinDistance, OBJtoJson } from "./RandomFunctions.ts";
@@ -15,8 +15,8 @@ const isInt = (n: number): n is int => Number.isInteger(n);
 const isFloat = (n: number): n is float => !isInt(n);
 const isType = (a: any[], type: string): boolean =>
   Array.isArray(a) && a.every((element) => typeof element === type);
-const isAlpha = (c: string): boolean =>
-  typeof c === "string" && c.toUpperCase() !== c.toLowerCase();
+const isAlpha = (s: string): boolean =>
+  typeof s === "string" && /^[A-Z][a-z]+(?:[A-Z][a-z]+)*$/.test(s) ;
 const isNegative = (n: number): boolean => n < 0;
 
 // Utility Functions

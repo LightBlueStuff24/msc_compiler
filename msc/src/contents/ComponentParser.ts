@@ -1,4 +1,4 @@
-import type { ObjectStruct } from "../types";
+import type { ObjectStruct } from "../../shared/types";
 import Log, { Emsg, isType } from "@utils";
 import { TypeParser } from "./TypeParser";
 

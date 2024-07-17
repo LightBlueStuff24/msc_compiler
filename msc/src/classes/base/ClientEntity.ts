@@ -1,6 +1,6 @@
 import { ParseComponent } from "../../contents/ComponentParser";
 import { IClientEntity } from "../../interfaces/IClientEntity";
-import { getExtendedClass } from "../../utilities/Utils";
+import { getExtendedClass } from "@utils";
 import xtend from "deepmerge";
 import { EntityRegistry } from "../../Registries";
 

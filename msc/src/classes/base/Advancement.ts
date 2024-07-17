@@ -1,5 +1,5 @@
 import type { IAdvancementData, IReward } from "../../interfaces/IAdvancement";
-import Log, { isType, Emsg } from "../../utilities";
+import Log, { isType, Emsg } from "@utils";
 
 export class Advancement {
   private static Data: IAdvancementData = {

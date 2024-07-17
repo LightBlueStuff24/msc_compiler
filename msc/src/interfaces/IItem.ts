@@ -1,7 +1,7 @@
 import { Player, ItemStack, Block } from "@minecraft/server";
 import type { MenuCategories, MenuGroups } from "../enums/GlobalValues";
 import type { WearableSlot } from "../enums/ItemValues";
-import type { ObjectStruct, bool, int } from "../types";
+import type { ObjectStruct, bool, int } from "../../shared/types";
 import type { IEventTrigger } from "./IEvent";
 
 interface IItemData {

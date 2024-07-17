@@ -1,6 +1,6 @@
 import { Entity } from "@minecraft/server";
-import { IEffectData } from "../../interfaces/IEffect";
-import { int } from "../../types";
+import type { IEffectData } from "../../interfaces/IEffect";
+import type { int } from "../../../shared/types";
 
 class Effect {
   private static Data: IEffectData = {

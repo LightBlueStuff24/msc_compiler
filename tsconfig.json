@@ -9,11 +9,11 @@
     "outDir": "./dist",
     // Generate .d.ts files
     "declaration": true,
-
     // Use Node
     "moduleResolution": "Node",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
+    "allowSyntheticDefaultImports": true,
     "noEmit": true,
     // Best practices
     "resolveJsonModule": true,
@@ -24,14 +24,12 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
-
-    "baseUrl": "msc",
+    "baseUrl": "./msc",
     "paths": {
-      "@utils/*": ["shared/utilities/*"]
-    },
-    
+      "@utils": ["shared/utilities/index"],
+      "@types": ["shared/types"]
+    }
   },
- 
-  "include": ["./*.ts"],
+  "include": ["./msc/**/*.ts"],
   "exclude": ["node_modules"]
 }

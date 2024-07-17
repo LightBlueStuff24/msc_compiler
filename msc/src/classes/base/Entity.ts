@@ -1,9 +1,9 @@
 import { IEntityComponents, type IEvent } from "../../interfaces";
-import type { ObjectStruct } from "../../types";
+import type { ObjectStruct } from "../../../shared/types.ts";
 import { ParseComponent } from "../../contents/ComponentParser.ts";
 import xtend from "deepmerge";
 import { EntityRegistry } from "../../Registries.ts";
-import { getExtendedClass } from "../../utilities/Utils.ts";
+import { getExtendedClass } from "@utils";
 
 export class Entity extends IEntityComponents {
   private static Data = {

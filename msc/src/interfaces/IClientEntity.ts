@@ -1,5 +1,5 @@
-import { ObjectStruct, bool, int, path } from "../types";
-import { IScripts } from "./IEntity";
+import type { ObjectStruct, bool, int, path } from "../../shared/types";
+import type { IScripts } from "./IEntity";
 
 interface IClientScripts extends IScripts {
   Scale?: string | number;

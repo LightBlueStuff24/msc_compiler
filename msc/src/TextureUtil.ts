@@ -1,7 +1,7 @@
 import { type Colors, FluidImageType } from "./enums/ImageValues";
 import Jimp from "jimp";
 import path from "path";
-import Log, { isInt } from "./utilities";
+import Log, { isInt } from "@utils";
 
 export namespace TextureUtil {
   export function generateBucketTexture(fromImagePath: string) {}

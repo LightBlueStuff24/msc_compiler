@@ -27,6 +27,7 @@
     "@minecraft/server": "^1.12.0-beta.1.21.1-stable",
     "@octokit/types": "^13.5.0",
     "@types/bun": "^1.1.0",
+    "@types/keypress.js": "^2.1.3",
     "@types/uuid": "^9.0.8",
     "typescript": "^5.0.0",
     "vite": "^5.2.7",

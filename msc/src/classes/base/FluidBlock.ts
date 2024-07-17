@@ -1,6 +1,5 @@
-import { world } from "@minecraft/server";
-import { IBlockComponents, IGeometry, IStates } from "../../interfaces/IBlock";
-import { IPermutation } from "../../interfaces/IPermutation";
+import { IBlockComponents, type IGeometry, type IStates } from "../../interfaces/IBlock";
+import type { IPermutation } from "../../interfaces/IPermutation";
 import { Block } from "./Block";
 
 class FluidBlockState1 extends IBlockComponents {

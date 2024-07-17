@@ -3,9 +3,10 @@ import Log, {
   isType,
   getArrayType,
   isInt,
+  isAlpha,
   isFloat,
-} from "../utilities";
-import type { ObjectStruct } from "../types";
+} from "@utils";
+import type { ObjectStruct } from "../../shared/types";
 
 export namespace TypeParser {
   export function ParseObject(
@@ -14,41 +15,42 @@ export namespace TypeParser {
     parsedComponentData: any,
     object: ObjectStruct
   ): void {
-    const cvLen = Object.keys(cv).length;
     const mobjProperties = mobj.properties;
-
-    if (mobjProperties.length > cvLen) {
-      Log.error(`Mismatch in properties for <${object.name}>`);
-      return;
-    }
     mobjProperties.forEach((property: ObjectStruct) => {
       const { type, name, default: defaultValue, alias } = property;
+      if (name.startsWith("$")) {
+        Object.entries(cv).forEach(([k, v]) => {
+          validateKey(k, alias);
+          
+        });
+      }
       const propertyValue = cv[alias];
       if (propertyValue !== undefined) {
-        if (typeof propertyValue !== type) {
-          if (type === "array" && Array.isArray(propertyValue)) {
-            TypeParser.ParseArray(
+        if (type === "boolean") {
+          parsedComponentData[mobj.name][name] = propertyValue;
+          return;
+        }
+        const parser = getParser(type);
+        if (parser) {
+          if (type === "array" || type === "object") {
+            parser(
               propertyValue,
               property,
               parsedComponentData[mobj.name][name],
               object
             );
           } else {
-            Log.error(`<${object.name}> expected ${alias} to be type ${type}`);
+            // @ts-ignore
+            parsedComponentData[mobj.name][name] = parser(
+              propertyValue,
+              property,
+              object
+            );
           }
+        } else {
+          Log.error(`<${object.name}> expected ${alias} to be type ${type}`);
           return;
         }
-
-        if (type === "object") {
-          TypeParser.ParseObject(
-            propertyValue,
-            property,
-            parsedComponentData[mobj.name][name],
-            object
-          );
-        }
-
-        parsedComponentData[mobj.name][name] = propertyValue;
       } else {
         if (defaultValue === undefined) {
           Log.error(
@@ -90,10 +92,14 @@ export namespace TypeParser {
     } else {
       switch (type) {
         case "object":
-          cv.map((element) =>
-            TypeParser.ParseObject(element, mobj.items, parsedComponentData, object)
+          cv.forEach((element) =>
+            TypeParser.ParseObject(
+              element,
+              mobj.items,
+              parsedComponentData,
+              object
+            )
           );
-          parsedComponentData[name] = cv;
           break;
 
         case "array":
@@ -121,7 +127,6 @@ export namespace TypeParser {
     object: any
   ): number | undefined {
     const { type } = mobj;
-
     switch (type) {
       case "int":
         if (!isInt(cv)) {
@@ -146,23 +151,26 @@ export namespace TypeParser {
         return;
     }
   }
+}
 
-  export function ParseObjectLiteral(cv, mobj, parsedComponentData, object) {
-    Object.entries(cv).forEach(([propertyName,propertyValue])=>{
-      
-    })
+function validateKey(key: string, alias: string) {
+  if (alias.startsWith("$UPPER_CASE") && !isAlpha(key)) {
+    Log.warn(`<${alias}> expects key ${key} to match $UPPER_CASE(${key})`);
+  } else if (alias.startsWith("$LOWER_CASE") && isAlpha(key)) {
+    Log.warn(`<${alias}> expects key ${key} to match $LOWER_CASE(${key})`);
   }
 }
 
-function resolveAlias(alias: string, cv: any): any {
-  if (alias.startsWith("$UPPER_CASE(") && alias.endsWith(")")) {
-    const propertyName = alias.substring(12, alias.length - 1);
-    const propertyValue = cv[propertyName];
-    if (typeof propertyValue === "string") {
-      return propertyValue;
-    } else {
-      return null;
-    }
+function getParser(type: string) {
+  switch (type) {
+    case "object":
+      return TypeParser.ParseObject;
+    case "array":
+      return TypeParser.ParseArray;
+    case "int":
+    case "float":
+      return TypeParser.ParseNums;
+    default:
+      return undefined;
   }
-  return null;
 }

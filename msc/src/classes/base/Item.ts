@@ -1,10 +1,9 @@
 import { type IItemData, IItemComponents } from "../../interfaces/IItem";
 import { ParseComponent } from "../../contents/ComponentParser";
-import { world, type Block, type ItemStack, type Player } from "@minecraft/server";
 import { ItemRegistry } from "../../Registries";
-import { getExtendedClass } from "../../utilities";
+import { getExtendedClass } from "@utils";
 import { MenuGroups, MenuCategories } from "../../enums";
-import { int } from "../../types";
+import type { int } from "../../../shared/types";
 
 
 
@@ -56,7 +55,7 @@ export class Item extends IItemComponents {
   }
 
 
-  private static ParseComponents(){
+  private static async  ParseComponents(){
     const extendedClass = getExtendedClass(this)
     let newExtendedObject;
     if (extendedClass) newExtendedObject = xtend(this, ItemRegistry.Get(extendedClass));
@@ -66,12 +65,3 @@ export class Item extends IItemComponents {
     }
   }
 }
-world.beforeEvents.worldInitialize.subscribe(({itemComponentRegistry})=>{
-  itemComponentRegistry.registerCustomComponent('wiki',{
-    onMineBlock({block,itemStack,}){
-
-    },
-    onHitEntity({}),
-
-  })
-})

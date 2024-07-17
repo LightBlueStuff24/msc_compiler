@@ -1,5 +1,5 @@
-import { int } from "../../types";
-import { Item } from "./Item";
+import type { int } from "../../../shared/types";
+import type { Item } from "./Item";
 
 export class Enchant {
   public static Name: string;

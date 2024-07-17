@@ -1,6 +1,5 @@
-import { Entity } from "../classes/base/Entity";
 import { EntityIdentifiers, PropertyType } from "../enums/EntityValues";
-import { ObjectStruct, bool, float, int } from "../types";
+import type { ObjectStruct, bool, float, int } from "../../shared/types";
 
 interface IProperty {
   Type: PropertyType;
@@ -76,7 +75,7 @@ export class IEntityComponents {
   public static CollisionBox;
   public static CombatRegeneration;
   public static ConditionalBandwidthOptimization;
-  public static HitBoxs;
+  public static HitBoxes;
   public static DamageOverTime;
   public static DamgeSensor;
   public static Dash;
@@ -202,6 +201,12 @@ export class IEntityComponents {
   public static WantsJockey;
 }
 
-export {
-  IScripts
+export type {
+  IScripts,
+  IAddRider,
+  IAdmireItem,
+  IAgeable,
+  IAngerLevel,
+  IFeedItem,
+  IProperty,
 }

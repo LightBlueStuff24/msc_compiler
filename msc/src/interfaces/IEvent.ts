@@ -1,5 +1,5 @@
 import type { DamageType } from "../enums/GlobalValues.ts";
-import type { int, float, bool, Vec3Array, path } from "../types";
+import type { int, float, bool, Vec3Array, path } from "../../shared/types.ts";
 import type { IFilter } from './IFilter.ts';
 
 

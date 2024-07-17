@@ -3,7 +3,6 @@ import { FetchSchemas } from "./SchemaFetcher";
 import Log from "../Log";
 import { toAlpha } from "../Utils";
 import { traverseRef, resolveType } from "./SchemaUtils";
-import { deleteTag } from "isomorphic-git";
 
 namespace SchemaTypeParser {
   export function ParseObject(
@@ -57,6 +56,7 @@ namespace SchemaTypeParser {
     let type = resolveType(items);
     if (Array.isArray(items)) {
       type = resolveType(items[0]);
+      //@ts-ignore
       parsedComponentObject.items["maxItems"] =
         unParsedComponent.maxItems ?? items.length;
       items = items[0];
@@ -87,7 +87,10 @@ namespace SchemaTypeParser {
 
 export async function FetchAndParseSchemas() {
   const schemas = (await FetchSchemas()) as ObjectStruct;
-  for (const [schemaName, schema] of Object.entries(schemas!)) {
+  for (const [schemaName, schema] of Object.entries(schemas!) as [
+    string,
+    ObjectStruct
+  ][]) {
     Log.info(`Parsing ${schemaName}`);
     const parsedSchemaData: ObjectStruct<string, ObjectStruct[]> = {};
     let components: ObjectStruct | undefined;
@@ -107,23 +110,29 @@ export async function FetchAndParseSchemas() {
             schema.A.properties["minecraft:client_entity"].properties;
           break;
 
-          case "entity":
+        case "entity":
           components =
-            schema.E.properties["minecraft:client_entity"].properties.description.properties;
+            schema.E.properties["minecraft:client_entity"].properties
+              .description.properties;
           break;
         default:
           components = schema.B?.components?.properties;
           break;
       }
     } catch (e) {
+      //@ts-ignore
       Log.error(`Failed to parse ${schemaName}: ${e.message}`);
     }
 
     if (!components) continue;
-    for (const [componentId, component] of Object.entries(components)) {
+    for (const [componentId, component] of Object.entries(components) as [
+      string,
+      any
+    ][]) {
       let unParsedComponent = component;
       // Make this more smarter in determining whether to traverseRef
-      if (unParsedComponent.hasOwnProperty('$ref')) unParsedComponent = traverseRef(schema, component.$ref);
+      if (unParsedComponent.hasOwnProperty("$ref"))
+        unParsedComponent = traverseRef(schema, component.$ref);
       if (!unParsedComponent) continue;
       const componentName: string = toAlpha(unParsedComponent.title);
       parsedSchemaData[componentName] = [];

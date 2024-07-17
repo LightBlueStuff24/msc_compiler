@@ -1,4 +1,4 @@
-import type { int, ObjectStruct } from "../../types";
+import type { int, ObjectStruct } from "../../../shared/types.ts";
 import {
   type IEvent,
   type IPermutation,
@@ -8,7 +8,7 @@ import {
 } from "../../interfaces";
 import { ParseComponent } from "../../contents/ComponentParser.ts";
 import { BlockRegistry } from "../../Registries.ts";
-import Log, { getExtendedClass } from "../../utilities";
+import Log, { getExtendedClass } from "@utils";
 import xtend from "deepmerge";
 
 export class Block extends IBlockComponents {
@@ -37,7 +37,7 @@ export class Block extends IBlockComponents {
     this.Data["minecraft:block"].description.identifier = `${
       config.project.prefix
     }:${this.name.replace(/([a-Z])([A-Z])/, "$1_$2").toLowerCase()}`;
-    await Promise.all([this.ParseComponents(), this.ParsePermutations()]);
+    await this.ParseComponents();
     return JSON.stringify(this.Data);
   }
 
@@ -55,21 +55,6 @@ export class Block extends IBlockComponents {
       this.Components = parsedComponentData;
     } else {
       Log.warn(`ParseComponent failed to parse ${this.name}`);
-    }
-  }
-
-  private static async ParsePermutations() {
-    if (this.Permutations) {
-      for (const permutation of this.Permutations) {
-        const components = await Promise.all(
-          permutation.Components.map((component) =>
-            ParseComponent(component, "block")
-          )
-        );
-        this.Data["minecraft:block"].permutations[permutation.Condition] = {
-          components: Object.assign({}, ...components),
-        };
-      }
     }
   }
 }

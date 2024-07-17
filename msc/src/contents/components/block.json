@@ -97,6 +97,7 @@
       "properties": [
         {
           "name": "$string",
+          "alias":"$LOWER_CASE($string)",
           "type": "object",
           "properties": [
             {

@@ -6,7 +6,7 @@ import type {
   ObjectStruct,
   path,
   Vec3,
-} from "../types";
+} from "../../shared/types";
 import type { RenderMethods, BlockFaces } from "../enums/BlockValues";
 import {
   Direction,

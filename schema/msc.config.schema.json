@@ -12,7 +12,7 @@
         "compilerOptions": {
           "type": "object",
           "properties": {
-            "srcDir": {
+            "entryPath": {
               "type": "string",
               "description": "Input directory"
             },
@@ -22,25 +22,7 @@
               "enum": ["com.mojang"],
               "default": ""
             },
-            "fileIndent": {
-              "oneOf": [
-                {
-                  "type": "number",
-                  "description": "Sets the indentation of the compiled JSON files for all files.",
-                  "default": 0
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "minifyAll": {
-                      "type": "boolean",
-                      "description": "Minifies the indentation of every file in this project.",
-                      "default": false
-                    }
-                  }
-                }
-              ]
-            },
+           
             "experimentalFeatures": {
               "type": "array",
               "items": {
@@ -69,6 +51,7 @@
           "description": "Version this project is targeted towards, if unspecified, msc will use the latest version of bedrock edition",
           "default": ""
         },
+      
         "authors": {
           "description": "Creator(s) of the project.",
           "type": "array",

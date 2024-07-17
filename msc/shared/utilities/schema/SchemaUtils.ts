@@ -1,4 +1,4 @@
-import { ObjectStruct } from "../../types";
+import type { ObjectStruct } from "../../types";
 import Log from "../Log";
 import { isInt } from "../Utils";
 

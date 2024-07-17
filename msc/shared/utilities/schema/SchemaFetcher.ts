@@ -1,9 +1,10 @@
-//@ts-nocheck
-
+import git from "isomorphic-git";
 import ora from "ora";
+import { promises as fs } from "fs";
+import http from "isomorphic-git/http/node/index.cjs";
 import Log from "../Log";
-import { Octokit } from "@octokit/rest";
-const octokit = new Octokit();
+
+const schemaDir = `${process.cwd()}/.msc/data/install`;
 const schemaTypes: SchemaInfo[] = [
   { folder: "behavior", name: "blocks" },
   { folder: "behavior", name: "entities" },
@@ -14,36 +15,43 @@ const schemaTypes: SchemaInfo[] = [
 export async function FetchSchemas() {
   const schemas = {};
   const spinner = ora({
-      text: "Fetching Schemas...",
-      spinner: "bluePulse",
+    text: "Fetching Schemas...",
+    spinner: "bluePulse",
   });
-
   try {
-      spinner.start();
-      const requests = schemaTypes.map(async ({ folder, name }) => {
-          const path = `${folder}/${name}/${name}.json`;
-          try {
-              const { data } = await octokit.rest.repos.getContent({
-                  owner: "Blockception",
-                  repo: "Minecraft-bedrock-json-schemas",
-                  path,
-              });
-              if (data && data.content) {
-                  const schemaContent = Buffer.from(data.content, 'base64').toString('utf-8')
-                  schemas[name] = JSON.parse(schemaContent)["definitions"];
-              }
-          } catch (error) {
-              Log.error(`Error processing schema: ${folder}/${name}`);
-          }
-      });
-      await Promise.all(requests);
-      spinner.succeed("Schemas fetched successfully!");
-      return schemas;
+    spinner.start();
+    // Clone the repository
+    await git.clone({
+      fs,
+      http,
+      dir: schemaDir,
+      url: "https://github.com/Blockception/Minecraft-bedrock-json-schemas",
+      singleBranch: true,
+      depth: 1,
+    });
 
+    spinner.succeed("Schemas fetched successfully!");
+    // Process schemas
+    for (const { folder, name } of schemaTypes) {
+      const schemaPath = `${schemaDir}/${folder}/${name}/${name}.json`;
+      try {
+        const schemaData = JSON.parse(await fs.readFile(schemaPath, "utf-8"));
+        //@ts-ignore
+        schemas[name] = schemaData["definitions"];
+        Log.info(`Processing schema: ${folder}/${name}`);
+      } catch (error) {
+        Log.error(`Error processing schema: ${folder}/${name}`);
+      }
+    }
+
+    await fs.rm(schemaDir, { recursive: true });
+    return schemas;
   } catch (error) {
-      spinner.fail(`Error fetching JSON: ${error.message}`);
+    spinner.fail("Error fetching JSON:");
+    //@ts-ignore
+    Log.error(error.message);
   } finally {
-      spinner.stop();
+    spinner.stop();
   }
 }
 

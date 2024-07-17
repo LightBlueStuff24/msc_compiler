@@ -1,7 +1,7 @@
 import chalk from "chalk";
 const { redBright, grey, green, yellowBright, blueBright } = chalk;
 
-namespace Log {
+ namespace Log {
   const label = `${grey("[")}${blueBright("MSC")}${grey("]")}`;
   export function info(msg: string) {
     console.info(`${label} ${grey("[")}${green("Info")}${grey("]")} ${msg}`);
@@ -33,4 +33,4 @@ namespace Log {
   }
 }
 
-export default Log;
+export default Log

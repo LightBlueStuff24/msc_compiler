@@ -1,12 +1,7 @@
-import { ObjectStruct } from "../types";
+import type { ObjectStruct } from "../../shared/types";
+
+function SerializeClass(object: ObjectStruct) {}
+
+export namespace MethodCompiler {}
 
 
-export namespace MethodCompiler {
-}
-
-
-
-
-function SerializeClass(object:ObjectStruct){
-    
-}
