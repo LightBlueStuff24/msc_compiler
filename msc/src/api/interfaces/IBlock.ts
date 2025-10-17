@@ -3,10 +3,9 @@ import type {
   float,
   bool,
   Vec3Array,
-  ObjectStruct,
   path,
   Vec3,
-} from "../types";
+} from "../../utils/Types";
 import type { RenderMethods, BlockFaces } from "../enums/BlockValues";
 import {
   Direction,
@@ -22,9 +21,9 @@ interface IBlockData {
     description: {
       identifier: string;
     };
-    components: ObjectStruct<string, ObjectStruct>;
-    permutations: ObjectStruct<string, ObjectStruct>;
-    events: ObjectStruct<string, ObjectStruct>;
+    components: Record<string, Record<string,any>>;
+    permutations: Record<string, Record<string,any>>;
+    events: Record<string, Record<string,any>>;
   };
 }
 
@@ -64,7 +63,7 @@ interface ITransformation {
 
 interface IGeometry {
   Identifier: string;
-  BoneVisibility: ObjectStruct<string, string | bool>;
+  BoneVisibility: Record<string, string | bool>;
 }
 
 interface ITickable {
@@ -72,7 +71,7 @@ interface ITickable {
 }
 
 // Contains the components of the Block class
-export class IBlockComponents {
+export abstract class IBlockComponents {
   static DisplayName: string;
 
   static DestructableByMinining: int | bool;

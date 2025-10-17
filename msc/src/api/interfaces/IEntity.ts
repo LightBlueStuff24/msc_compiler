@@ -1,6 +1,6 @@
 import { Entity } from "../classes/base/Entity";
 import { EntityIdentifiers, PropertyType } from "../enums/EntityValues";
-import { ObjectStruct, bool, float, int } from "../types";
+import { ObjectStruct, bool, float, int } from "../../utils/Types";
 
 interface IProperty {
   Type: PropertyType;

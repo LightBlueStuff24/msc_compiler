@@ -27,7 +27,7 @@
 
     "baseUrl": "msc",
     "paths": {
-      "@utils/*": ["shared/utilities/*"]
+      "@utils/*": ["utilities/*"]
     },
     
   },

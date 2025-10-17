@@ -3,7 +3,7 @@ import { IBlockComponents, IGeometry, IStates } from "../../interfaces/IBlock";
 import { IPermutation } from "../../interfaces/IPermutation";
 import { Block } from "./Block";
 
-class FluidBlockState1 extends IBlockComponents {
+class FluidBlockState1 implements IBlockComponents {
   static Geometry: string | IGeometry = {
     BoneVisibility: {},
     Identifier: "",

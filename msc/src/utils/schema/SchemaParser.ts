@@ -1,15 +1,13 @@
-import type { ObjectStruct } from "../../types";
 import { FetchSchemas } from "./SchemaFetcher";
 import Log from "../Log";
 import { toAlpha } from "../Utils";
 import { traverseRef, resolveType } from "./SchemaUtils";
-import { deleteTag } from "isomorphic-git";
 
 namespace SchemaTypeParser {
   export function ParseObject(
     componentInfo: ComponentInfo,
-    schema: ObjectStruct,
-    unParsedComponent: ObjectStruct
+    schema: Record<string,any>,
+    unparsedComponent: Record<string,any>
   ) {
     const parsedComponentObject: {
       name: string;
@@ -20,8 +18,8 @@ namespace SchemaTypeParser {
       type: "object",
       properties: [],
     };
-    if (!unParsedComponent.additionalProperties) {
-      Object.entries(unParsedComponent.properties).forEach(
+    if (!unparsedComponent.additionalProperties) {
+      Object.entries(unparsedComponent.properties).forEach(
         ([propName, propValue]: [string, any]) => {
           if (propValue.hasOwnProperty("$ref"))
             propValue = traverseRef(schema, propValue.$ref);
@@ -43,10 +41,10 @@ namespace SchemaTypeParser {
 
   export function ParseArray(
     componentInfo: ComponentInfo,
-    schema: ObjectStruct,
-    unParsedComponent: ObjectStruct
+    schema: Record<string,any>,
+    unparsedComponent: Record<string,any>
   ) {
-    let items = unParsedComponent.items;
+    let items = unparsedComponent.items;
     if (items.hasOwnProperty("$ref")) items = traverseRef(schema, items.$ref);
     const parsedComponentObject = {
       name: componentInfo.id,
@@ -58,7 +56,7 @@ namespace SchemaTypeParser {
     if (Array.isArray(items)) {
       type = resolveType(items[0]);
       parsedComponentObject.items["maxItems"] =
-        unParsedComponent.maxItems ?? items.length;
+        unparsedComponent.maxItems ?? items.length;
       items = items[0];
     }
     const parserResult = getParserFunction(type)(componentInfo, items, schema);
@@ -75,7 +73,7 @@ namespace SchemaTypeParser {
 
   export function ParseValues(
     componentInfo: ComponentInfo,
-    unParsedComponent: ObjectStruct
+    unParsedComponent: Record<string,any>
   ) {
     return {
       name: componentInfo.id,
@@ -86,11 +84,11 @@ namespace SchemaTypeParser {
 }
 
 export async function FetchAndParseSchemas() {
-  const schemas = (await FetchSchemas()) as ObjectStruct;
+  const schemas = (await FetchSchemas()) as Record<string,any>;
   for (const [schemaName, schema] of Object.entries(schemas!)) {
     Log.info(`Parsing ${schemaName}`);
-    const parsedSchemaData: ObjectStruct<string, ObjectStruct[]> = {};
-    let components: ObjectStruct | undefined;
+    const parsedSchemaData: Record<string, Record<string,any>[]> = {};
+    let components: Record<string,any> | undefined;
     try {
       switch (schemaName) {
         case "blocks":
@@ -133,7 +131,7 @@ export async function FetchAndParseSchemas() {
       };
 
       if (unParsedComponent.hasOwnProperty("oneOf")) {
-        unParsedComponent.oneOf.forEach((obj: ObjectStruct) => {
+        unParsedComponent.oneOf.forEach((obj: Record<string,any>) => {
           if (obj.hasOwnProperty("$ref")) obj = traverseRef(schema, obj.$ref)!;
           const parserResult = getParserFunction(obj.type)(
             componentInfo,
@@ -181,7 +179,7 @@ interface ComponentInfo {
 
 type SchemaParserFunction = (
   componentInfo: ComponentInfo,
-  unParsedComponent: ObjectStruct,
-  schema?: ObjectStruct,
+  unParsedComponent:Record<string,any>,
+  schema?: Record<string,any>,
   ...args: any[]
-) => ObjectStruct;
+) =>Record<string,any>;

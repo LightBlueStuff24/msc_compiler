@@ -4,7 +4,7 @@ import { world, type Block, type ItemStack, type Player } from "@minecraft/serve
 import { ItemRegistry } from "../../Registries";
 import { getExtendedClass } from "../../utilities";
 import { MenuGroups, MenuCategories } from "../../enums";
-import { int } from "../../types";
+import { int } from "../../../utils/Types";
 
 
 

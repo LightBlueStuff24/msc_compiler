@@ -5,7 +5,7 @@ import Log, {
   isInt,
   isFloat,
 } from "../utilities";
-import type { ObjectStruct } from "../types";
+import type { ObjectStruct } from "../../utils/Types";
 
 export namespace TypeParser {
   export function ParseObject(

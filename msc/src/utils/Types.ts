@@ -6,10 +6,6 @@ type path = string;
 
 type Vec3Array = [number, number, number];
 
-type ObjectStruct<K extends string | number | symbol = string, T = any> = {
-  [key in K]: T;
-};
-
 interface Vec3 {
   x: number;
   y: number;
@@ -34,7 +30,6 @@ interface FileResult {
 type FileResultFunction<R> = (fileResult: FileResult) => R;
 
 export {
-  ObjectStruct,
   Vec3,
   Vec3Array,
   bool,

@@ -1,5 +1,4 @@
-import type { ObjectStruct } from "../types";
-import Log, { Emsg, isType } from "@utils";
+import Log, { ErrorMessage, isType } from "@utils";
 import { TypeParser } from "./TypeParser";
 
 async function ParseData(
@@ -11,7 +10,7 @@ async function ParseData(
   switch (cd) {
     case "Namespace":
       if (typeof cv !== "string") {
-        Log.error(Emsg.typeError(cd, "string"));
+        Log.error(ErrorMessage.typeError(cd, "string"));
         return;
       }
       object.Data[
@@ -29,7 +28,7 @@ async function ParseData(
       break;
     case "Identifier":
       if (typeof cv !== "string") {
-        Log.error(Emsg.typeError(cv, "string"));
+        Log.error(ErrorMessage.typeError(cv, "string"));
         return;
       }
       const identifier: string =
@@ -41,7 +40,7 @@ async function ParseData(
 
     case "IsHiddenInCommands":
       if (typeof cv != "boolean") {
-        Log.error(Emsg.typeError(cv, "boolean"));
+        Log.error(ErrorMessage.typeError(cv, "boolean"));
         return;
       }
       break;
@@ -58,7 +57,7 @@ async function ParseData(
         return;
       }
       if (!isType(cv, "object")) {
-        Log.error(Emsg.typeError(cv, "object"));
+        Log.error(ErrorMessage.typeError(cv, "object"));
         return
       }
       for (const permutation of cv) {
@@ -79,18 +78,17 @@ async function ParseData(
 }
 
 async function ParseComponent(
-  object: ObjectStruct,
+  object: Record<string,any>,
   type: string
-): Promise<ObjectStruct | undefined> {
-  let parsedComponentData: any = {};
-  let component: any;
-  if (["block", "item", "entity", "recipe"].includes(type)) {
-    component = await import(`./components/${type}.json`);
-  } else {
+): Promise<Record<string,any> | undefined> {
+  if (!["block", "item", "entity", "recipe"].includes(type)){
     Log.error(`Unknown component type: ${type}`);
     return;
   }
 
+  const parsedComponentData: any = {};
+  const component = await import(`./components/${type}.json`);
+  
   for (const [cd, cv] of Object.entries(object)) {
     if (["reset", "init", "Data", "Component"].includes(cd)) continue;
     if (

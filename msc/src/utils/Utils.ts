@@ -2,7 +2,6 @@ import { readdirSync, promises as fs } from "fs";
 import type {
   FileResult,
   FileResultFunction,
-  ObjectStruct,
   float,
   int,
 } from "../types";
@@ -32,6 +31,8 @@ const toAlpha = (s: string) =>
     .split(/[ _]/)
     .map((str) => str.charAt(0).toUpperCase() + str.slice(1))
     .join("");
+
+
 
 // File Operations
 namespace FileUtils {

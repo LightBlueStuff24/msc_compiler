@@ -1,4 +1,4 @@
-export namespace Emsg {
+export namespace ErrorMessage {
   export function missingItem(name: string) {
     return `<${name}> using default value...`;
   }

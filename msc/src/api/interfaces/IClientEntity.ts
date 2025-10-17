@@ -1,4 +1,4 @@
-import { ObjectStruct, bool, int, path } from "../types";
+import { ObjectStruct, bool, int, path } from "../../utils/Types";
 import { IScripts } from "./IEntity";
 
 interface IClientScripts extends IScripts {

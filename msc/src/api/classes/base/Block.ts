@@ -1,4 +1,4 @@
-import type { int, ObjectStruct } from "../../types";
+import type { int, ObjectStruct } from "../../../utils/Types.ts";
 import {
   type IEvent,
   type IPermutation,
